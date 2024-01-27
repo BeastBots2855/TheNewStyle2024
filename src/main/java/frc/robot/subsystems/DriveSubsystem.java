@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,8 +17,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -75,8 +79,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+      AutoBuilder.configureHolonomic(
+      this::getPose,
+      this::resetOdometry,
+      this::getChassisSpeeds,
+      this::setRobotRelativeSpeeds, 
+       AutoConstants.autoBuilderPathConfig,
+       () -> {var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()){
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;},
+      this);
+
     
   }
+  
 
   @Override
   public void periodic() {
@@ -279,6 +297,35 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
+  public MAXSwerveModule[] getMaxSwerveModules()
+  {
+    MAXSwerveModule[] maxArray = {
+      m_frontLeft, 
+      m_frontRight, 
+      m_rearLeft, 
+      m_rearRight};
+    return maxArray;
+  }
+
+
+  public SwerveModuleState[] getModuleStates()
+  {
+    SwerveModuleState[] moduleStates = new SwerveModuleState[4];
+    MAXSwerveModule[] modules = getMaxSwerveModules();
+    for(int i = 0; i < modules.length; i++)
+    {
+       moduleStates[i] = modules[i].getState();
+    }
+    return moduleStates;
+  }
+
+
+  
+  public ChassisSpeeds getChassisSpeeds()
+  {
+    return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+  }
+
 // it
 
   /**
@@ -303,6 +350,17 @@ public class DriveSubsystem extends SubsystemBase {
     driveVelocityAverage += m_rearRight.getCharacterizationVelocity();
     return driveVelocityAverage / 4.0;
   
+  }
+
+  public void setRobotRelativeSpeeds(ChassisSpeeds chassisSpeeds)
+  {
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+      swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+  m_frontLeft.setDesiredState(swerveModuleStates[0]);
+  m_frontRight.setDesiredState(swerveModuleStates[1]);
+  m_rearLeft.setDesiredState(swerveModuleStates[2]);
+  m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
 
