@@ -70,6 +70,9 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+  private boolean isCharacterizing = false;
+  private double characterizationVolts = 0;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     
@@ -87,6 +90,14 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
       //System.out.println(getHeading());
+
+
+    if(isCharacterizing){
+      m_frontLeft.runCharacterization(characterizationVolts, DriveConstants.kFrontLeftChassisAngularOffset);
+      m_frontRight.runCharacterization(characterizationVolts, DriveConstants.kFrontRightChassisAngularOffset);
+      m_rearLeft.runCharacterization(characterizationVolts, DriveConstants.kBackLeftChassisAngularOffset);
+      m_rearRight.runCharacterization(characterizationVolts, DriveConstants.kBackRightChassisAngularOffset);
+    }
   }
 
   /**
@@ -278,6 +289,23 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  public void runCharacterizationVolts(double volts){
+    isCharacterizing = true;
+    characterizationVolts = volts;
+  }
+
+  public double getCharacterizationVelocity() {
+    double driveVelocityAverage = 0.0;
+    driveVelocityAverage += m_frontRight.getCharacterizationVelocity();
+    driveVelocityAverage += m_rearRight.getCharacterizationVelocity();
+    driveVelocityAverage += m_frontLeft.getCharacterizationVelocity();
+    driveVelocityAverage += m_rearRight.getCharacterizationVelocity();
+    return driveVelocityAverage / 4.0;
+  
+  }
+
+
 
   
 

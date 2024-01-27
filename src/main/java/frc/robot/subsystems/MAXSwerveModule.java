@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
@@ -154,6 +155,7 @@ public class MAXSwerveModule {
     // Command driving and turning SPARKS MAX towards their respective setpoints.
     m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+ 
 
     m_desiredState = desiredState;
   }
@@ -161,5 +163,20 @@ public class MAXSwerveModule {
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
+  }
+
+  public void setDriveVoltage(double voltage)
+  {
+    m_drivingSparkMax.setVoltage(voltage);
+  }
+
+  public double getCharacterizationVelocity(){
+    return m_drivingEncoder.getVelocity() * 2 * Math.PI; // rads per sec 
+   }
+
+   public void runCharacterization(double volts, double offset){ 
+    //reminder, this is different in AdvantageKit
+   m_turningPIDController.setReference(offset, ControlType.kPosition);
+    setDriveVoltage(volts);
   }
 }
