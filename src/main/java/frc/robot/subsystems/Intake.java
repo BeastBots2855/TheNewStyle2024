@@ -8,17 +8,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.IntakeConstants;
 
-public class Shooter extends SubsystemBase {
+public class Intake extends SubsystemBase {
   /** Creates a new Shooter. */
-  private final CANSparkMax m_ShooterMotor;
-  public Shooter() {
-    m_ShooterMotor = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
+  private final CANSparkMax m_IntakeMotor;
+  public Intake() {
+    m_IntakeMotor = new CANSparkMax(IntakeConstants.IntakeMotorCANID, MotorType.kBrushless);
   }
 
   public void setMotorOutput(double output){
-    m_ShooterMotor.set(output);
+    m_IntakeMotor.set(output);
   }
 
   @Override

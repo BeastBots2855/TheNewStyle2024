@@ -132,9 +132,24 @@ public final class Constants {
     public static final int IntakeWristCANID = 20;
   }
 
-    public static final class ShooterWristConstants {
-      public static final int IntakeWristCANID = 21;
+    public static final class IntakeConstants {
+      public static final int IntakeMotorCANID = 21;
+      public static final double motorEjectSpeed = 0.5;
   }
+
+  public static final class ShooterWristConstants {
+      public static final int IntakeWristCANID = 30;
+  }
+
+  public static final class ShooterConstants {
+      public static final int ShooterMotorCANID = 31;
+      public static final double kMotorConsumeSpeed = 0.3;
+  }
+
+
+
+
+  
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;
