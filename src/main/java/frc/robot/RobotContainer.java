@@ -21,12 +21,20 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.IntakeConsume;
+import frc.robot.commands.IntakeEject;
+import frc.robot.commands.ShooterConsume;
+import frc.robot.commands.ShooterEject;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import java.util.List;
 
 /*
@@ -39,6 +47,8 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
+  private Intake m_Intake = new Intake();
+  private Shooter m_Shooter = new Shooter();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -49,10 +59,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    m_telopOutput.addDouble("Gyro Yaw: ", ()-> m_robotDrive.getHeading());
-    m_telopOutput.addDouble("Gyro Angle: ", ()-> m_robotDrive.getAngle());
-    m_telopOutput.addDouble("Gyro looper: ", ()-> m_robotDrive.getLoopedHeading());
-
 
     configureButtonBindings();
 
@@ -91,10 +97,24 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-      new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-          .whileTrue(new InstantCommand(
-            m_robotDrive::zeroHeading, 
-            m_robotDrive));
+
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+        .whileTrue(new InstantCommand(
+          m_robotDrive::zeroHeading, 
+          m_robotDrive));
+
+    new Trigger(()-> m_driverController.getRightTriggerAxis() >= 0).whileTrue(
+        new IntakeConsume(m_Intake, m_driverController::getRightTriggerAxis));
+
+    new Trigger(()-> m_driverController.getLeftTriggerAxis() >= 0).whileTrue(
+        new ShooterEject(m_Shooter, m_driverController::getLeftTriggerAxis));  
+
+    new Trigger(()-> m_driverController.getRightBumperPressed()).whileTrue(
+        new ShooterConsume(m_Shooter));
+
+    new Trigger(()-> m_driverController.getLeftBumperPressed()).whileTrue(
+        new IntakeEject(m_Intake));
+      
   }
 
   /**
