@@ -26,6 +26,7 @@ public class Wrist extends PIDSubsystem {
     m_holdConstant = holdConstant;
     m_wristMotor = new CANSparkMax(motorCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    super.disable();
   }
 
 
