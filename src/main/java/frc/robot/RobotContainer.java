@@ -103,16 +103,16 @@ public class RobotContainer {
           m_robotDrive::zeroHeading, 
           m_robotDrive));
 
-    new Trigger(()-> m_driverController.getRightTriggerAxis() >= 0).whileTrue(
+    new Trigger(()-> m_driverController.getRightTriggerAxis() > 0).whileTrue(
         new IntakeConsume(m_Intake, m_driverController::getRightTriggerAxis));
 
-    new Trigger(()-> m_driverController.getLeftTriggerAxis() >= 0).whileTrue(
+    new Trigger(()-> m_driverController.getLeftTriggerAxis() > 0).whileTrue(
         new ShooterEject(m_Shooter, m_driverController::getLeftTriggerAxis));  
 
-    new Trigger(()-> m_driverController.getRightBumperPressed()).whileTrue(
+    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
         new ShooterConsume(m_Shooter));
 
-    new Trigger(()-> m_driverController.getLeftBumperPressed()).whileTrue(
+    new Trigger(()-> m_driverController.getLeftBumper()).whileTrue(
         new IntakeEject(m_Intake));
       
   }
