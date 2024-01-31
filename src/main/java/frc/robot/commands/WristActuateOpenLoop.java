@@ -4,16 +4,20 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Wrist;
 
-public class WristActuate extends Command {
+public class WristActuateOpenLoop extends Command {
   /** Creates a new WristActuate. */
   private final Wrist m_wrist;
-
-  public WristActuate(Wrist m_wrist) {
+  private final Supplier<Double> m_SpeedSupplier;
+  public WristActuateOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier) {
     this.m_wrist = m_wrist;
+    this.m_SpeedSupplier = m_SpeedSupplier;
     addRequirements(m_wrist);
+    this.m_wrist.disable();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,7 +31,9 @@ public class WristActuate extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_wrist.setMotorOutput(m_SpeedSupplier.get());
+  }
 
   // Called once the command ends or is interrupted.
   @Override

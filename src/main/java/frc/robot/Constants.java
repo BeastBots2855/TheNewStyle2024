@@ -126,6 +126,7 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.05;
+    public static final int kOperatorControllerPort = 1;
   }
 
   public static final class IntakeWristConstants {
@@ -139,6 +140,7 @@ public final class Constants {
 
   public static final class ShooterWristConstants {
       public static final int IntakeWristCANID = 30;
+
   }
 
   public static final class ShooterConstants {
