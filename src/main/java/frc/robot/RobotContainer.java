@@ -93,7 +93,7 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
+    new JoystickButton(m_driverController, XboxController.Button.kA.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
@@ -106,14 +106,14 @@ public class RobotContainer {
     new Trigger(()-> m_driverController.getRightTriggerAxis() > 0).whileTrue(
         new IntakeConsume(m_Intake, m_driverController::getRightTriggerAxis));
 
-    new Trigger(()-> m_driverController.getLeftTriggerAxis() > 0).whileTrue(
-        new ShooterEject(m_Shooter, m_driverController::getLeftTriggerAxis));  
+    // new Trigger(()-> m_driverController.getLeftTriggerAxis() > 0).whileTrue(
+    //     new ShooterEject(m_Shooter, m_driverController::getLeftTriggerAxis));  
 
     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
         new ShooterConsume(m_Shooter));
 
-    new Trigger(()-> m_driverController.getLeftBumper()).whileTrue(
-        new IntakeEject(m_Intake));
+    // new Trigger(()-> m_driverController.getLeftBumper()).whileTrue(
+    //     new IntakeEject(m_Intake));
       
   }
 
