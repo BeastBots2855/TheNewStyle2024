@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.IntakeWristConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.IntakeConsume;
 import frc.robot.commands.IntakeEject;
@@ -51,7 +52,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
-  private Wrist m_IntakeWrist = new Wrist(1, 0, 0, 0, IntakeConstants.IntakeMotorCANID);
+  private Wrist m_IntakeWrist = new Wrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
   private Shooter m_Shooter = new Shooter();
 
   // The driver's controller

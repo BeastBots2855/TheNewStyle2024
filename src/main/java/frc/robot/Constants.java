@@ -40,9 +40,9 @@ public final class Constants {
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(20.5);
+    public static final double kTrackWidth = Units.inchesToMeters(27);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(20.5);
+    public static final double kWheelBase = Units.inchesToMeters(27);
     // Distance between front and back wheels on robot
     public static final double kchassisRadiusMeters = Math.pow(Math.pow(kTrackWidth, 2) + Math.pow(kWheelBase, 2), 0.5) * 0.0254;
 
@@ -130,11 +130,11 @@ public final class Constants {
   }
 
   public static final class IntakeWristConstants {
-    public static final int IntakeWristCANID = 20;
+    public static final int IntakeWristCANID = 21;
   }
 
     public static final class IntakeConstants {
-      public static final int IntakeMotorCANID = 21;
+      public static final int IntakeMotorCANID = 20;
       public static final double motorEjectSpeed = 0.5;
   }
 
