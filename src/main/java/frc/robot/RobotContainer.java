@@ -15,7 +15,6 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.AutoConstants;
@@ -104,19 +103,19 @@ public class RobotContainer {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-    new JoystickButton(m_operatorController, XboxController.Button.kStart.value)
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new InstantCommand(
           m_robotDrive::zeroHeading, 
           m_robotDrive));
 
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
-        new IntakeConsume(m_Intake, m_driverController::getRightTriggerAxis));
+        new IntakeConsume(m_Intake, m_operatorController::getRightTriggerAxis));
 
-    // new Trigger(()-> m_driverController.getLeftTriggerAxis() > 0).whileTrue(
-    //     new ShooterEject(m_Shooter, m_driverController::getLeftTriggerAxis));  
+    // new Trigger(()-> m_operatorController.getLeftTriggerAxis() > 0).whileTrue(
+    //     new ShooterConsume(m_Shooter, m_operatorController::getLeftTriggerAxis));  
 
-    // new Trigger(()-> m_driverController.getLeftBumper()).whileTrue(
-    //     new ShooterConsume(m_Shooter));
+    // new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
+    //     new ShooterEject(m_Shooter));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
         new IntakeEject(m_Intake));
