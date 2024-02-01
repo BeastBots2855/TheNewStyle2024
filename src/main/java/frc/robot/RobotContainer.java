@@ -22,12 +22,15 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.IntakeWristConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterWristConstants;
+import frc.robot.commands.IndexConsume;
 import frc.robot.commands.IntakeConsume;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.ShooterConsume;
 import frc.robot.commands.ShooterEject;
 import frc.robot.commands.WristActuateOpenLoop;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Wrist;
@@ -52,7 +55,9 @@ public class RobotContainer {
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
   private Wrist m_IntakeWrist = new Wrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
+  private Wrist m_ShooterWrist = new Wrist(1,0,0,0, ShooterWristConstants.ShooterWristCANID);
   private Shooter m_Shooter = new Shooter();
+  private Indexer m_Indexer = new Indexer();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -111,14 +116,14 @@ public class RobotContainer {
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
         new IntakeConsume(m_Intake, m_operatorController::getRightTriggerAxis));
 
-    // new Trigger(()-> m_operatorController.getLeftTriggerAxis() > 0).whileTrue(
-    //     new ShooterConsume(m_Shooter, m_operatorController::getLeftTriggerAxis));  
-
-    // new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
-    //     new ShooterEject(m_Shooter));
-
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
         new IntakeEject(m_Intake));
+
+    new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
+        new ShooterConsume(m_Shooter).alongWith(new IndexConsume(m_Indexer)));  
+    
+    new Trigger(()-> m_operatorController.getLeftTriggerAxis() > 0).whileTrue(
+        new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis));
 
     new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));

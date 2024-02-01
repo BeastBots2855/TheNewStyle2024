@@ -139,13 +139,18 @@ public final class Constants {
   }
 
   public static final class ShooterWristConstants {
-      public static final int IntakeWristCANID = 30;
-
+      public static final int ShooterWristCANID = 30;
   }
 
   public static final class ShooterConstants {
       public static final int ShooterMotorCANID = 31;
       public static final double kMotorConsumeSpeed = 0.3;
+  }
+
+  public static final class IndexerConstants {
+      public static final int IndexerMotorCANID = 32;
+      public static final double kMotorIndexSpeed = 0.3;
+
   }
 
 
