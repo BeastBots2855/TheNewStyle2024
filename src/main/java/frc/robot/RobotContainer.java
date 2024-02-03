@@ -127,6 +127,9 @@ public class RobotContainer {
 
     new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
+
+    new Trigger(()-> m_operatorController.getLeftY() != 0).whileTrue(
+        new WristActuateOpenLoop(m_ShooterWrist, () -> -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband)));
       
   }
 
