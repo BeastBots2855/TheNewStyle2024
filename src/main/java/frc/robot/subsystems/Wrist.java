@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -26,6 +27,9 @@ public class Wrist extends PIDSubsystem {
     m_holdConstant = holdConstant;
     m_wristMotor = new CANSparkMax(motorCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    m_absoluteEncoder.setPositionConversionFactor(360);
+    m_wristMotor.setIdleMode(IdleMode.kBrake);
+    m_wristMotor.burnFlash();
     
   }
 

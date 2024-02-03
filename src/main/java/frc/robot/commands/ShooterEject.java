@@ -31,13 +31,15 @@ private final Shooter m_shooter;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setMotorOutput(-m_SpeedSupplier.get());
+    m_shooter.setMotorOutput(m_SpeedSupplier.get());
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_shooter.setMotorOutput(0);
+  }
 
   // Returns true when the command should end.
   @Override

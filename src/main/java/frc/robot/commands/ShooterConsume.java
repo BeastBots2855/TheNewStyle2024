@@ -30,11 +30,14 @@ public class ShooterConsume extends Command {
   @Override
   public void execute() {
     m_Shooter.setMotorOutput(ShooterConstants.kMotorConsumeSpeed);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Shooter.setMotorOutput(0);
+  }
 
   // Returns true when the command should end.
   @Override

@@ -28,12 +28,20 @@ public class IntakeConsume extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.setMotorOutput(-m_SpeedSupplier.get());
+    double speed = m_SpeedSupplier.get();
+  //   if(speed > 0.15) {
+        m_Intake.setMotorOutput(-speed);
+  // } else{
+  //   m_Intake.setMotorOutput(0);
+  // }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Intake.setMotorOutput(0);
+  }
 
   // Returns true when the command should end.
   @Override

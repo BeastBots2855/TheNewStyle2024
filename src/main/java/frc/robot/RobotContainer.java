@@ -113,23 +113,30 @@ public class RobotContainer {
           m_robotDrive::zeroHeading, 
           m_robotDrive));
 
-    new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0.15).whileTrue(
-        new IntakeConsume(m_Intake, m_operatorController::getRightTriggerAxis));
+    new Trigger(()-> m_operatorController.getLeftTriggerAxis() > 0).whileTrue(
+        new IntakeConsume(m_Intake, m_operatorController::getLeftTriggerAxis));
 
-    // new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
-    //     new IntakeEject(m_Intake));
-
-    // new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
-    //     new ShooterConsume(m_Shooter).alongWith(new IndexConsume(m_Indexer)));  
-    
-    // new Trigger(()-> m_operatorController.getLeftTriggerAxis() > 0).whileTrue(
-    //     new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis));
-
-    // new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
-    //     new WristActuateOpenLoop(m_IntakeWrist, () -> -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
+    new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
+         new IntakeEject(m_Intake));
 
     new Trigger(()-> m_operatorController.getLeftY() != 0).whileTrue(
-        new WristActuateOpenLoop(m_ShooterWrist, () -> -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband)));
+        new WristActuateOpenLoop(m_IntakeWrist, () -> {
+            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband));
+            return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
+        }));
+
+    new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
+         new ShooterConsume(m_Shooter).alongWith(new IndexConsume(m_Indexer)));  
+    
+    new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
+        new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis)
+        .alongWith(new IndexConsume(m_Indexer)));
+
+
+    new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
+        new WristActuateOpenLoop(
+                m_ShooterWrist, 
+                () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
       
   }
 
