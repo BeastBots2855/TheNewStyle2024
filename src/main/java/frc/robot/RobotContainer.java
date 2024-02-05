@@ -21,6 +21,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.IntakeWristConstants;
+import frc.robot.Constants.LimitSwitchConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterWristConstants;
 import frc.robot.commands.IndexConsume;
@@ -121,8 +122,8 @@ public class RobotContainer {
 
     new Trigger(()-> m_operatorController.getLeftY() != 0).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> {
-            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband));
-            return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
+            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband, LimitSwitchConstants.kIntakeWristBack));
+            return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband, LimitSwitchConstants.kIntakeWristBack);
         }));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
@@ -136,7 +137,7 @@ public class RobotContainer {
     new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
         new WristActuateOpenLoop(
                 m_ShooterWrist, 
-                () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
+                () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband, LimitSwitchConstants.kIntakeShooterBack)));
 
     
       
