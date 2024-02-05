@@ -33,7 +33,9 @@ import frc.robot.commands.WristActuateOpenLoop;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeWrist;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterWrist;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -55,8 +57,8 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
-  private Wrist m_IntakeWrist = new Wrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
-  private Wrist m_ShooterWrist = new Wrist(1,0,0,0, ShooterWristConstants.ShooterWristCANID);
+  private IntakeWrist m_IntakeWrist = new IntakeWrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
+  private ShooterWrist m_ShooterWrist = new ShooterWrist(1,0,0,0, ShooterWristConstants.ShooterWristCANID);
   private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
 
@@ -122,8 +124,8 @@ public class RobotContainer {
 
     new Trigger(()-> m_operatorController.getLeftY() != 0).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> {
-            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband, LimitSwitchConstants.kIntakeWristBack));
-            return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband, LimitSwitchConstants.kIntakeWristBack);
+            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband));
+            return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
         }));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
@@ -137,7 +139,7 @@ public class RobotContainer {
     new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
         new WristActuateOpenLoop(
                 m_ShooterWrist, 
-                () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband, LimitSwitchConstants.kIntakeShooterBack)));
+                () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
 
     
       

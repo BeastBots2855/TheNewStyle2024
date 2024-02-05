@@ -15,11 +15,9 @@ public class WristActuateOpenLoop extends Command {
   /** Creates a new WristActuate. */
   private final Wrist m_wrist;
   private final Supplier<Double> m_SpeedSupplier;
-  private final LimitSwitchConstants m_LimitSwitchPort;
-  public WristActuateOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier, LimitSwitchConstants m_LimitSwitchPort) {
+  public WristActuateOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier) {
     this.m_wrist = m_wrist;
     this.m_SpeedSupplier = m_SpeedSupplier;
-    this.m_LimitSwitchPort = m_LimitSwitchPort;
     addRequirements(m_wrist);
     this.m_wrist.disable();
     // Use addRequirements() here to declare subsystem dependencies.

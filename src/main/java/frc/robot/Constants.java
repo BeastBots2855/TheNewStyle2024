@@ -187,9 +187,9 @@ public final class Constants {
   }
 
   public static final class LimitSwitchConstants {
-    public static final double kIntakeLimit = 0;
-    public static final double kIntakeWristBack = 1;
-    public static final double kShooterWristBack = 2;
+    public static final int kIntakeLimit = 0;
+    public static final int kIntakeWristBack = 1;
+    public static final int kShooterWristBack = 2;
 
   }
 

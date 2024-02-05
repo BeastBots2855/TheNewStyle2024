@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
-public class Wrist extends PIDSubsystem {
+public abstract class Wrist extends PIDSubsystem {
   /** Creates a new Wrist. */
   private double m_holdConstant;
   private final CANSparkMax m_wristMotor;
@@ -39,8 +39,13 @@ public class Wrist extends PIDSubsystem {
   public void useOutput(double output, double setpoint) {
     // Use the output here
     //add feed forward to the output
-    output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
-    m_wristMotor.set(output);
+    if (!isTouchingLimitSwitch()){
+      output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
+      m_wristMotor.set(output);
+    } else{
+      m_wristMotor.set(0);
+    }
+    
   }
 
 
@@ -53,8 +58,16 @@ public class Wrist extends PIDSubsystem {
 
 
   public void setMotorOutput(double output) {
-    m_wristMotor.set(output);
+
+    if (!isTouchingLimitSwitch()){
+      m_wristMotor.set(output);
+    } else{
+      m_wristMotor.set(0);
+    }
   }
+
+   abstract boolean isTouchingLimitSwitch();
+  
 
 
 
