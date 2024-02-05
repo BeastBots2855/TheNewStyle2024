@@ -183,7 +183,16 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+
+  }
+
+  public static final class LimitSwitchConstants {
+    public static final double kIntakeLimit = 0;
+    public static final double kIntakeWristBack = 1;
+    public static final double kShooterWristBack = 2;
+
   }
 
 
 }
+
