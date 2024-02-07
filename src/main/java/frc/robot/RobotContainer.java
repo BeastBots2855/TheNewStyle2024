@@ -129,15 +129,13 @@ public class RobotContainer {
         new IndexConsume(m_Indexer));  
     
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
-        new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis)
-        .alongWith(new IndexConsume(m_Indexer)));
-
+        new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis));
+        // new IndexConsume(m_Indexer);
 
     new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
         new WristActuateOpenLoop(
                 m_ShooterWrist, 
                 () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
-      
   }
 
   /**

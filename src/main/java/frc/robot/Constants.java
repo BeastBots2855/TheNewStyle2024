@@ -127,6 +127,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.05;
     public static final int kOperatorControllerPort = 1;
+    public static final int kRumbleValue = 1;
   }
 
   public static final class IntakeWristConstants {
@@ -152,8 +153,6 @@ public final class Constants {
       public static final double kMotorIndexSpeed = 0.3;
 
   }
-
-
 
 
   
