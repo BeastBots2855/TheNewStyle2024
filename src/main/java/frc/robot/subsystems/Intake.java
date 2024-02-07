@@ -7,18 +7,37 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.LimitSwitchConstants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Shooter. */
   private final CANSparkMax m_IntakeMotor;
+  private final DigitalInput m_IntakeButton;
   public Intake() {
     m_IntakeMotor = new CANSparkMax(IntakeConstants.IntakeMotorCANID, MotorType.kBrushless);
+    m_IntakeButton = new DigitalInput(LimitSwitchConstants.kIntakeButton);
+    
   }
 
   public void setMotorOutput(double output){
-    m_IntakeMotor.set(output);
+    if (m_IntakeButton.get() && output > 0) {
+        m_IntakeMotor.set(output);
+    } else if (!m_IntakeButton.get() && output > 0) {
+      m_IntakeMotor.set(0);
+    } else {
+      m_IntakeMotor.set(output);
+    }
+      
+    
+    // System.out.println(m_IntakeButton.get() + "  " + output);
+
+  }
+
+  public void disableMotor(){
+    m_IntakeMotor.set(0);
   }
 
   @Override

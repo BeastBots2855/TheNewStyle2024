@@ -21,7 +21,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.IntakeWristConstants;
-import frc.robot.Constants.LimitSwitchConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterWristConstants;
 import frc.robot.commands.IndexConsume;
@@ -29,6 +28,7 @@ import frc.robot.commands.IntakeConsume;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.ShooterConsume;
 import frc.robot.commands.ShooterEject;
+import frc.robot.commands.WristActuateClosedLoopPID;
 import frc.robot.commands.WristActuateOpenLoop;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
@@ -58,7 +58,7 @@ public class RobotContainer {
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
   private IntakeWrist m_IntakeWrist = new IntakeWrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
-  private ShooterWrist m_ShooterWrist = new ShooterWrist(1,0,0,0, ShooterWristConstants.ShooterWristCANID);
+  private ShooterWrist m_ShooterWrist = new ShooterWrist(0.15,0,0,0, ShooterWristConstants.ShooterWristCANID);
   private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
 
@@ -86,7 +86,8 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
-
+        
+   
         // new RunCommand(
         //   () -> m_robotDrive.drive(
         //       -MathUtil.applyDeadband(m_LogitechController.getRawAxis(1), OIConstants.kDriveDeadband), //left y
@@ -140,6 +141,16 @@ public class RobotContainer {
         new WristActuateOpenLoop(
                 m_ShooterWrist, 
                 () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
+
+
+
+
+    new Trigger(()-> m_operatorController.getAButton()).whileTrue(
+         new WristActuateClosedLoopPID(m_ShooterWrist, 90.0)); 
+
+
+
+    
 
     
       

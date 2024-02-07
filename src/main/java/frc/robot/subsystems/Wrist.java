@@ -30,6 +30,8 @@ public abstract class Wrist extends PIDSubsystem {
     m_absoluteEncoder.setPositionConversionFactor(360);
     m_wristMotor.setIdleMode(IdleMode.kBrake);
     m_wristMotor.burnFlash();
+   
+    
     
   }
 
@@ -45,6 +47,9 @@ public abstract class Wrist extends PIDSubsystem {
     } else{
       m_wristMotor.set(0);
     }
+    System.out.println("Position: " + m_absoluteEncoder.getPosition());
+    System.out.println("Output: " + output);
+
     
   }
 
