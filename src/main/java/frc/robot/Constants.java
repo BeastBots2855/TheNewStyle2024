@@ -151,10 +151,13 @@ public final class Constants {
   public static final class IndexerConstants {
       public static final int IndexerMotorCANID = 32;
       public static final double kMotorIndexSpeed = 0.3;
-
   }
 
+  public static final class LimitSwitchConstants {
+      public static final int kIntakeLimit = 0;
+  }
 
+  
   
 
   public static final class AutoConstants {
