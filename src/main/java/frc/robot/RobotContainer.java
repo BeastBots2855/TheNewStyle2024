@@ -126,7 +126,7 @@ public class RobotContainer {
         }));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
-         new ShooterConsume(m_Shooter).alongWith(new IndexConsume(m_Indexer)));  
+        new IndexConsume(m_Indexer));  
     
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
         new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis)
