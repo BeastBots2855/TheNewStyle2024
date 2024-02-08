@@ -40,7 +40,10 @@ public abstract class Wrist extends SubsystemBase {
 
     if (!isTouchingLimitSwitch()){
       m_wristMotor.set(output);
-    } else {
+    } else if (isTouchingLimitSwitch() && getLimitSwitchDirection() == limitDirection.FORWARD && output < 0) { 
+      m_wristMotor.set(output);
+    } else if (isTouchingLimitSwitch() && getLimitSwitchDirection() == limitDirection.BACKWARD && output > 0) {
+    }else {
       m_wristMotor.set(0);
     }
   }

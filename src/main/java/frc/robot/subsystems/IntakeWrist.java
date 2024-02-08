@@ -19,5 +19,8 @@ public class IntakeWrist extends Wrist{
   public limitDirection getLimitSwitchDirection(){
     return limitDirection.BACKWARD;
   }
+
+  //going from upright to the left is positive input
+
     
 }
