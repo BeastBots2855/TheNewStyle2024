@@ -18,7 +18,7 @@ public class WristActuateOpenLoop extends Command {
     this.m_wrist = m_wrist;
     this.m_SpeedSupplier = m_SpeedSupplier;
     addRequirements(m_wrist);
-    this.m_wrist.disable();
+    this.m_wrist.disblePid();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

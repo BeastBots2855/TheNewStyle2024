@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.LimitSwitchConstants;
+import frc.robot.Constants.limitDirection;
 
 public class ShooterWrist extends Wrist{
 
@@ -13,6 +14,10 @@ public class ShooterWrist extends Wrist{
 
   public boolean isTouchingLimitSwitch(){
     return !m_ForwardLimitSwitch.get();
+  }
+
+  public limitDirection getLimitSwitchDirection(){
+    return limitDirection.FORWARD;
   }
 
   

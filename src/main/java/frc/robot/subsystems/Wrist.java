@@ -12,68 +12,70 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.limitDirection;
 
-public abstract class Wrist extends PIDSubsystem {
+public abstract class Wrist extends SubsystemBase {
   /** Creates a new Wrist. */
   private double m_holdConstant;
   private final CANSparkMax m_wristMotor;
   private final AbsoluteEncoder m_absoluteEncoder;
+  private final PIDController m_PidController;
+  private boolean m_isPidEnabled;
 
 
 
   public Wrist(double kP, double kI, double kD, double holdConstant, int motorCANID) {
 
-    super(new PIDController(kP, kI, kD));
+    m_PidController = new PIDController(kP, kI, kD);
     m_holdConstant = holdConstant;
     m_wristMotor = new CANSparkMax(motorCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_absoluteEncoder.setPositionConversionFactor(360);
     m_wristMotor.setIdleMode(IdleMode.kBrake);
     m_wristMotor.burnFlash();
-   
-    
-    
   }
-
-
-
-  @Override
-  public void useOutput(double output, double setpoint) {
-    // Use the output here
-    //add feed forward to the output
-    if (!isTouchingLimitSwitch()){
-      output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
-      m_wristMotor.set(output);
-    } else{
-      m_wristMotor.set(0);
-    }
-    System.out.println("Position: " + m_absoluteEncoder.getPosition());
-    System.out.println("Output: " + output);
-
-    
-  }
-
-
-
-  @Override
-  public double getMeasurement() {
-    // Return the process variable measurement here
-    return m_absoluteEncoder.getPosition();
-  }
-
 
   public void setMotorOutput(double output) {
 
     if (!isTouchingLimitSwitch()){
       m_wristMotor.set(output);
-    } else{
+    } else {
       m_wristMotor.set(0);
     }
   }
 
-   abstract boolean isTouchingLimitSwitch();
+  public void setSetpoint(double setPoint){
+    m_PidController.setSetpoint(setPoint);
+  }
+
+  public void enablePid(){
+    m_isPidEnabled = true;
+  }
+
+  public void disblePid(){
+    m_isPidEnabled = false;
+  }
+
+  abstract boolean isTouchingLimitSwitch();
+  abstract limitDirection getLimitSwitchDirection();
   
 
+   @Override
+   public void periodic() {
+    if(m_isPidEnabled) {
+      double output = m_PidController.calculate(m_absoluteEncoder.getPosition());
+
+      if (!isTouchingLimitSwitch()){
+        output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
+        setMotorOutput(output);
+      } else {
+        setMotorOutput(0);
+      }
+      System.out.println("Position: " + m_absoluteEncoder.getPosition());
+      System.out.println("Output: " + output);
+    }
+   }
 
 
 }
