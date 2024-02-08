@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.subsystems.Shooter;
+import frc.robot.utilities.FeedForwardCharacterization;
+import frc.robot.utilities.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Autos {

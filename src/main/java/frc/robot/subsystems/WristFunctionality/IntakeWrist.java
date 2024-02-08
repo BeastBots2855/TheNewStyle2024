@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.WristFunctionality;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.LimitSwitchConstants;

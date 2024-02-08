@@ -2,27 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 
-public class ShooterEject extends Command {
-  /** Creates a new ShooterEject. */
-
-private final Shooter m_shooter; 
+public class IntakeConsume extends Command {
+  /** Creates a new IntakeConsume. */
+  private final Intake m_Intake;
   private final Supplier<Double> m_SpeedSupplier;
-  public ShooterEject(Shooter m_shooter, Supplier<Double> m_SpeedSupplier) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public IntakeConsume(Intake m_Intake, Supplier<Double> m_SpeedSupplier) {
+    this.m_Intake = m_Intake;
     this.m_SpeedSupplier = m_SpeedSupplier;
-    this.m_shooter = m_shooter;
-    addRequirements(m_shooter);
+    addRequirements(m_Intake);
+    
+    // Use addRequirements() here to declare subsystem dependencies.
   }
-
-
 
   // Called when the command is initially scheduled.
   @Override
@@ -31,14 +28,19 @@ private final Shooter m_shooter;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setMotorOutput(m_SpeedSupplier.get());
+    double speed = m_SpeedSupplier.get();
+  //   if(speed > 0.15) {
+        m_Intake.setMotorOutput(speed);
+  // } else{
+  //   m_Intake.setMotorOutput(0);
+  // }
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.setMotorOutput(0);
+    m_Intake.disableMotor();
   }
 
   // Returns true when the command should end.
