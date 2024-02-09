@@ -61,7 +61,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
-  private IntakeWrist m_IntakeWrist = new IntakeWrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
+  private IntakeWrist m_IntakeWrist = new IntakeWrist(0.01, 0.001, 0, 0.03, IntakeWristConstants.IntakeWristCANID);
   private ShooterWrist m_ShooterWrist = new ShooterWrist(0.05,0,0,0, ShooterWristConstants.ShooterWristCANID);
   private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
@@ -162,7 +162,10 @@ public class RobotContainer {
     //      new WristActuateClosedLoopPID(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
     //      new WristActuateClosedLoopPID(m_ShooterWrist, 144.0).alongWith(new PrintCommand("PIDEnabled"))); 
-
+    new Trigger(()-> m_operatorController.getXButton()).whileTrue(
+         new WristActuateClosedLoopPID(m_IntakeWrist, 0).alongWith(new PrintCommand("PIDEnabled"))); 
+    new Trigger(()-> m_operatorController.getYButton()).whileTrue(
+         new WristActuateClosedLoopPID(m_IntakeWrist, 170).alongWith(new PrintCommand("PIDEnabled"))); 
     
 
     

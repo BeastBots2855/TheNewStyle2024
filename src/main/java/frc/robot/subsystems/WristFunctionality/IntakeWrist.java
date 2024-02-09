@@ -21,7 +21,7 @@ public class IntakeWrist extends Wrist{
   }
 
   public boolean getIsPidInverted(){
-    return false;
+    return true;
   }
   //going from upright to the left is positive input
 

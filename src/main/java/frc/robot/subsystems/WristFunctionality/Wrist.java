@@ -63,7 +63,7 @@ public abstract class Wrist extends SubsystemBase {
   public void runPid(){
       double output = -m_PidController.calculate(m_absoluteEncoder.getPosition());
       output = getIsPidInverted() ? -output : output;
-      output = Math.abs(m_PidController.getSetpoint()) - Math.abs(m_absoluteEncoder.getPosition()) > 180 ? -output : output;
+      output = Math.abs(m_PidController.getSetpoint()) - Math.abs(m_absoluteEncoder.getPosition() - 15) > 180 ? -output : output;
       if (!isTouchingLimitSwitch()){
         output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
         setMotorOutput(output);
