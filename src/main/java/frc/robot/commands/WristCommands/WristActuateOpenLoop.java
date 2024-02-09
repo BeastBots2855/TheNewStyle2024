@@ -18,13 +18,14 @@ public class WristActuateOpenLoop extends Command {
     this.m_wrist = m_wrist;
     this.m_SpeedSupplier = m_SpeedSupplier;
     addRequirements(m_wrist);
-    this.m_wrist.disblePid();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+      this.m_wrist.disblePid();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

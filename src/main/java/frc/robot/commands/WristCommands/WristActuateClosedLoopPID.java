@@ -17,13 +17,14 @@ public class WristActuateClosedLoopPID extends Command {
       this.m_wrist = m_wrist;
       this.m_setpoint = m_setpoint;
       addRequirements(m_wrist);
-      this.m_wrist.enablePid();
+      
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
       m_wrist.setSetpoint(m_setpoint);
+      this.m_wrist.enablePid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,8 +34,6 @@ public class WristActuateClosedLoopPID extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_wrist.disblePid();
-    m_wrist.setMotorOutput(0);
   }
 
   // Returns true when the command should end.

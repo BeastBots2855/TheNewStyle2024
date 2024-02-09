@@ -21,13 +21,14 @@ public abstract class Wrist extends SubsystemBase {
   private final CANSparkMax m_wristMotor;
   private final AbsoluteEncoder m_absoluteEncoder;
   private final PIDController m_PidController;
-  private boolean m_isPidEnabled;
+  private boolean m_isPidEnabled = false;
 
 
 
   public Wrist(double kP, double kI, double kD, double holdConstant, int motorCANID) {
 
     m_PidController = new PIDController(kP, kI, kD);
+    m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = holdConstant;
     m_wristMotor = new CANSparkMax(motorCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
@@ -37,7 +38,6 @@ public abstract class Wrist extends SubsystemBase {
   }
 
   public void setMotorOutput(double output) {
-
     if (!isTouchingLimitSwitch()){
       m_wristMotor.set(output);
     } else if (isTouchingLimitSwitch() && getLimitSwitchDirection() == limitDirection.FORWARD && output < 0) { 
@@ -60,15 +60,10 @@ public abstract class Wrist extends SubsystemBase {
     m_isPidEnabled = false;
   }
 
-  abstract boolean isTouchingLimitSwitch();
-  abstract limitDirection getLimitSwitchDirection();
-  
-
-   @Override
-   public void periodic() {
-    if(m_isPidEnabled) {
-      double output = m_PidController.calculate(m_absoluteEncoder.getPosition());
-
+  public void runPid(){
+      double output = -m_PidController.calculate(m_absoluteEncoder.getPosition());
+      output = getIsPidInverted() ? -output : output;
+      output = Math.abs(m_PidController.getSetpoint()) - Math.abs(m_absoluteEncoder.getPosition()) > 180 ? -output : output;
       if (!isTouchingLimitSwitch()){
         output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
         setMotorOutput(output);
@@ -77,8 +72,23 @@ public abstract class Wrist extends SubsystemBase {
       }
       System.out.println("Position: " + m_absoluteEncoder.getPosition());
       System.out.println("Output: " + output);
+
+  }
+
+  @Override
+   public void periodic() {
+    if(m_isPidEnabled) {
+      runPid();
     }
    }
 
+  abstract boolean isTouchingLimitSwitch();
+  abstract limitDirection getLimitSwitchDirection();
+  abstract boolean getIsPidInverted();
+  
+
+
+
+   
 
 }

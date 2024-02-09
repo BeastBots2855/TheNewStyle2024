@@ -20,6 +20,9 @@ public class IntakeWrist extends Wrist{
     return limitDirection.BACKWARD;
   }
 
+  public boolean getIsPidInverted(){
+    return false;
+  }
   //going from upright to the left is positive input
 
     

@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.AutoConstants;
@@ -39,7 +40,10 @@ import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.subsystems.WristFunctionality.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -58,7 +62,7 @@ public class RobotContainer {
   private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
   private IntakeWrist m_IntakeWrist = new IntakeWrist(1, 0, 0, 0, IntakeWristConstants.IntakeWristCANID);
-  private ShooterWrist m_ShooterWrist = new ShooterWrist(0.15,0,0,0, ShooterWristConstants.ShooterWristCANID);
+  private ShooterWrist m_ShooterWrist = new ShooterWrist(0.05,0,0,0, ShooterWristConstants.ShooterWristCANID);
   private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
 
@@ -123,7 +127,7 @@ public class RobotContainer {
     new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
          new IntakeEject(m_Intake));
 
-    new Trigger(()-> m_operatorController.getLeftY() != 0).whileTrue(
+    new Trigger(()-> m_operatorController.getLeftY() > 0.15 || m_operatorController.getLeftY() < -0.15).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> {
             System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband));
             return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
@@ -137,24 +141,34 @@ public class RobotContainer {
         .alongWith(new IndexConsume(m_Indexer)));
 
 
-    new Trigger(()-> m_operatorController.getRightY() != 0).whileTrue(
+    new Trigger(()-> m_operatorController.getRightY() > 0.15 || m_operatorController.getRightY() < -0.15).whileTrue(
         new WristActuateOpenLoop(
                 m_ShooterWrist, 
                 () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
 
+    new Trigger(()-> true).whileTrue(
+        new RunCommand(()-> {
+            if (m_Intake.shouldRumble()){
+                m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+                m_driverController.setRumble(RumbleType.kBothRumble, 1);
+            } else {
+                m_operatorController.setRumble(RumbleType.kBothRumble, 0);
+                m_driverController.setRumble(RumbleType.kBothRumble, 0);
+            }
+        }));
 
 
-
-    new Trigger(()-> m_operatorController.getAButton()).whileTrue(
-         new WristActuateClosedLoopPID(m_ShooterWrist, 90.0)); 
-
-
+    // new Trigger(()-> m_operatorController.getAButton()).whileTrue(
+    //      new WristActuateClosedLoopPID(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
+    // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
+    //      new WristActuateClosedLoopPID(m_ShooterWrist, 144.0).alongWith(new PrintCommand("PIDEnabled"))); 
 
     
 
     
       
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

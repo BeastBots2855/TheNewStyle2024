@@ -20,6 +20,10 @@ public class ShooterWrist extends Wrist{
     return limitDirection.FORWARD;
   }
 
+  public boolean getIsPidInverted(){
+    return true;
+  }
+
 
   
     
