@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.WristLocation;
 import frc.robot.Constants.limitDirection;
 
 public abstract class Wrist extends SubsystemBase {
@@ -26,7 +27,6 @@ public abstract class Wrist extends SubsystemBase {
 
 
   public Wrist(double kP, double kI, double kD, double holdConstant, int motorCANID) {
-
     m_PidController = new PIDController(kP, kI, kD);
     m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = holdConstant;
@@ -61,9 +61,19 @@ public abstract class Wrist extends SubsystemBase {
   }
 
   public void runPid(){
+    
+      
       double output = -m_PidController.calculate(m_absoluteEncoder.getPosition());
       output = getIsPidInverted() ? -output : output;
-      output = Math.abs(m_PidController.getSetpoint()) - Math.abs(m_absoluteEncoder.getPosition() - 15) > 180 ? -output : output;
+      double alteredPosition = m_absoluteEncoder.getPosition();
+      if (getWristLocation() == WristLocation.TOP){
+        if (alteredPosition > 180){
+          alteredPosition -= 360;
+        }
+      }
+      if (getWristLocation() == WristLocation.BOTTOM){
+        output = Math.abs(m_PidController.getSetpoint()) + Math.abs(alteredPosition) > 180 ? -output : output;
+      }
       if (!isTouchingLimitSwitch()){
         output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
         setMotorOutput(output);
@@ -71,8 +81,9 @@ public abstract class Wrist extends SubsystemBase {
         setMotorOutput(0);
       }
       System.out.println("Position: " + m_absoluteEncoder.getPosition());
+      System.out.println("Target: " + m_PidController.getSetpoint());
+      System.out.println("Error: "  + Math.abs(m_PidController.getSetpoint()) + Math.abs((m_absoluteEncoder.getPosition()) - 360));
       System.out.println("Output: " + output);
-
   }
 
   @Override
@@ -80,11 +91,18 @@ public abstract class Wrist extends SubsystemBase {
     if(m_isPidEnabled) {
       runPid();
     }
+
+   
    }
+
+  public double getAbsoluteEncoderValue(){
+    return m_absoluteEncoder.getPosition();
+  }
 
   abstract boolean isTouchingLimitSwitch();
   abstract limitDirection getLimitSwitchDirection();
   abstract boolean getIsPidInverted();
+  abstract WristLocation getWristLocation();
   
 
 

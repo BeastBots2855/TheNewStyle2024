@@ -30,7 +30,7 @@ public class IntakeConsume extends Command {
   public void execute() {
     double speed = m_SpeedSupplier.get();
   //   if(speed > 0.15) {
-        m_Intake.setMotorOutput(speed);
+        m_Intake.setMotorOutput(-speed);
   // } else{
   //   m_Intake.setMotorOutput(0);
   // }

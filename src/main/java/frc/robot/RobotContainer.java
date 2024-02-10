@@ -79,7 +79,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-
+    m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
     configureButtonBindings();
 
     // Configure default commands
@@ -165,20 +165,21 @@ public class RobotContainer {
 
     new Trigger(()-> m_operatorController.getAButton()).whileTrue(
          new WristActuateClosedLoopPID(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getBButton()).whileTrue(
-         new WristActuateClosedLoopPID(m_ShooterWrist, 144.0).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
-        new WristActuateClosedLoopPID(m_IntakeWrist, 3).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getPOV() == 90).whileTrue(
-        new WristActuateClosedLoopPID(m_IntakeWrist, 60).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getPOV() == 180).whileTrue(
-        new WristActuateClosedLoopPID(m_IntakeWrist, 90).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getPOV() == 270).whileTrue(
-        new WristActuateClosedLoopPID(m_IntakeWrist, 175).alongWith(new PrintCommand("PIDEnabled")));
+    // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
+    //      new WristActuateClosedLoopPID(m_ShooterWrist, 131.60).alongWith(new PrintCommand("PIDEnabled"))); 
+    // new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
+    //     new WristActuateClosedLoopPID(m_IntakeWrist, 3).alongWith(new PrintCommand("PIDEnabled"))); 
+    // new Trigger(()-> m_operatorController.getPOV() == 90).whileTrue(
+    //     new WristActuateClosedLoopPID(m_IntakeWrist, 60).alongWith(new PrintCommand("PIDEnabled"))); 
+    // new Trigger(()-> m_operatorController.getPOV() == 180).whileTrue(
+    //     new WristActuateClosedLoopPID(m_IntakeWrist, 90).alongWith(new PrintCommand("PIDEnabled"))); 
+    // new Trigger(()-> m_operatorController.getPOV() == 270).whileTrue(
+    //     new WristActuateClosedLoopPID(m_IntakeWrist, 175).alongWith(new PrintCommand("PIDEnabled")));
 
 
     
-    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> m_driverController.getRightTriggerAxis()));
+    // new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> m_driverController.getRightTriggerAxis()));
+    // new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> -m_driverController.getLeftTriggerAxis()));
 
     
       
@@ -230,6 +231,11 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+  }
+
+  public void disablePidDisabled(){
+    m_IntakeWrist.disblePid();
+    m_ShooterWrist.disblePid();
   }
 
 

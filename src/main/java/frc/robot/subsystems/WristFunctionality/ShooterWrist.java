@@ -2,6 +2,7 @@ package frc.robot.subsystems.WristFunctionality;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.LimitSwitchConstants;
+import frc.robot.Constants.WristLocation;
 import frc.robot.Constants.limitDirection;
 
 public class ShooterWrist extends Wrist{
@@ -22,6 +23,10 @@ public class ShooterWrist extends Wrist{
 
   public boolean getIsPidInverted(){
     return true;
+  }
+
+    public WristLocation getWristLocation(){
+    return WristLocation.TOP;
   }
 
 
