@@ -24,6 +24,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.IntakeWristConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterWristConstants;
+import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.IndexCommands.IndexConsume;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.IntakeCommands.IntakeEject;
@@ -31,6 +32,7 @@ import frc.robot.commands.ShooterCommands.ShooterConsume;
 import frc.robot.commands.ShooterCommands.ShooterEject;
 import frc.robot.commands.WristCommands.WristActuateClosedLoopPID;
 import frc.robot.commands.WristCommands.WristActuateOpenLoop;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -65,6 +67,7 @@ public class RobotContainer {
   private ShooterWrist m_ShooterWrist = new ShooterWrist(0.05,0,0,0, ShooterWristConstants.ShooterWristCANID);
   private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
+  private Climb m_climb = new Climb();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -157,20 +160,30 @@ public class RobotContainer {
             }
         }));
 
+        
 
-    // new Trigger(()-> m_operatorController.getAButton()).whileTrue(
-    //      new WristActuateClosedLoopPID(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
-    // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
-    //      new WristActuateClosedLoopPID(m_ShooterWrist, 144.0).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getXButton()).whileTrue(
-         new WristActuateClosedLoopPID(m_IntakeWrist, 0).alongWith(new PrintCommand("PIDEnabled"))); 
-    new Trigger(()-> m_operatorController.getYButton()).whileTrue(
-         new WristActuateClosedLoopPID(m_IntakeWrist, 170).alongWith(new PrintCommand("PIDEnabled"))); 
+
+    new Trigger(()-> m_operatorController.getAButton()).whileTrue(
+         new WristActuateClosedLoopPID(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
+    new Trigger(()-> m_operatorController.getBButton()).whileTrue(
+         new WristActuateClosedLoopPID(m_ShooterWrist, 144.0).alongWith(new PrintCommand("PIDEnabled"))); 
+    new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
+        new WristActuateClosedLoopPID(m_IntakeWrist, 3).alongWith(new PrintCommand("PIDEnabled"))); 
+    new Trigger(()-> m_operatorController.getPOV() == 90).whileTrue(
+        new WristActuateClosedLoopPID(m_IntakeWrist, 60).alongWith(new PrintCommand("PIDEnabled"))); 
+    new Trigger(()-> m_operatorController.getPOV() == 180).whileTrue(
+        new WristActuateClosedLoopPID(m_IntakeWrist, 90).alongWith(new PrintCommand("PIDEnabled"))); 
+    new Trigger(()-> m_operatorController.getPOV() == 270).whileTrue(
+        new WristActuateClosedLoopPID(m_IntakeWrist, 175).alongWith(new PrintCommand("PIDEnabled")));
+
+
     
+    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> m_driverController.getRightTriggerAxis()));
 
     
       
   }
+
 
 
   /**

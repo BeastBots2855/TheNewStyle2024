@@ -197,11 +197,11 @@ public final class Constants {
     BACKWARD
   }
 
-  public static final class climbConstants {
+  public static final class ClimbConstants {
     public static final int kLeftTopCanID = 50;
     public static final int kLeftBottomCanID = 51;
     public static final int kRightTopCanID = 52;
-    public static final int kRightBottomCanID = 52;
+    public static final int kRightBottomCanID = 53;
   }
 
 
