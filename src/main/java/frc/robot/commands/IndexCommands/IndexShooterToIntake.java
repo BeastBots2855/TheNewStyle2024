@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Indexer;
 
-public class IndexConsume extends Command {
+public class IndexShooterToIntake extends Command {
   /** Creates a new IndexConsume. */
   private final Indexer m_Indexer;
-  public IndexConsume(Indexer m_Indexer) {
+  public IndexShooterToIntake(Indexer m_Indexer) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Indexer = m_Indexer;
     addRequirements(m_Indexer);
@@ -27,7 +27,7 @@ public class IndexConsume extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Indexer.setMotorOutput(ShooterConstants.kMotorConsumeSpeed);
+    m_Indexer.setMotorOutput(-ShooterConstants.kMotorConsumeSpeed);
   }
 
   // Called once the command ends or is interrupted.

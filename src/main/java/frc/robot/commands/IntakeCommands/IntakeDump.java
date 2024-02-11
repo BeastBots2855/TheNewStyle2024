@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.IndexCommands;
+package frc.robot.commands.IntakeCommands;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Indexer;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.subsystems.Intake;
 
-public class IndexEject extends Command {
-  /** Creates a new IndexConsume. */
-  private final Indexer m_Indexer;
-  public IndexEject(Indexer m_Indexer) {
+public class IntakeDump extends Command {
+  /** Creates a new IntakeConsume. */
+  private final Intake m_Intake;
+  public IntakeDump(Intake m_Intake) {
+    this.m_Intake = m_Intake;
+    addRequirements(m_Intake);
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_Indexer = m_Indexer;
-    addRequirements(m_Indexer);
-
   }
 
   // Called when the command is initially scheduled.
@@ -27,13 +27,13 @@ public class IndexEject extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Indexer.setMotorOutput(-ShooterConstants.kMotorConsumeSpeed);
+    m_Intake.setMotorOutput(-IntakeConstants.motorEjectSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Indexer.setMotorOutput(0);
+    m_Intake.disableMotor();
   }
 
   // Returns true when the command should end.

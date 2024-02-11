@@ -12,10 +12,10 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterConsume extends Command {
+public class ShooterRecieve extends Command {
   /** Creates a new IntakeConsume. */
   private final Shooter m_Shooter;
-  public ShooterConsume(Shooter m_Shooter) {
+  public ShooterRecieve(Shooter m_Shooter) {
     this.m_Shooter = m_Shooter;
     addRequirements(m_Shooter);
     

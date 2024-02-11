@@ -25,11 +25,11 @@ import frc.robot.Constants.IntakeWristConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterWristConstants;
 import frc.robot.commands.ClimberClimb;
-import frc.robot.commands.IndexCommands.IndexConsume;
+import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
-import frc.robot.commands.IntakeCommands.IntakeEject;
-import frc.robot.commands.ShooterCommands.ShooterConsume;
-import frc.robot.commands.ShooterCommands.ShooterEject;
+import frc.robot.commands.IntakeCommands.IntakeDump;
+import frc.robot.commands.ShooterCommands.ShooterRecieve;
+import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.WristCommands.WristActuateClosedLoopPID;
 import frc.robot.commands.WristCommands.WristActuateOpenLoop;
 import frc.robot.subsystems.Climb;
@@ -128,7 +128,7 @@ public class RobotContainer {
         new IntakeConsume(m_Intake, m_operatorController::getLeftTriggerAxis));
 
     new Trigger(()-> m_operatorController.getLeftBumper()).whileTrue(
-         new IntakeEject(m_Intake));
+         new IntakeDump(m_Intake));
 
     new Trigger(()-> m_operatorController.getLeftY() > 0.15 || m_operatorController.getLeftY() < -0.15).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> {
@@ -137,11 +137,11 @@ public class RobotContainer {
         }));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
-         new ShooterConsume(m_Shooter).alongWith(new IndexConsume(m_Indexer)));  
+         new ShooterRecieve(m_Shooter).alongWith(new IndexIntakeToShooter(m_Indexer)));  
     
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
-        new ShooterEject(m_Shooter, m_operatorController::getRightTriggerAxis)
-        .alongWith(new IndexConsume(m_Indexer)));
+        new ShooterFire(m_Shooter, m_operatorController::getRightTriggerAxis)
+        .alongWith(new IndexIntakeToShooter(m_Indexer)));
 
 
     new Trigger(()-> m_operatorController.getRightY() > 0.15 || m_operatorController.getRightY() < -0.15).whileTrue(
