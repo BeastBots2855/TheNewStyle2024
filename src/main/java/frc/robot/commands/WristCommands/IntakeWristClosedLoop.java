@@ -5,18 +5,19 @@
 package frc.robot.commands.WristCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.Wrist;
 
-public class WristActuateClosedLoopPID extends Command {
+public class IntakeWristClosedLoop extends Command {
   /** Creates a new WristActuateClosedLoopPID. */
   private final Wrist m_wrist;
   private final double m_setpoint;
 
-  public WristActuateClosedLoopPID(Wrist m_wrist, double m_setpoint) {
+  public IntakeWristClosedLoop(Wrist m_wrist, double m_setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
       this.m_wrist = m_wrist;
       this.m_setpoint = m_setpoint;
-      addRequirements(m_wrist);
+      addRequirements((IntakeWrist)m_wrist);
       
   }
 

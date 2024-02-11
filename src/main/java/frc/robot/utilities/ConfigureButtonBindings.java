@@ -18,8 +18,9 @@ import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterRecieve;
-import frc.robot.commands.WristCommands.WristActuateClosedLoopPID;
-import frc.robot.commands.WristCommands.WristActuateOpenLoop;
+import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
+import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
+import frc.robot.commands.WristCommands.ShooterWristOpenLoop;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
@@ -63,9 +64,9 @@ public class ConfigureButtonBindings {
          new IntakeDump(m_Intake));
 
     new Trigger(()-> m_operatorController.getLeftY() > 0.15 || m_operatorController.getLeftY() < -0.15).whileTrue(
-        new WristActuateOpenLoop(m_IntakeWrist, () -> {
+        new IntakeWristOpenLoop(m_IntakeWrist, () -> {
             System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband));
-            return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
+            return MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
         }));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
@@ -77,9 +78,9 @@ public class ConfigureButtonBindings {
 
 
     new Trigger(()-> m_operatorController.getRightY() > 0.15 || m_operatorController.getRightY() < -0.15).whileTrue(
-        new WristActuateOpenLoop(
+        new ShooterWristOpenLoop(
                 m_ShooterWrist, 
-                () ->  -MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
+                () ->  MathUtil.applyDeadband(m_operatorController.getRightY(), OIConstants.kDriveDeadband)));
 
     new Trigger(()-> true).whileTrue(
         new RunCommand(()-> {
@@ -96,7 +97,7 @@ public class ConfigureButtonBindings {
 
 
     new Trigger(()-> m_operatorController.getAButton()).whileTrue(
-         new WristActuateClosedLoopPID(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
+         new ShooterWristClosedLoop(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
     //      new WristActuateClosedLoopPID(m_ShooterWrist, 131.60).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
