@@ -4,6 +4,8 @@
 
 package frc.robot.utilities;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
@@ -14,10 +16,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
+import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.ShooterCommands.ShooterFire;
-import frc.robot.commands.ShooterCommands.ShooterRecieve;
+import frc.robot.commands.ShooterCommands.ShooterRescind;
+import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
 import frc.robot.commands.WristCommands.ShooterWristOpenLoop;
@@ -70,7 +74,7 @@ public class ConfigureButtonBindings {
         }));
 
     new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
-         new ShooterRecieve(m_Shooter).alongWith(new IndexIntakeToShooter(m_Indexer)));  
+         new ShooterRescind(m_Shooter).alongWith(new IndexIntakeToShooter(m_Indexer)));  
     
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
         new ShooterFire(m_Shooter, m_operatorController::getRightTriggerAxis)
@@ -117,5 +121,18 @@ public class ConfigureButtonBindings {
     
         
 
+        NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
+        NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));
+        NamedCommands.registerCommand("IndexIntakeToShooter", new IndexIntakeToShooter(m_Indexer));
+        NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));
+        NamedCommands.registerCommand("IntakeConsume", new IntakeConsume(m_Intake, ()-> 0.5));
+        NamedCommands.registerCommand("IntakeDump", new IntakeDump(m_Intake));
+        NamedCommands.registerCommand("ShooterRecieve", new IntakeWristClosedLoop(m_ShooterWrist, 131.6));
+        NamedCommands.registerCommand("ShooterToSpeaker", new IntakeWristClosedLoop(m_ShooterWrist, 131.6));
+        NamedCommands.registerCommand("ShooterToAmp", new IntakeWristClosedLoop(m_ShooterWrist, 30));
+        NamedCommands.registerCommand("IntakeToGround", new IntakeWristClosedLoop(m_ShooterWrist, 3));
+        NamedCommands.registerCommand("IntakeToShooter", new IntakeWristClosedLoop(m_ShooterWrist, 180));
+
     }
+
 }
