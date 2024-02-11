@@ -192,16 +192,6 @@ public final class Constants {
     public static final int kShooterWristBack = 2;
   }
 
-  public static enum limitDirection {
-    FORWARD,
-    BACKWARD
-  }
-
-  public static enum WristLocation {
-    TOP,
-    BOTTOM
-  }
-
   public static final class ClimbConstants {
     public static final int kLeftTopCanID = 50;
     public static final int kLeftBottomCanID = 51;

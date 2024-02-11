@@ -12,13 +12,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IntakeWristConstants;
 import frc.robot.Constants.LimitSwitchConstants;
 import frc.robot.Constants.ShooterWristConstants;
-import frc.robot.Constants.WristLocation;
-import frc.robot.Constants.limitDirection;
 
 public class ShooterWrist extends SubsystemBase implements Wrist {
   /** Creates a new Wrist. */
