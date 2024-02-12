@@ -132,7 +132,7 @@ public class RobotContainer {
 
     new Trigger(()-> m_operatorController.getLeftY() > 0.15 || m_operatorController.getLeftY() < -0.15).whileTrue(
         new WristActuateOpenLoop(m_IntakeWrist, () -> {
-            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband));
+            System.out.println(-MathUtil.applyDeadband(m_operatorController.getLeftY() * 0.25, OIConstants.kDriveDeadband));
             return -MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
         }));
 
