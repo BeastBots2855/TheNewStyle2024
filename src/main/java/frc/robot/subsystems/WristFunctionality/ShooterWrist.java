@@ -27,15 +27,15 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
 
 
   public ShooterWrist() {
-    m_PidController = new PIDController(0.05,0,0);
-    m_PidController.enableContinuousInput(0, 360);
+    m_PidController = new PIDController(0.02,0,0);
+    //m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = 0;
     m_wristMotor = new CANSparkMax(ShooterWristConstants.ShooterWristCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_absoluteEncoder.setPositionConversionFactor(360);
     m_wristMotor.setIdleMode(IdleMode.kBrake);
     m_wristMotor.burnFlash();
-    this.m_ForwardLimitSwitch = new DigitalInput(LimitSwitchConstants.kIntakeWristBack);
+    this.m_ForwardLimitSwitch = new DigitalInput(LimitSwitchConstants.kShooterWristBack);
   }
 
   public void setMotorOutput(double output) {
@@ -59,18 +59,21 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
 
   public void disblePid(){
     m_isPidEnabled = false;
+    m_wristMotor.set(0);
   }
 
   public void runPid(){
     
-      
-      double output = m_PidController.calculate(m_absoluteEncoder.getPosition());
+      double angle = m_absoluteEncoder.getPosition();
+      angle = angle > 190 ? angle - 360 : angle;
+      double output = m_PidController.calculate(angle);
       if (!isTouchingLimitSwitch()){
         output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
         setMotorOutput(output);
       } else {
         setMotorOutput(0);
       }
+      System.out.println("angle: " + angle);
       System.out.println("Position: " + m_absoluteEncoder.getPosition());
       System.out.println("Target: " + m_PidController.getSetpoint());
       System.out.println("Error: "  );

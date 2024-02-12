@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.subsystems.WristFunctionality.Wrist;
 
 public class ShooterWristOpenLoop extends Command {
@@ -17,7 +18,7 @@ public class ShooterWristOpenLoop extends Command {
   public ShooterWristOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier) {
     this.m_wrist = m_wrist;
     this.m_SpeedSupplier = m_SpeedSupplier;
-    addRequirements((IntakeWrist)m_wrist);
+    addRequirements((ShooterWrist)m_wrist);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

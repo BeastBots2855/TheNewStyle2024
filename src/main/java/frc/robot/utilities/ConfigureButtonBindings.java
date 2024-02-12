@@ -100,19 +100,28 @@ public class ConfigureButtonBindings {
         
 
 
-    new Trigger(()-> m_operatorController.getAButton()).whileTrue(
-         new ShooterWristClosedLoop(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
+    // new Trigger(()-> m_operatorController.getAButton()).whileTrue(
+    //      new ShooterWristClosedLoop(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
-    //      new WristActuateClosedLoopPID(m_ShooterWrist, 131.60).alongWith(new PrintCommand("PIDEnabled"))); 
-    // new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
-    //     new WristActuateClosedLoopPID(m_IntakeWrist, 3).alongWith(new PrintCommand("PIDEnabled"))); 
-    // new Trigger(()-> m_operatorController.getPOV() == 90).whileTrue(
-    //     new WristActuateClosedLoopPID(m_IntakeWrist, 60).alongWith(new PrintCommand("PIDEnabled"))); 
+    //      new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getPOV() == 180).whileTrue(
-    //     new WristActuateClosedLoopPID(m_IntakeWrist, 90).alongWith(new PrintCommand("PIDEnabled"))); 
-    // new Trigger(()-> m_operatorController.getPOV() == 270).whileTrue(
-    //     new WristActuateClosedLoopPID(m_IntakeWrist, 175).alongWith(new PrintCommand("PIDEnabled")));
+    //     new IntakeWristClosedLoop(m_IntakeWrist, 3).alongWith(new PrintCommand("PIDEnabled"))); 
+    //   new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
+    //     new IntakeWristClosedLoop(m_IntakeWrist, 175).alongWith(new PrintCommand("PIDEnabled")));
 
+    new Trigger(()-> m_operatorController.getXButton()).whileTrue(
+         new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
+    new Trigger(()-> m_operatorController.getYButton()).whileTrue(
+         new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 175)));    
+    new Trigger(()-> m_operatorController.getBButton()).whileTrue(
+         new ShooterWristClosedLoop(m_ShooterWrist, 30).alongWith(new PrintCommand("PIDEnabled"))
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 175))); 
+    
+
+    
+//131.60
 
     
     // new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> m_driverController.getRightTriggerAxis()));
@@ -127,11 +136,11 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));
         NamedCommands.registerCommand("IntakeConsume", new IntakeConsume(m_Intake, ()-> 0.5));
         NamedCommands.registerCommand("IntakeDump", new IntakeDump(m_Intake));
-        NamedCommands.registerCommand("ShooterRecieve", new IntakeWristClosedLoop(m_ShooterWrist, 131.6));
-        NamedCommands.registerCommand("ShooterToSpeaker", new IntakeWristClosedLoop(m_ShooterWrist, 131.6));
-        NamedCommands.registerCommand("ShooterToAmp", new IntakeWristClosedLoop(m_ShooterWrist, 30));
-        NamedCommands.registerCommand("IntakeToGround", new IntakeWristClosedLoop(m_ShooterWrist, 3));
-        NamedCommands.registerCommand("IntakeToShooter", new IntakeWristClosedLoop(m_ShooterWrist, 180));
+        NamedCommands.registerCommand("ShooterRecieve", new ShooterWristClosedLoop(m_ShooterWrist, 131.6));
+        NamedCommands.registerCommand("ShooterToSpeaker", new ShooterWristClosedLoop(m_ShooterWrist, 131.6));
+        NamedCommands.registerCommand("ShooterToAmp", new ShooterWristClosedLoop(m_ShooterWrist, 30));
+        NamedCommands.registerCommand("IntakeToGround", new IntakeWristClosedLoop(m_IntakeWrist, 3));
+        NamedCommands.registerCommand("IntakeToShooter", new IntakeWristClosedLoop(m_IntakeWrist, 180));
 
     }
 

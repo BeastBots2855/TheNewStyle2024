@@ -27,8 +27,8 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
 
 
   public IntakeWrist() {
-    m_PidController = new PIDController(0.01, 0, 0.001);
-    m_PidController.enableContinuousInput(0, 360);
+    m_PidController = new PIDController(0.01, 0, 0.0);
+    // m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = 0.03;
     m_wristMotor = new CANSparkMax(IntakeWristConstants.IntakeWristCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
@@ -58,18 +58,24 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
 
   public void disblePid(){
     m_isPidEnabled = false;
+    m_wristMotor.set(0);
   }
 
   public void runPid(){
-    
-      
-      double output = -m_PidController.calculate(m_absoluteEncoder.getPosition());
+  
+      double angle = m_absoluteEncoder.getPosition();
+      if (angle > 270)
+        angle = angle - 360;
+      double output = m_PidController.calculate(angle);
       if (!isTouchingLimitSwitch()){
         output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
+        // output = m_PidController.getPositionError() > 180 && m_absoluteEncoder.getPosition() > 270 ? -output : output;
         setMotorOutput(output);
       } else {
         setMotorOutput(0);
       }
+
+
       System.out.println("Position: " + m_absoluteEncoder.getPosition());
       System.out.println("Target: " + m_PidController.getSetpoint());
       System.out.println("Error: "  );
