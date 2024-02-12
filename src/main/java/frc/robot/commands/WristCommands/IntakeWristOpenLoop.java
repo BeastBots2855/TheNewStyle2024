@@ -2,38 +2,41 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.IndexCommands;
+package frc.robot.commands.WristCommands;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.Wrist;
 
-public class IndexConsume extends Command {
-  /** Creates a new IndexConsume. */
-  private final Indexer m_Indexer;
-  public IndexConsume(Indexer m_Indexer) {
+public class IntakeWristOpenLoop extends Command {
+  /** Creates a new WristActuate. */
+  private final Wrist m_wrist;
+  private final Supplier<Double> m_SpeedSupplier;
+  public IntakeWristOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier) {
+    this.m_wrist = m_wrist;
+    this.m_SpeedSupplier = m_SpeedSupplier;
+    addRequirements((IntakeWrist)m_wrist);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_Indexer = m_Indexer;
-    addRequirements(m_Indexer);
-
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+      this.m_wrist.disblePid();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Indexer.setMotorOutput(ShooterConstants.kMotorConsumeSpeed);
+    m_wrist.setMotorOutput(m_SpeedSupplier.get() * 0.25);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Indexer.setMotorOutput(0);
+    m_wrist.setMotorOutput(0);
   }
 
   // Returns true when the command should end.

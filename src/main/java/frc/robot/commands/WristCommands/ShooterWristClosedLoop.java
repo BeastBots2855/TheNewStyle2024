@@ -2,43 +2,39 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ShooterCommands;
-
-import java.util.function.Supplier;
+package frc.robot.commands.WristCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.subsystems.WristFunctionality.Wrist;
 
-public class ShooterEject extends Command {
-  /** Creates a new ShooterEject. */
+public class ShooterWristClosedLoop extends Command {
+  /** Creates a new WristActuateClosedLoopPID. */
+  private final Wrist m_wrist;
+  private final double m_setpoint;
 
-private final Shooter m_shooter; 
-  private final Supplier<Double> m_SpeedSupplier;
-  public ShooterEject(Shooter m_shooter, Supplier<Double> m_SpeedSupplier) {
+  public ShooterWristClosedLoop(Wrist m_wrist, double m_setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_SpeedSupplier = m_SpeedSupplier;
-    this.m_shooter = m_shooter;
-    addRequirements(m_shooter);
+      this.m_wrist = m_wrist;
+      this.m_setpoint = m_setpoint;
+      addRequirements((ShooterWrist)m_wrist);
+      
   }
-
-
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+      m_wrist.setSetpoint(m_setpoint);
+      this.m_wrist.enablePid();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_shooter.setMotorOutput(m_SpeedSupplier.get());
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.setMotorOutput(0);
   }
 
   // Returns true when the command should end.

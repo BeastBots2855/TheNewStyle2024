@@ -4,39 +4,37 @@
 
 package frc.robot.commands.WristCommands;
 
-import java.util.function.Supplier;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.Wrist;
 
-public class WristActuateOpenLoop extends Command {
-  /** Creates a new WristActuate. */
+public class IntakeWristClosedLoop extends Command {
+  /** Creates a new WristActuateClosedLoopPID. */
   private final Wrist m_wrist;
-  private final Supplier<Double> m_SpeedSupplier;
-  public WristActuateOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier) {
-    this.m_wrist = m_wrist;
-    this.m_SpeedSupplier = m_SpeedSupplier;
-    addRequirements(m_wrist);
+  private final double m_setpoint;
+
+  public IntakeWristClosedLoop(Wrist m_wrist, double m_setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
+      this.m_wrist = m_wrist;
+      this.m_setpoint = m_setpoint;
+      addRequirements((IntakeWrist)m_wrist);
+      
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      this.m_wrist.disblePid();
+      m_wrist.setSetpoint(m_setpoint);
+      this.m_wrist.enablePid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_wrist.setMotorOutput(m_SpeedSupplier.get());
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_wrist.setMotorOutput(0);
   }
 
   // Returns true when the command should end.

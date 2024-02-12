@@ -1,21 +1,19 @@
-package frc.robot.subsystems;
+package frc.robot.utilities;
 
 import java.util.HashMap;
-import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utilities.FeedForwardCharacterization;
 import frc.robot.utilities.FeedForwardCharacterization.FeedForwardCharacterizationData;
+import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
+import frc.robot.commands.ShooterCommands.ShooterFire;
+import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Autos {
@@ -52,10 +50,11 @@ public class Autos {
     }
  
 
-    public Command getAutonomousCommand() {
+    public Command getAutoCommand() {
         String auto = autoChooser.getSelected();
         return m_commandMap.get(auto);
-
-         
     }
+
+
+
 }
