@@ -31,10 +31,10 @@ public class Autos {
         autoChooser = new SendableChooser<>();
         m_commandMap = new HashMap<>();
         
-        autoChooser.addOption(null, null);
+        // autoChooser.addOption(null, null);
         autoChooser.addOption("Drivetrain Characterization", "DrivetrainCharacterization");
-        autoChooser.addOption("Shooter Characterization", "ShooterCharacterization");
-        autoChooser.addOption("MoveBack", "MoveBack");
+        // autoChooser.addOption("Shooter Characterization", "ShooterCharacterization");
+        // autoChooser.addOption("MoveBack", "MoveBack");
         m_commandMap.put("DrivetrainCharacterization", 
             new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
             m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));
