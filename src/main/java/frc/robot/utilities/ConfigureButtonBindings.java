@@ -9,12 +9,18 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
@@ -118,14 +124,39 @@ public class ConfigureButtonBindings {
     new Trigger(()-> m_operatorController.getBButton()).whileTrue(
          new ShooterWristClosedLoop(m_ShooterWrist, 30).alongWith(new PrintCommand("PIDEnabled"))
          .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 175))); 
+    new Trigger(()-> m_operatorController.getAButton()).whileTrue(
+         new ShooterWristClosedLoop(m_ShooterWrist, 30).alongWith(new PrintCommand("PIDEnabled"))
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
+    
+    new Trigger(()->m_operatorController.getAButton()).whileTrue(new IndexShooterToIntake(m_Indexer));
+
+
+
+
+
+    // new Trigger(()-> m_IntakeWrist.isTouchingLimitSwitch()).and(()-> m_Indexer.getIsPrimed()).onTrue(
+    //     new IntakeWristClosedLoop(m_IntakeWrist, 175).alongWith(
+    //     new ShooterWristClosedLoop(m_ShooterWrist, 140)).andThen(
+    //         new WaitCommand(2)).andThen(
+    //         new ConditionalCommand(
+    //             new ParallelCommandGroup(
+    //                 new IntakeDump(m_Intake),
+    //                 new IndexIntakeToShooter(m_Indexer)
+    //                 ), 
+    //             new Command() {}, 
+    //             ()-> m_Indexer.getIsPrimed())
+    //         )
+    // );
+
+    // new Trigger(()-> m_IntakeWrist.isTouchingLimitSwitch()).onTrue(new RunCommand(()->m_Indexer.setPrimedForNote()));
     
 
     
 //131.60
 
     
-    // new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> m_driverController.getRightTriggerAxis()));
-    // new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_climb, ()-> -m_driverController.getLeftTriggerAxis()));
+    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis()));
+    new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis()));
 
     
         

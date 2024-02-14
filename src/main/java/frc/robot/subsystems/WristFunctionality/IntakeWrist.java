@@ -97,6 +97,7 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
       if(m_isPidEnabled) {
           runPid();
       }
+      System.out.println(isTouchingLimitSwitch());
    }
 
 
