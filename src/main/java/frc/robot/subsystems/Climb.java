@@ -27,8 +27,8 @@ public class Climb extends SubsystemBase {
   public void setMotorOutput(double output){
     m_LeftClimbMotorTop.set(TalonSRXControlMode.PercentOutput, -output);
     m_LeftClimbMotorBottom.set(TalonSRXControlMode.PercentOutput, -output);
-    m_RightClimbMotorTop.set(TalonSRXControlMode.PercentOutput, output);
-    m_RightClimbMotorBottom.set(TalonSRXControlMode.PercentOutput, output);
+    m_RightClimbMotorTop.set(TalonSRXControlMode.PercentOutput, output*0.85);
+    m_RightClimbMotorBottom.set(TalonSRXControlMode.PercentOutput, output*0.85);
   }
 
   @Override
