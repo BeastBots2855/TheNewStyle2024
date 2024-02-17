@@ -22,12 +22,15 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
   private final CANSparkMax m_wristMotor;
   private final AbsoluteEncoder m_absoluteEncoder;
   private final PIDController m_PidController;
+  private final double m_PidTolerance;
   private boolean m_isPidEnabled = false;
   private final DigitalInput m_ForwardLimitSwitch;
 
 
+
   public ShooterWrist() {
     m_PidController = new PIDController(0.02,0,0);
+    m_PidTolerance = 2;
     //m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = 0;
     m_wristMotor = new CANSparkMax(ShooterWristConstants.ShooterWristCANID, MotorType.kBrushless);
@@ -65,7 +68,7 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
   public boolean isPidEnabled(){
     return m_isPidEnabled;
   }
-  
+
   public void runPid(){
     
       double angle = m_absoluteEncoder.getPosition();
@@ -82,6 +85,10 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
       // System.out.println("Target: " + m_PidController.getSetpoint());
       // System.out.println("Error: "  );
       // System.out.println("Output: " + output);
+  }
+
+  public boolean isWithinPidTolerance(){
+    return Math.abs(m_PidController.getSetpoint() - m_absoluteEncoder.getPosition()) < m_PidTolerance;
   }
 
 

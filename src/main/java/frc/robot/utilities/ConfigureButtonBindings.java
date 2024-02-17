@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimberClimb;
+import frc.robot.commands.SetIntakeToShooterPosition;
+import frc.robot.commands.CommandGroups.SetIntakeInShooterAmp;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
@@ -106,7 +108,7 @@ public class ConfigureButtonBindings {
 
 
     // new Trigger(()-> m_operatorController.getAButton()).whileTrue(
-    //      new ShooterWristClosedLoop(m_ShooterWrist, 30.0).alongWith(new PrintCommand("PIDEnabled"))); 
+    //      new ShooterWristClosedLoop(m_ShooterWrist, 45.0).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getBButton()).whileTrue(
     //      new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))); 
     // new Trigger(()-> m_operatorController.getPOV() == 180).whileTrue(
@@ -114,14 +116,12 @@ public class ConfigureButtonBindings {
     //   new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
     //     new IntakeWristClosedLoop(m_IntakeWrist, 180).alongWith(new PrintCommand("PIDEnabled")));
 
-    new Trigger(()-> m_operatorController.getXButton()).whileTrue(
-         new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))
-         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
-    new Trigger(()-> m_operatorController.getYButton()).whileTrue(
-         new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))
-         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 180)));    
+    new Trigger(()-> m_operatorController.getXButton()).whileTrue(new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
+
+    new Trigger(()-> m_operatorController.getYButton()).whileTrue(new SetIntakeToShooterPosition(m_ShooterWrist, m_IntakeWrist));
+
     new Trigger(()-> m_operatorController.getBButton()).whileTrue(
-         new ShooterWristClosedLoop(m_ShooterWrist, 30).alongWith(new PrintCommand("PIDEnabled"))
+         new ShooterWristClosedLoop(m_ShooterWrist, 45).alongWith(new PrintCommand("PIDEnabled"))
          .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 180))); 
     new Trigger(()-> m_operatorController.getAButton()).whileTrue(
          new ShooterWristClosedLoop(m_ShooterWrist, 131).alongWith(new PrintCommand("PIDEnabled"))
@@ -130,11 +130,9 @@ public class ConfigureButtonBindings {
         new ShooterWristClosedLoop(m_ShooterWrist, 90).alongWith(new PrintCommand("PIDEnabled"))
         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
         
-    
-    new Trigger(()->m_operatorController.getAButton()).whileTrue(new IndexShooterToIntake(m_Indexer));
-
     new Trigger(()-> m_operatorController.getPOV(0) == 0)
         .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(-1), m_Indexer))
+        .whileTrue(new RunCommand(()->m_Shooter.setMotorOutput(-1), m_Shooter))
         .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
 
     new Trigger(()-> m_operatorController.getPOV(0) == 180)
@@ -164,23 +162,20 @@ public class ConfigureButtonBindings {
     //             m_driverController.setRumble(RumbleType.kBothRumble, 0);})));
 
     new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(
-        new ParallelDeadlineGroup(
-            new WaitCommand(1.4),
+        new ParallelCommandGroup(
             new IntakeWristClosedLoop(m_IntakeWrist, 180),
             new ShooterWristClosedLoop(m_ShooterWrist, 140))
+        .until(()-> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
         .andThen(
             new ParallelCommandGroup(
                 new InstantCommand(()-> m_IntakeWrist.setMotorOutput(0), m_IntakeWrist),
                 new InstantCommand(()-> m_ShooterWrist.setMotorOutput(0), m_ShooterWrist))
             ).andThen(
             new ParallelDeadlineGroup(
-                new WaitCommand(0.5),
+                new WaitCommand(0.38),
                 new IntakeDump(m_Intake),
                 new IndexIntakeToShooter(m_Indexer))
-            ).andThen(
-        new RunCommand(()-> {
-            m_operatorController.setRumble(RumbleType.kBothRumble, 1);
-            m_driverController.setRumble(RumbleType.kBothRumble, 1);})));
+            ));
     
 //131.60
 
@@ -199,7 +194,7 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("IntakeDump", new IntakeDump(m_Intake));
         NamedCommands.registerCommand("ShooterRecieve", new ShooterWristClosedLoop(m_ShooterWrist, 131.6));
         NamedCommands.registerCommand("ShooterToSpeaker", new ShooterWristClosedLoop(m_ShooterWrist, 131.6));
-        NamedCommands.registerCommand("ShooterToAmp", new ShooterWristClosedLoop(m_ShooterWrist, 30));
+        NamedCommands.registerCommand("ShooterToAmp", new ShooterWristClosedLoop(m_ShooterWrist, 45));
         NamedCommands.registerCommand("IntakeToGround", new IntakeWristClosedLoop(m_IntakeWrist, 3));
         NamedCommands.registerCommand("IntakeToShooter", new IntakeWristClosedLoop(m_IntakeWrist, 180));
 
