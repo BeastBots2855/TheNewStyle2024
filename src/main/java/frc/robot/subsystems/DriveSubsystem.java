@@ -273,6 +273,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getAngle();
   }
 
+  public double getPitch() {
+    return m_gyro.getPitch();
+  }
+
   
   public double getLoopedHeading() {
     double angle = m_gyro.getAngle();

@@ -53,6 +53,8 @@ public class RobotContainer {
     m_telopOutput.addBoolean("IntakeButtonIsPressed", ()-> m_IntakeWrist.isTouchingLimitSwitch());
     m_telopOutput.addBoolean("IndexerSwitchPressed", ()-> m_Indexer.isTouchingLimitSwitch());
     m_telopOutput.addBoolean("IndexerIsPrimed", ()-> m_Indexer.getIsPrimed());
+    m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
+
     new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake,
         m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
     
