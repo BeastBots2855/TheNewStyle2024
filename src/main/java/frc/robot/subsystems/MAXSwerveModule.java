@@ -156,7 +156,7 @@ public class MAXSwerveModule {
         new Rotation2d(m_turningEncoder.getPosition()));
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
-    m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0, m_simpleDriveFeedForward.calculate(optimizedDesiredState.speedMetersPerSecond));
+    m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity); //0, m_simpleDriveFeedForward.calculate(optimizedDesiredState.speedMetersPerSecond));
     m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
  
 
