@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -57,10 +58,10 @@ public class ConfigureButtonBindings {
    * {@link JoystickButton}.
    */
   
-    new JoystickButton(m_driverController, XboxController.Button.kA.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    // new JoystickButton(m_driverController, XboxController.Button.kA.value)
+    //     .whileTrue(new RunCommand(
+    //         () -> m_robotDrive.setX(),
+    //         m_robotDrive));
 
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new InstantCommand(
@@ -79,12 +80,10 @@ public class ConfigureButtonBindings {
             return MathUtil.applyDeadband(m_operatorController.getLeftY(), OIConstants.kDriveDeadband);
         }));
 
-    new Trigger(()-> m_operatorController.getRightBumper()).whileTrue(
-         new ShooterRescind(m_Shooter).alongWith(new IndexIntakeToShooter(m_Indexer)));  
+  
     
     new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
-        new ShooterFire(m_Shooter, m_operatorController::getRightTriggerAxis)
-        .alongWith(new IndexIntakeToShooter(m_Indexer)));
+        new ShooterFire(m_Shooter, m_operatorController::getRightTriggerAxis));
 
 
     new Trigger(()-> m_operatorController.getRightY() > 0.15 || m_operatorController.getRightY() < -0.15).whileTrue(
@@ -113,50 +112,81 @@ public class ConfigureButtonBindings {
     // new Trigger(()-> m_operatorController.getPOV() == 180).whileTrue(
     //     new IntakeWristClosedLoop(m_IntakeWrist, 3).alongWith(new PrintCommand("PIDEnabled"))); 
     //   new Trigger(()-> m_operatorController.getPOV() == 0).whileTrue(
-    //     new IntakeWristClosedLoop(m_IntakeWrist, 175).alongWith(new PrintCommand("PIDEnabled")));
+    //     new IntakeWristClosedLoop(m_IntakeWrist, 180).alongWith(new PrintCommand("PIDEnabled")));
 
     new Trigger(()-> m_operatorController.getXButton()).whileTrue(
          new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))
          .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
     new Trigger(()-> m_operatorController.getYButton()).whileTrue(
          new ShooterWristClosedLoop(m_ShooterWrist, 140).alongWith(new PrintCommand("PIDEnabled"))
-         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 175)));    
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 180)));    
     new Trigger(()-> m_operatorController.getBButton()).whileTrue(
          new ShooterWristClosedLoop(m_ShooterWrist, 30).alongWith(new PrintCommand("PIDEnabled"))
-         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 175))); 
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 180))); 
     new Trigger(()-> m_operatorController.getAButton()).whileTrue(
-         new ShooterWristClosedLoop(m_ShooterWrist, 30).alongWith(new PrintCommand("PIDEnabled"))
-         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
+         new ShooterWristClosedLoop(m_ShooterWrist, 131).alongWith(new PrintCommand("PIDEnabled"))
+         .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 180))); 
+    new Trigger(()-> m_operatorController.getStartButton()).whileTrue(
+        new ShooterWristClosedLoop(m_ShooterWrist, 90).alongWith(new PrintCommand("PIDEnabled"))
+        .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, 3))); 
+        
     
     new Trigger(()->m_operatorController.getAButton()).whileTrue(new IndexShooterToIntake(m_Indexer));
 
+    new Trigger(()-> m_operatorController.getPOV(0) == 0)
+        .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(-1), m_Indexer))
+        .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
+
+    new Trigger(()-> m_operatorController.getPOV(0) == 180)
+        .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(1), m_Indexer).alongWith(
+            new ShooterRescind(m_Shooter)))
+        .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
+
+    new Trigger(()-> m_operatorController.getRightBumper())
+        .whileTrue(new IndexIntakeToShooter(m_Indexer));
 
 
 
 
-    // new Trigger(()-> m_IntakeWrist.isTouchingLimitSwitch()).and(()-> m_Indexer.getIsPrimed()).onTrue(
-    //     new IntakeWristClosedLoop(m_IntakeWrist, 175).alongWith(
-    //     new ShooterWristClosedLoop(m_ShooterWrist, 140)).andThen(
-    //         new WaitCommand(2)).andThen(
-    //         new ConditionalCommand(
-    //             new ParallelCommandGroup(
-    //                 new IntakeDump(m_Intake),
-    //                 new IndexIntakeToShooter(m_Indexer)
-    //                 ), 
-    //             new Command() {}, 
-    //             ()-> m_Indexer.getIsPrimed())
-    //         )
-    // );
 
-    // new Trigger(()-> m_IntakeWrist.isTouchingLimitSwitch()).onTrue(new RunCommand(()->m_Indexer.setPrimedForNote()));
-    
 
+
+
+    //new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(new RunCommand(()->m_Indexer.setPrimedForNote()));
+    // new Trigger(()-> m_Intake.isTouchingLimitSwitch())
+    //     .onTrue(new SequentialCommandGroup(
+    //         new RunCommand(()-> {
+    //             m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+    //             m_driverController.setRumble(RumbleType.kBothRumble, 1);}), 
+    //         new WaitCommand(2),
+    //         new RunCommand(()-> {
+    //             m_operatorController.setRumble(RumbleType.kBothRumble, 0);
+    //             m_driverController.setRumble(RumbleType.kBothRumble, 0);})));
+
+    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(
+        new ParallelDeadlineGroup(
+            new WaitCommand(1.4),
+            new IntakeWristClosedLoop(m_IntakeWrist, 180),
+            new ShooterWristClosedLoop(m_ShooterWrist, 140))
+        .andThen(
+            new ParallelCommandGroup(
+                new InstantCommand(()-> m_IntakeWrist.setMotorOutput(0), m_IntakeWrist),
+                new InstantCommand(()-> m_ShooterWrist.setMotorOutput(0), m_ShooterWrist))
+            ).andThen(
+            new ParallelDeadlineGroup(
+                new WaitCommand(0.5),
+                new IntakeDump(m_Intake),
+                new IndexIntakeToShooter(m_Indexer))
+            ).andThen(
+        new RunCommand(()-> {
+            m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+            m_driverController.setRumble(RumbleType.kBothRumble, 1);})));
     
 //131.60
 
     
-    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis()));
-    new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis()));
+    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis(), m_robotDrive::getPitch));
+    new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
 
     
         

@@ -18,7 +18,7 @@ public interface Wrist{
 
   public double getAbsoluteEncoderValue();
 
-  abstract boolean isTouchingLimitSwitch();
+
   
 
 

@@ -61,6 +61,10 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
     m_wristMotor.set(0);
   }
 
+  public boolean isPidEnabled(){
+    return m_isPidEnabled;
+  }
+
   public void runPid(){
   
       double angle = m_absoluteEncoder.getPosition();
@@ -76,10 +80,10 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
       }
 
 
-      System.out.println("Position: " + m_absoluteEncoder.getPosition());
-      System.out.println("Target: " + m_PidController.getSetpoint());
-      System.out.println("Error: "  );
-      System.out.println("Output: " + output);
+      // System.out.println("Position: " + m_absoluteEncoder.getPosition());
+      // System.out.println("Target: " + m_PidController.getSetpoint());
+      // System.out.println("Error: "  );
+      // System.out.println("Output: " + output);
   }
 
 
@@ -97,7 +101,7 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
       if(m_isPidEnabled) {
           runPid();
       }
-      System.out.println(isTouchingLimitSwitch());
+      
    }
 
 

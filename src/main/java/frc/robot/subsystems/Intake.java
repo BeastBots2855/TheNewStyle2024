@@ -31,13 +31,15 @@ public class Intake extends SubsystemBase {
       m_IntakeMotor.set(output);
     }
       
-    
-    // System.out.println(m_IntakeButton.get() + "  " + output);
-
+   
   }
 
   public void disableMotor(){
     m_IntakeMotor.set(0);
+  }
+
+  public boolean isTouchingLimitSwitch(){
+    return !m_IntakeButton.get();
   }
 
   public boolean shouldRumble(){

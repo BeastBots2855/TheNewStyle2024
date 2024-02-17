@@ -33,6 +33,7 @@ public class Indexer extends SubsystemBase{
 
   public boolean getIsPrimed(){
     return m_IsPrimedForNewNote;
+    
   }
 
   public void setPrimedForNote(){
