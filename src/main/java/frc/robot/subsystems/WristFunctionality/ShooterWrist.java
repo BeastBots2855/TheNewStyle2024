@@ -86,7 +86,7 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
   }
   
   public boolean isTouchingLimitSwitch(){
-    return !m_ForwardLimitSwitch.get();
+    return false;
   }
 
 

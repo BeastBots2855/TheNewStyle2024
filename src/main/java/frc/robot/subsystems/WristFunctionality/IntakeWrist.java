@@ -88,7 +88,7 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
   }
   
   public boolean isTouchingLimitSwitch(){
-    return !m_BackwardLimitSwitch.get();
+    return false;
   }
 
 
