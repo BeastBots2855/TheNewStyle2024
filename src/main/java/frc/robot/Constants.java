@@ -182,7 +182,31 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+
+  }
+
+  public static final class LimitSwitchConstants {
+    public static final int kIntakeButton = 3;
+    public static final int kIntakeWristBack = 8;
+    public static final int kShooterWristBack = 9;
+    public static final int kIndexerSwitch = 2;
+  }
+
+  public static final class ClimbConstants {
+    public static final int kLeftTopCanID = 50;
+    public static final int kLeftBottomCanID = 51;
+    public static final int kRightTopCanID = 52;
+    public static final int kRightBottomCanID = 53;
+  }
+
+  public static final class PIDSetPoint{
+    public static final double intakeGroundPickup = 0;
+    public static final double intakePassOff = 180;
+    public static final double shooterAmp = 30;
+    public static final double shooterSpeaker = 131;
+
   }
 
 
 }
+

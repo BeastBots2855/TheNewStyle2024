@@ -2,24 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-
-import java.util.function.Supplier;
+package frc.robot.commands.IndexCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Indexer;
 
-public class ShooterConsume extends Command {
-  /** Creates a new IntakeConsume. */
-  private final Shooter m_Shooter;
-  public ShooterConsume(Shooter m_Shooter) {
-    this.m_Shooter = m_Shooter;
-    addRequirements(m_Shooter);
-    
+public class IndexShooterToIntake extends Command {
+  /** Creates a new IndexConsume. */
+  private final Indexer m_Indexer;
+  public IndexShooterToIntake(Indexer m_Indexer) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.m_Indexer = m_Indexer;
+    addRequirements(m_Indexer);
+
   }
 
   // Called when the command is initially scheduled.
@@ -29,14 +25,13 @@ public class ShooterConsume extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.setMotorOutput(ShooterConstants.kMotorConsumeSpeed);
-
+    m_Indexer.setMotorOutput(ShooterConstants.kMotorConsumeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Shooter.setMotorOutput(0);
+    m_Indexer.setMotorOutput(0);
   }
 
   // Returns true when the command should end.
