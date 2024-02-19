@@ -3,7 +3,6 @@ package frc.robot.utilities;
 import java.util.HashMap;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -11,9 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utilities.FeedForwardCharacterization.FeedForwardCharacterizationData;
-import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
-import frc.robot.commands.ShooterCommands.ShooterFire;
-import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Autos {

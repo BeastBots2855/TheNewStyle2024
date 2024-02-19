@@ -2,13 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.CommandGroups;
+package frc.robot.commands.MechanismSequences;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.PIDSetPoint;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
@@ -28,8 +29,8 @@ public class GroundNoteToIndexer extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelCommandGroup(
-            new IntakeWristClosedLoop(m_IntakeWrist, 180),
-            new ShooterWristClosedLoop(m_ShooterWrist, 140))
+            new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakePassOff),
+            new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterPassOff))
         .until(()-> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
         .andThen(
             new ParallelCommandGroup(

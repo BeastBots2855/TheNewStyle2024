@@ -200,10 +200,12 @@ public final class Constants {
   }
 
   public static final class PIDSetPoint{
-    public static final double intakeGroundPickup = 0;
-    public static final double intakePassOff = 180;
-    public static final double shooterAmp = 30;
-    public static final double shooterSpeaker = 131;
+    public static final double kIntakeGroundPickup = 3;
+    public static final double kIntakePassOff = 180;
+    public static final double kShooterPassOff = 140;
+    public static final double kShooterAmp = 45;
+    public static final double kShooterSpeaker = 131;
+    public static final double kShooterClimb = 90;
 
   }
 
