@@ -6,7 +6,7 @@ package frc.robot.commands.ShooterCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.Subsystems.Shooter;
 
 public class ShooterRescind extends Command {
   /** Creates a new IntakeConsume. */

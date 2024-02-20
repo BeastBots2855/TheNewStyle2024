@@ -6,7 +6,7 @@ package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.Intake;
+import frc.robot.Subsystems.Intake;
 
 public class IntakeDump extends Command {
   /** Creates a new IntakeConsume. */

@@ -5,8 +5,8 @@
 package frc.robot.commands.WristCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.subsystems.WristFunctionality.Wrist;
+import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.Subsystems.WristFunctionality.Wrist;
 
 public class IntakeWristClosedLoop extends Command {
   /** Creates a new WristActuateClosedLoopPID. */
