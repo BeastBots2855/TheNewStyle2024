@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.WristCommands;
+package frc.robot.Commands.WristCommands;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.subsystems.WristFunctionality.Wrist;
+import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.Subsystems.WristFunctionality.Wrist;
 
 public class IntakeWristOpenLoop extends Command {
   /** Creates a new WristActuate. */
