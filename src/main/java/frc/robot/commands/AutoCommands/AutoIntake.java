@@ -2,25 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.MechanismSequences;
+package frc.robot.Commands.AutoCommands;
 
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Commands.WristCommands.IntakeWristClosedLoop;
-import frc.robot.Commands.WristCommands.ShooterWristClosedLoop;
-import frc.robot.Constants.PIDSetPoint;
+import frc.robot.Commands.IntakeCommands.IntakeConsume;
+import frc.robot.Commands.MechanismSequences.GroundNoteToIndexer;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SetClimbPosition extends SequentialCommandGroup {
-  /** Creates a new SetClimbPosition. */
-  public SetClimbPosition(ShooterWrist m_ShooterWrist, IntakeWrist m_IntakeWrist) {
+public class AutoIntake extends SequentialCommandGroup {
+  /** Creates a new IntakeUntillIn. */
+  public AutoIntake(IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Intake m_Intake, Indexer m_Indexer) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(  new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterClimb).alongWith(new PrintCommand("PIDEnabled"))
-        .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakeGroundPickup)));
+    addCommands(
+      new IntakeConsume(m_Intake, ()-> 0.5).until(()->m_Intake.isTouchingLimitSwitch()).andThen(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer)));
   }
 }

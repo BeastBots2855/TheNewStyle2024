@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.5868974814872714,
-        "y": 4.523190155503746
+        "x": 2.777811351687105,
+        "y": 4.346961967626977
       },
       "prevControl": {
-        "x": 2.263812470379861,
-        "y": 4.978446307518733
+        "x": 2.4547263405796946,
+        "y": 4.802218119641964
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,59 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "StopFlyWheel",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterStop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "PrepArrangement",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeGroundShooterIn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.65,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6015831638103353,
-        "y": 6.535128633763529
+        "x": 2.6750115754256556,
+        "y": 6.652614092348042
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.513469069871951,
-        "y": 5.830215882256452
+        "x": 2.5868974814872714,
+        "y": 5.947701340840965
       },
       "isLocked": false,
       "linkedName": null
@@ -30,7 +30,65 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PrepShooter",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterFireFast"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "PrepArangement",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeInShooterIn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fire",
+      "waypointRelativePos": 0.85,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.0
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IndexIntakeToShooter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

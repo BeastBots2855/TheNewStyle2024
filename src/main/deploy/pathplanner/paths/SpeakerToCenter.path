@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 2.3959836112874378,
+        "x": 2.5868974814872714,
         "y": 5.565873600441298
       },
       "prevControl": {
-        "x": 1.3959836112874378,
+        "x": 1.5868974814872714,
         "y": 5.565873600441298
       },
       "nextControl": null,
@@ -32,22 +32,50 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "PrepArrangement",
       "waypointRelativePos": 0.0,
       "command": {
-        "type": "deadline",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "IntakeConsume"
+                "name": "SetIntakeGroundShooterIn"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopFlyWheel",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
-              "type": "wait",
+              "type": "named",
               "data": {
-                "waitTime": 2.0
+                "name": "ShooterStop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.35,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoIntake"
               }
             }
           ]
