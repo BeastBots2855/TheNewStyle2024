@@ -7,17 +7,18 @@ package frc.robot.commands.MechanismSequences;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.PIDSetPoint;
-import frc.robot.Subsystems.Indexer;
-import frc.robot.Subsystems.Intake;
-import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.Subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,16 +32,13 @@ public class GroundNoteToIndexer extends SequentialCommandGroup {
       new ParallelCommandGroup(
             new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakePassOff),
             new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterPassOff))
-        .until(()-> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
-        .andThen(
-            new ParallelCommandGroup(
-                new InstantCommand(()-> m_IntakeWrist.setMotorOutput(0), m_IntakeWrist),
-                new InstantCommand(()-> m_ShooterWrist.setMotorOutput(0), m_ShooterWrist))
-            ).andThen(
+      .until(()-> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
+      .andThen(new PrintCommand("stuff")).andThen(
             new ParallelDeadlineGroup(
                 new WaitCommand(0.38),
                 new IntakeDump(m_Intake),
                 new IndexIntakeToShooter(m_Indexer))
             ));
+            
   }
 }

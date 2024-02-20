@@ -7,10 +7,10 @@ package frc.robot.commands.MechanismSequences;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.PIDSetPoint;
-import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.Subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

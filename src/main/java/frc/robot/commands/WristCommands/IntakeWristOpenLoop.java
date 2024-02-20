@@ -7,8 +7,8 @@ package frc.robot.commands.WristCommands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.Subsystems.WristFunctionality.Wrist;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.Wrist;
 
 public class IntakeWristOpenLoop extends Command {
   /** Creates a new WristActuate. */

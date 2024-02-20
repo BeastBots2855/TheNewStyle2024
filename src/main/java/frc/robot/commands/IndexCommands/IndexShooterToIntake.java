@@ -6,7 +6,7 @@ package frc.robot.commands.IndexCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Subsystems.Indexer;
+import frc.robot.subsystems.Indexer;
 
 public class IndexShooterToIntake extends Command {
   /** Creates a new IndexConsume. */

@@ -14,13 +14,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Subsystems.Climb;
-import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Subsystems.Indexer;
-import frc.robot.Subsystems.Intake;
-import frc.robot.Subsystems.Shooter;
-import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.Subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
@@ -38,6 +31,13 @@ import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
 import frc.robot.commands.WristCommands.ShooterWristOpenLoop;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 
 /** Add your docs here. */
 public class ConfigureButtonBindings {
@@ -127,6 +127,8 @@ public class ConfigureButtonBindings {
 
     //Non-Driver Controlled Actions
         new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
+
+        m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
         
 
     //The Forsaken One   

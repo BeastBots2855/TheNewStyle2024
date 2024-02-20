@@ -6,7 +6,7 @@ package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.Subsystems.Intake;
+import frc.robot.subsystems.Intake;
 
 public class IntakeDump extends Command {
   /** Creates a new IntakeConsume. */
@@ -25,7 +25,7 @@ public class IntakeDump extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Intake.setMotorOutput(-IntakeConstants.motorEjectSpeed);
+    m_Intake.setMotorOutput(IntakeConstants.motorEjectSpeed);
   }
 
   // Called once the command ends or is interrupted.

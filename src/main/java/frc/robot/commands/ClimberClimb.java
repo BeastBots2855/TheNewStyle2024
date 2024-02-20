@@ -7,7 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.Climb;
+import frc.robot.subsystems.Climb;
 
 public class ClimberClimb extends Command {
   /** Creates a new ClimberClimb. */
