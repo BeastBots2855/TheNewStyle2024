@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.MechanismSequences;
+package frc.robot.Commands.MechanismSequences;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Commands.IndexCommands.IndexIntakeToShooter;
+import frc.robot.Commands.IntakeCommands.IntakeDump;
+import frc.robot.Commands.WristCommands.IntakeWristClosedLoop;
+import frc.robot.Commands.WristCommands.ShooterWristClosedLoop;
 import frc.robot.Constants.PIDSetPoint;
-import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
-import frc.robot.commands.IntakeCommands.IntakeDump;
-import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
-import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;

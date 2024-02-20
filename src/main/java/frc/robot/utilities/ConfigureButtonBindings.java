@@ -13,24 +13,25 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.ClimberClimb;
+import frc.robot.Commands.AutoCommands.AutoIntake;
+import frc.robot.Commands.IndexCommands.IndexIntakeToShooter;
+import frc.robot.Commands.IndexCommands.IndexShooterToIntake;
+import frc.robot.Commands.IntakeCommands.IntakeConsume;
+import frc.robot.Commands.IntakeCommands.IntakeDump;
+import frc.robot.Commands.MechanismSequences.GroundNoteToIndexer;
+import frc.robot.Commands.MechanismSequences.SetClimbPosition;
+import frc.robot.Commands.MechanismSequences.SetIntakeGroundShooterIn;
+import frc.robot.Commands.MechanismSequences.SetIntakeInShooterAmp;
+import frc.robot.Commands.MechanismSequences.SetIntakeInShooterIn;
+import frc.robot.Commands.MechanismSequences.SetIntakeInShooterSpeaker;
+import frc.robot.Commands.ShooterCommands.ShooterFire;
+import frc.robot.Commands.ShooterCommands.ShooterRescind;
+import frc.robot.Commands.WristCommands.IntakeWristClosedLoop;
+import frc.robot.Commands.WristCommands.IntakeWristOpenLoop;
+import frc.robot.Commands.WristCommands.ShooterWristClosedLoop;
+import frc.robot.Commands.WristCommands.ShooterWristOpenLoop;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ClimberClimb;
-import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
-import frc.robot.commands.IndexCommands.IndexShooterToIntake;
-import frc.robot.commands.IntakeCommands.IntakeConsume;
-import frc.robot.commands.IntakeCommands.IntakeDump;
-import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
-import frc.robot.commands.MechanismSequences.SetClimbPosition;
-import frc.robot.commands.MechanismSequences.SetIntakeGroundShooterIn;
-import frc.robot.commands.MechanismSequences.SetIntakeInShooterAmp;
-import frc.robot.commands.MechanismSequences.SetIntakeInShooterIn;
-import frc.robot.commands.MechanismSequences.SetIntakeInShooterSpeaker;
-import frc.robot.commands.ShooterCommands.ShooterFire;
-import frc.robot.commands.ShooterCommands.ShooterRescind;
-import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
-import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
-import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
-import frc.robot.commands.WristCommands.ShooterWristOpenLoop;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
@@ -147,19 +148,24 @@ public class ConfigureButtonBindings {
     
     
         
-
-        NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
+    //Autos
+        NamedCommands.registerCommand("ShooterFireSlow", new RunCommand(()-> m_Shooter.setMotorOutput(0.5), m_Shooter));
+        NamedCommands.registerCommand("ShooterFireFast", new RunCommand(()-> m_Shooter.setMotorOutput(1), m_Shooter));
+        NamedCommands.registerCommand("ShooterStop", new RunCommand(()-> m_Shooter.setMotorOutput(0), m_Shooter));
         NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));
         NamedCommands.registerCommand("IndexIntakeToShooter", new IndexIntakeToShooter(m_Indexer));
         NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));
         NamedCommands.registerCommand("IntakeConsume", new IntakeConsume(m_Intake, ()-> 0.5));
+        NamedCommands.registerCommand("AutoIntake", new AutoIntake(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
         NamedCommands.registerCommand("IntakeDump", new IntakeDump(m_Intake));
         NamedCommands.registerCommand("ShooterRecieve", new ShooterWristClosedLoop(m_ShooterWrist, 140));
         NamedCommands.registerCommand("ShooterToSpeaker", new ShooterWristClosedLoop(m_ShooterWrist, 131.6));
         NamedCommands.registerCommand("ShooterToAmp", new ShooterWristClosedLoop(m_ShooterWrist, 45));
         NamedCommands.registerCommand("IntakeToGround", new IntakeWristClosedLoop(m_IntakeWrist, 3));
-        NamedCommands.registerCommand("IntakeToShooter", new IntakeWristClosedLoop(m_IntakeWrist, 180));
-
+        NamedCommands.registerCommand("SetIntakeGroundShooterIn", new SetIntakeGroundShooterIn(m_ShooterWrist, m_IntakeWrist));
+        NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
+        NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
+        NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
     }
 
 }
