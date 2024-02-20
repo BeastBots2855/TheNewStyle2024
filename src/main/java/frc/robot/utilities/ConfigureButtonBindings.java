@@ -29,6 +29,7 @@ import frc.robot.Commands.IntakeCommands.IntakeConsume;
 import frc.robot.Commands.IntakeCommands.IntakeDump;
 import frc.robot.Commands.ShooterCommands.ShooterFire;
 import frc.robot.Commands.ShooterCommands.ShooterRescind;
+import frc.robot.Commands.Vision.NoteLockOn;
 import frc.robot.Commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.Commands.WristCommands.IntakeWristOpenLoop;
 import frc.robot.Commands.WristCommands.ShooterWristClosedLoop;
@@ -184,7 +185,20 @@ public class ConfigureButtonBindings {
     new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
 
     
-        
+    
+
+
+
+
+    //Note Lock on
+    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+        new NoteLockOn(
+            m_robotDrive, 
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+
+
+
 
         NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
         NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));
