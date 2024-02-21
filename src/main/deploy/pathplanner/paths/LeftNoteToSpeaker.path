@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6750115754256556,
-        "y": 6.652614092348042
+        "x": 2.5905008158090483,
+        "y": 6.991369417831561
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5868974814872714,
-        "y": 5.947701340840965
+        "x": 2.766163363995771,
+        "y": 5.3518523014221495
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 5.507130871149041
       },
       "prevControl": {
-        "x": 2.219755423410669,
-        "y": 5.389645412564528
+        "x": 2.004958988519973,
+        "y": 5.527514849608872
       },
       "nextControl": null,
       "isLocked": false,
@@ -87,11 +87,28 @@
           ]
         }
       }
+    },
+    {
+      "name": "StartMovingIntake",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeGround"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -103,8 +120,8 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 55.840305454330604,
+    "rotation": -0.920778639246878,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

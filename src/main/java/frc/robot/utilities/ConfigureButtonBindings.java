@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.AutoCommands.AutoIntake;
+import frc.robot.commands.AutoCommands.SetIntakeGround;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
@@ -163,6 +164,7 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("ShooterToAmp", new ShooterWristClosedLoop(m_ShooterWrist, 45));
         NamedCommands.registerCommand("IntakeToGround", new IntakeWristClosedLoop(m_IntakeWrist, 3));
         NamedCommands.registerCommand("SetIntakeGroundShooterIn", new SetIntakeGroundShooterIn(m_ShooterWrist, m_IntakeWrist));
+        NamedCommands.registerCommand("SetIntakeGround", new SetIntakeGround(m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));

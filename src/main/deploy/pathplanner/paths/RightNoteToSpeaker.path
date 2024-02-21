@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 4.3029049206577845
+        "x": 2.60221165235483,
+        "y": 4.04023860829462
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6456402107795283,
-        "y": 5.433702459533721
+        "x": 2.558154605385638,
+        "y": 5.171036147170556
       },
       "isLocked": false,
       "linkedName": null
@@ -81,6 +81,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "StartMovingIntake",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeGround"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -97,7 +114,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -54.29330859939698,
+    "rotation": -0.5175434939284076,
     "velocity": 0
   },
   "useDefaultConstraints": false

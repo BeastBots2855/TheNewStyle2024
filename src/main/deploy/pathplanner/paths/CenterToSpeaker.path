@@ -87,6 +87,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "StartMovingIntake",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeGround"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

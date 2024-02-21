@@ -30,6 +30,12 @@
                       "data": {
                         "name": "ShooterFireFast"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SetIntakeGround"
+                      }
                     }
                   ]
                 }
