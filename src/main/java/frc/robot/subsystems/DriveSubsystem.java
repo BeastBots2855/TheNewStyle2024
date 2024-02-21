@@ -77,18 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-      AutoBuilder.configureHolonomic(
-      this::getPose,
-      this::resetOdometry,
-      this::getChassisSpeeds,
-      this::setRobotRelativeSpeeds, 
-       AutoConstants.autoBuilderPathConfig,
-       () -> {var alliance = DriverStation.getAlliance();
-        if(alliance.isPresent()){
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;},
-      this);
+
 
     
   }
@@ -98,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -364,6 +353,23 @@ public class DriveSubsystem extends SubsystemBase {
   m_frontRight.setDesiredState(swerveModuleStates[1]);
   m_rearLeft.setDesiredState(swerveModuleStates[2]);
   m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+
+
+  public void configureAutoBuilder(){
+      AutoBuilder.configureHolonomic(
+      this::getPose,
+      this::resetOdometry,
+      this::getChassisSpeeds,
+      this::setRobotRelativeSpeeds, 
+       AutoConstants.autoBuilderPathConfig,
+       () -> {var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()){
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;},
+      this);
   }
 
 

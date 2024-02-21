@@ -29,16 +29,13 @@ public class Autos {
         
         // autoChooser.addOption(null, null);
         autoChooser.addOption("Drivetrain Characterization", "DrivetrainCharacterization");
+        autoChooser.addOption("FourNoteAuto", "FourNoteAuto");
         // autoChooser.addOption("Shooter Characterization", "ShooterCharacterization");
         // autoChooser.addOption("MoveBack", "MoveBack");
-        m_commandMap.put("DrivetrainCharacterization", 
-            new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
-            m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));
         
             // m_commandMap.put("ShooterCharacterization", List.of(new FeedForwardCharacterization(drivetrainSubsystem, true, new FeedForwardCharacterizationData("Shooter"),
             // m_Shooter::runCharacterizationVolts , m_Shooter::getCharacterizationVelocity)));
         
-        m_commandMap.put("Basic Test Auto", AutoBuilder.buildAuto("MoveBack"));
         
         // SmartDashboard.putData(autoChooser);
         autoTab.add(autoChooser);
@@ -49,6 +46,14 @@ public class Autos {
     public Command getAutoCommand() {
         String auto = autoChooser.getSelected();
         return m_commandMap.get(auto);
+    }
+
+    public void mapCommands(){
+        m_commandMap.put("Basic Test Auto", AutoBuilder.buildAuto("MoveBack"));
+        m_commandMap.put("FourNoteAuto", AutoBuilder.buildAuto("FourNoteAuto"));
+        m_commandMap.put("DrivetrainCharacterization", 
+            new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
+            m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));
     }
 
 

@@ -59,7 +59,7 @@ public class RobotContainer {
     m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
     
     new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake,
-        m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
+        m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Autos);
   
   }
 //

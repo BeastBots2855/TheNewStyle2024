@@ -35,9 +35,15 @@
       "name": "StopFlyWheel",
       "waypointRelativePos": 0.0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.1
+              }
+            },
             {
               "type": "named",
               "data": {
