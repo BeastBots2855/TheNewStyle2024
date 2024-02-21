@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.WristCommands;
+package frc.robot.commands.WristCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.WristFunctionality.ShooterWrist;
-import frc.robot.Subsystems.WristFunctionality.Wrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.subsystems.WristFunctionality.Wrist;
 
 public class ShooterWristClosedLoop extends Command {
   /** Creates a new WristActuateClosedLoopPID. */
