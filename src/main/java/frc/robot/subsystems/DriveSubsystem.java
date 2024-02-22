@@ -22,6 +22,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -70,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
-      Rotation2d.fromDegrees(getHeading()),
+      getHeadingAsRotation2D(),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -81,7 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final SwerveDrivePoseEstimator m_poseEstimator =
     new SwerveDrivePoseEstimator(
         DriveConstants.kDriveKinematics,
-        Rotation2d.fromDegrees(getHeading()),
+        getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -93,6 +94,7 @@ public class DriveSubsystem extends SubsystemBase {
         VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(60))); // 0.5, 0.5, 50 
       
     Field2d m_field = new Field2d();
+    
 
   private boolean isCharacterizing = false;
   private double characterizationVolts = 0;
@@ -112,7 +114,7 @@ public class DriveSubsystem extends SubsystemBase {
         return false;},
       this);
 
-      
+      SmartDashboard.putData("field", m_field);
 
     
   }
@@ -127,16 +129,21 @@ public class DriveSubsystem extends SubsystemBase {
         m_poseEstimator.addVisionMeasurement(
           estimatedRobotPose.estimatedPose.toPose2d(), 
           estimatedRobotPose.timestampSeconds);
+          
       });
   }else {
     m_odometry.update(
-        Rotation2d.fromDegrees(getHeading()),
+        getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
     });
+    m_field.setRobotPose(getPose2d());
+    System.out.println(getPose2d());
+
+    
   }
     
    
@@ -164,7 +171,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     if(Vision.isVisionEnabled){
-      m_poseEstimator.resetPosition(Rotation2d.fromDegrees(getHeading()),
+      m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -174,7 +181,7 @@ public class DriveSubsystem extends SubsystemBase {
         pose);
     } else {
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(getHeading()),
+        getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -257,7 +264,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, new Rotation2d(getHeading()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -308,15 +315,19 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Returns the heading of the robot looped to increase past 360
    */
-  public double getHeading() {
-    return Rotation2d.fromDegrees(-m_gyro.getAngle()).getDegrees();
+  public Rotation2d getHeadingAsRotation2D() {
+    return Rotation2d.fromDegrees(-m_gyro.getAngle());
+  }
+
+  public double getAngle(){
+    return -m_gyro.getAngle();
   }
 
   public Pose2d getPose2d(){
       if(Vision.isVisionEnabled){
-          return m_odometry.getPoseMeters();
+          return m_poseEstimator.getEstimatedPosition();
       } else {
-      return m_poseEstimator.getEstimatedPosition();
+      return m_odometry.getPoseMeters();
       }
   }
 
