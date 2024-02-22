@@ -25,7 +25,7 @@ public class NoteLockOn extends Command {
     addRequirements(m_DriveSubsystem);
 
 
-    m_ThetaController = new PIDController(0.002, 0, 0);
+    m_ThetaController = new PIDController(0.001, 0, 0);
 
   }
 
@@ -43,7 +43,7 @@ public class NoteLockOn extends Command {
     m_DriveSubsystem.drive(
         m_XSpeedSupplier.getAsDouble(),
         m_YSpeedSupplier.getAsDouble(), 
-        thetaOutput,
+        -thetaOutput,
         true,
         true);
   }
@@ -51,7 +51,7 @@ public class NoteLockOn extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_DriveSubsystem.drive(0, 0, 0, true, true);
+    // m_DriveSubsystem.drive(0, 0, 0, true, true);
   }
 
   // Returns true when the command should end.
