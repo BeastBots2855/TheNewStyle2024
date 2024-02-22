@@ -19,6 +19,7 @@ import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.utilities.Autos;
 import frc.robot.utilities.ConfigureButtonBindings;
+import frc.robot.utilities.PhotonVision;
 import frc.robot.utilities.ShuffleBoardInit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
  */
 public class RobotContainer {
   // The robot's subsystems
+  private PhotonVision m_PhotonVision = new PhotonVision();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private Intake m_Intake = new Intake();
   private IntakeWrist m_IntakeWrist = new IntakeWrist();
