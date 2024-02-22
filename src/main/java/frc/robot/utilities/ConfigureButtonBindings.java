@@ -191,11 +191,11 @@ public class ConfigureButtonBindings {
 
 
     //Note Lock on
-    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-        new NoteLockOn(
-            m_robotDrive, 
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+    // new Trigger(()-> m_driverController.getLeftBumper()).whileTrue(
+    //     new NoteLockOn(
+    //         m_robotDrive, 
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
 
 
