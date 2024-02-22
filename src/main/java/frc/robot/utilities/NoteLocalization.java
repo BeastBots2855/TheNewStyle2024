@@ -13,9 +13,9 @@ package frc.robot.utilities;
 public class NoteLocalization {
 
     //Point A is the position of the head of the robot relative to the camera in photon vision
-    private static double[] pointA = convertAnglesToPixels(13.7, -17);
+    private static double[] pointA = convertAnglesToPixels(-11.8, -8.63);
     //Point B is a point along a perpendicule line to the front edge of the robot
-    private static double[] pointB = convertAnglesToPixels(1, 20);
+    private static double[] pointB = convertAnglesToPixels(-4.62, 5.32);
 
 
 

@@ -7,14 +7,14 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.Subsystems.Climb;
-import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Subsystems.Indexer;
-import frc.robot.Subsystems.Intake;
-import frc.robot.Subsystems.PhotonVision;
-import frc.robot.Subsystems.Shooter;
-import frc.robot.Subsystems.WristFunctionality.IntakeWrist;
-import frc.robot.Subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 
 /** Add your docs here. */
 public class ShuffleBoardInit {
