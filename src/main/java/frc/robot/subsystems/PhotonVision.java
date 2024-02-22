@@ -4,10 +4,27 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.utilities.NoteLocalization;
 
 /** Add your docs here. */
@@ -15,11 +32,28 @@ public class PhotonVision {
     //creates camera objects for fetching results from cameras
     private static PhotonCamera m_NoteTracker = new PhotonCamera("NoteDetector");
     private static PhotonCamera m_AprilTagTracker = new PhotonCamera("ApriltagTracker");
-
-    //stores the last instance of a note within the NoteDetectors vision
+    private static PhotonPoseEstimator m_visionPoseEstimator;
+    private static boolean m_AprilTagIsInSight;
     private static double[] lastBestNote = new double[]{0, 0};
 
+  public PhotonVision(){
+    try {
+      m_visionPoseEstimator = new PhotonPoseEstimator(
+        AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile), 
+        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+        m_AprilTagTracker, 
+        new Transform3d(
+            new Translation3d(
+                Units.inchesToMeters(6), 
+                -Units.inchesToMeters(14), 
+                Units.inchesToMeters(19.5)), 
+            new Rotation3d(0, -11,0)));
 
+    } catch(IOException e){
+      System.out.println(e.getMessage() + "\n april tags didnt load");
+    }
+        
+  } 
     
     /**
      * calculates a response variable that can be used to lock the heading of the robot to a ring
@@ -33,8 +67,6 @@ public class PhotonVision {
         calculateBestNote();
         return NoteLocalization.getSignedDistanceFromNearestPathToNote(lastBestNote); 
     }
-
-
 
     /**
      * looks through all viable targets in frame and uses the calculateBestTarget method to find
@@ -52,8 +84,6 @@ public class PhotonVision {
         }
     }
 
-
-
     /**
      * gets the position of note within the relative coordinate system
      */
@@ -62,10 +92,7 @@ public class PhotonVision {
     }
 
 
-
-    //TODO: add the method to calculate pose from april tags
-    public void getPoseFromAprilTag(){
-        
+    public static PhotonPoseEstimator getPoseEstimator(){
+        return m_visionPoseEstimator;
     }
-
 }
