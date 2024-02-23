@@ -6,6 +6,8 @@ package frc.robot;
 
 
 
+import java.util.Random;
+
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -15,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.robot.utilities.RGBColor;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -207,6 +210,21 @@ public final class Constants {
     public static final double shooterSpeaker = 131;
 
   }
+public class Colors {
+    static Random randColor = new Random();
+    static int randRGB = randColor.nextInt(150);
+     static int randRGB2 = randColor.nextInt(1);
+     static int randRGB3 = randColor.nextInt(150);
+    public static final RGBColor m_red = new RGBColor(255, 0, 0);
+    public static final RGBColor m_blue = new RGBColor(0,0,255);
+    public static final RGBColor m_green = new RGBColor(0,255,0);
+    public static final RGBColor m_purple = new RGBColor(150, 0, 150);
+    public static final RGBColor m_yellow = new RGBColor(255,100,0);
+    public static final RGBColor m_rand = new RGBColor(randRGB, randRGB2 , randRGB3);
+    public static final RGBColor m_cyan = new RGBColor(0,150,150);
+    public static final RGBColor m_orange = new RGBColor(255,50,0);
+  }
+
 
 
 }

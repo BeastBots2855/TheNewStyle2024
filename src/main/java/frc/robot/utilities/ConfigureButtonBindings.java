@@ -26,6 +26,8 @@ import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.IntakeCommands.IntakeDump;
+import frc.robot.commands.LedCommands.RAINBOWS;
+import frc.robot.commands.LedCommands.SetLights;
 import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
@@ -39,14 +41,18 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.Constants.Colors;
+import frc.robot.subsystems.LED;
 
 /** Add your docs here. */
 public class ConfigureButtonBindings {
+    private LED m_led = new LED();
     public ConfigureButtonBindings(
         XboxController m_driverController, XboxController m_operatorController, 
         DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
         Climb m_Climb) {
+            
         
          /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -187,8 +193,10 @@ public class ConfigureButtonBindings {
     
     new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis(), m_robotDrive::getPitch));
     new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
-
-    
+    new JoystickButton(m_driverController, XboxController.Button.kB.value).onTrue(new SetLights(m_led, Colors.m_yellow ));
+    new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(new SetLights(m_led, Colors.m_green));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(new SetLights(m_led, Colors.m_red));
+    new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new RAINBOWS(m_led));
         
 
         NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
