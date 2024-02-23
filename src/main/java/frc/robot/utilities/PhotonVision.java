@@ -39,7 +39,7 @@ public class PhotonVision {
     try {
       m_visionPoseEstimator = new PhotonPoseEstimator(
         AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile), 
-        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+        PoseStrategy.CLOSEST_TO_LAST_POSE, 
         m_AprilTagTracker, 
         new Transform3d(
             new Translation3d(

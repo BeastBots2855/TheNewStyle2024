@@ -159,14 +159,14 @@ public class DriveSubsystem extends SubsystemBase {
         });
 
 
-      //   PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
-      // {
-      //   m_poseEstimator.addVisionMeasurement(
-      //     estimatedRobotPose.estimatedPose.toPose2d(), 
-      //     estimatedRobotPose.timestampSeconds);
+        PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+      {
+        m_poseEstimator.addVisionMeasurement(
+          estimatedRobotPose.estimatedPose.toPose2d(), 
+          estimatedRobotPose.timestampSeconds);
           
-      // });
-    m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
+      });
+    m_field.setRobotPose(getPose2d());
    
     System.out.println(getPose2d());
 
