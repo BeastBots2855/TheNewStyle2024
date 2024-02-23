@@ -107,7 +107,7 @@ public class NoteLocalization {
             notes[i] =  convertAnglesToPixels(notes[i][0], notes[i][1]);
             double horizontalDistance = calculateDistanceFromNearestNoteToPath(notes[i]);
             double verticalDistance = calculateDistanceBetweenTwoPoints(calculatePointD(notes[i]), pointA);
-            double verticalScaler = 0.75;
+            double verticalScaler = 1;
             double scaledDistance = Math.pow(Math.pow(verticalDistance * verticalScaler, 2) + Math.pow(horizontalDistance, 2), 0.5);
             if(scaledDistance < smallestDistance){
                 bestNote = i;

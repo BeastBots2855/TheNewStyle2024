@@ -124,7 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    if(Vision.isVisionEnabled){
+    // if(Vision.isVisionEnabled){
   //     // PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
   //     // {
   //     //   m_poseEstimator.addVisionMeasurement(
@@ -157,19 +157,22 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
-        PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
-      {
-        m_poseEstimator.addVisionMeasurement(
-          estimatedRobotPose.estimatedPose.toPose2d(), 
-          estimatedRobotPose.timestampSeconds);
+
+
+      //   PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+      // {
+      //   m_poseEstimator.addVisionMeasurement(
+      //     estimatedRobotPose.estimatedPose.toPose2d(), 
+      //     estimatedRobotPose.timestampSeconds);
           
-      });
-    m_field.setRobotPose(getPose2d());
+      // });
+    m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
+   
     System.out.println(getPose2d());
 
 
     
-  }
+  // }
     
    
 
@@ -349,11 +352,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose2d(){
-      if(Vision.isVisionEnabled){
-          return m_poseEstimator.getEstimatedPosition();
-      } else {
-      return m_odometry.getPoseMeters();
-      }
+      // if(Vision.isVisionEnabled){
+      //     return m_poseEstimator.getEstimatedPosition();
+      // } else {
+      // return m_odometry.getPoseMeters();
+      // }
+
+      return m_poseEstimator.getEstimatedPosition();
   }
 
   public double getPitch() {
