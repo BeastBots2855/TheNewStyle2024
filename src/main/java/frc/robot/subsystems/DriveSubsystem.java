@@ -113,6 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
         return false;},
       this);
+      System.out.println(m_poseEstimator.getEstimatedPosition());
 
       SmartDashboard.putData("field", m_field);
 
@@ -124,24 +125,48 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     if(Vision.isVisionEnabled){
-      PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+  //     // PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+  //     // {
+  //     //   m_poseEstimator.addVisionMeasurement(
+  //     //     estimatedRobotPose.estimatedPose.toPose2d(), 
+  //     //     estimatedRobotPose.timestampSeconds);
+          
+  //     // });
+  //     m_poseEstimator.update(
+  //       getHeadingAsRotation2D(),
+  //       new SwerveModulePosition[] {
+  //         m_frontLeft.getPosition(),
+  //         m_frontRight.getPosition(),
+  //         m_rearLeft.getPosition(),
+  //         m_rearRight.getPosition()
+  //       });
+  // }else {
+  //   m_odometry.update(
+  //       getHeadingAsRotation2D(),
+  //       new SwerveModulePosition[] {
+  //           m_frontLeft.getPosition(),
+  //           m_frontRight.getPosition(),
+  //           m_rearLeft.getPosition(),
+  //           m_rearRight.getPosition()
+  //   });
+   m_poseEstimator.update(
+        getHeadingAsRotation2D(),
+        new SwerveModulePosition[] {
+          m_frontLeft.getPosition(),
+          m_frontRight.getPosition(),
+          m_rearLeft.getPosition(),
+          m_rearRight.getPosition()
+        });
+        PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
       {
         m_poseEstimator.addVisionMeasurement(
           estimatedRobotPose.estimatedPose.toPose2d(), 
           estimatedRobotPose.timestampSeconds);
           
       });
-  }else {
-    m_odometry.update(
-        getHeadingAsRotation2D(),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-    });
     m_field.setRobotPose(getPose2d());
     System.out.println(getPose2d());
+
 
     
   }
