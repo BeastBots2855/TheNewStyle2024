@@ -30,6 +30,7 @@ public class Autos {
         // autoChooser.addOption(null, null);
         autoChooser.addOption("Drivetrain Characterization", "DrivetrainCharacterization");
         autoChooser.addOption("FourNoteAuto", "FourNoteAuto");
+        autoChooser.addOption("ThreeNoteAuto", "ThreeNoteAuto");
         // autoChooser.addOption("Shooter Characterization", "ShooterCharacterization");
         // autoChooser.addOption("MoveBack", "MoveBack");
         
@@ -51,6 +52,7 @@ public class Autos {
     public void mapCommands(){
         m_commandMap.put("Basic Test Auto", AutoBuilder.buildAuto("MoveBack"));
         m_commandMap.put("FourNoteAuto", AutoBuilder.buildAuto("FourNoteAuto"));
+        m_commandMap.put("ThreeNoteAuto", AutoBuilder.buildAuto("ThreeNoteAuto"));
         m_commandMap.put("DrivetrainCharacterization", 
             new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
             m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));

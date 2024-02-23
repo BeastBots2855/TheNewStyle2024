@@ -102,7 +102,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.0,
+    "maxAcceleration": 0.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -112,7 +112,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "FourNote",
+  "folder": "ThreeNote",
   "previewStartingState": {
     "rotation": -0.5175434939284076,
     "velocity": 0
