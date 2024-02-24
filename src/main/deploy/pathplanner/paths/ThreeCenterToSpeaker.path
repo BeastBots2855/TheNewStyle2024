@@ -104,6 +104,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "PassOff",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeInShooterIn"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

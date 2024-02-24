@@ -8,6 +8,10 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -168,9 +172,17 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
+        NamedCommands.registerCommand("", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
 
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();
+        SmartDashboard.putData(m_robotDrive);
+        SmartDashboard.putData(m_IntakeWrist);
+        SmartDashboard.putData(m_ShooterWrist);
+        SmartDashboard.putData(m_Intake);
+        SmartDashboard.putData(m_Shooter);
+        
+        
     }
 
 }

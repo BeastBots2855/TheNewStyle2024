@@ -42,10 +42,6 @@ public class Intake extends SubsystemBase {
     return !m_IntakeButton.get();
   }
 
-  public boolean shouldRumble(){
-    return !m_IntakeButton.get();
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

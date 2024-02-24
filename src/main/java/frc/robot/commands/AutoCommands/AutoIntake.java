@@ -4,7 +4,11 @@
 
 package frc.robot.commands.AutoCommands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
 import frc.robot.subsystems.Indexer;
@@ -21,6 +25,13 @@ public class AutoIntake extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new IntakeConsume(m_Intake, ()-> 0.5).until(()->m_Intake.isTouchingLimitSwitch()).andThen(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer)));
+        new IntakeConsume(m_Intake, ()-> 0.5)
+          .until(()->m_Intake.isTouchingLimitSwitch()).
+          andThen(new GroundNoteToIndexer(
+            m_IntakeWrist, 
+            m_ShooterWrist, 
+            m_Intake, 
+            m_Indexer))
+        );
   }
 }

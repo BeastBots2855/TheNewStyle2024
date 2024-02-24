@@ -33,12 +33,12 @@ public class GroundNoteToIndexer extends SequentialCommandGroup {
             new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakePassOff),
             new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterPassOff))
       .until(()-> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
-      .andThen(new PrintCommand("stuff")).andThen(
+      .andThen(
             new ParallelDeadlineGroup(
                 new WaitCommand(0.38),
                 new IntakeDump(m_Intake),
                 new IndexIntakeToShooter(m_Indexer))
-            ));
+            ).andThen(new PrintCommand("GroundNoteFinished")));
             
   }
 }

@@ -18,10 +18,13 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -75,10 +78,12 @@ public class DriveSubsystem extends SubsystemBase {
   private boolean isCharacterizing = false;
   private double characterizationVolts = 0;
 
+  Field2d m_field = new Field2d();
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-
-
+    
+    SmartDashboard.putData("field", m_field);
     
   }
   
@@ -94,6 +99,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+    m_field.setRobotPose(getPose());
    
 
 
@@ -102,6 +108,8 @@ public class DriveSubsystem extends SubsystemBase {
       m_frontRight.runCharacterization(characterizationVolts, DriveConstants.kFrontRightChassisAngularOffset);
       m_rearLeft.runCharacterization(characterizationVolts, DriveConstants.kBackLeftChassisAngularOffset);
       m_rearRight.runCharacterization(characterizationVolts, DriveConstants.kBackRightChassisAngularOffset);
+
+      
     }
   }
 
@@ -129,6 +137,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+    m_gyro.reset();
   }
 
   /**
