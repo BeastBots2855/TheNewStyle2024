@@ -15,8 +15,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
@@ -58,7 +61,7 @@ public class ConfigureButtonBindings {
         XboxController m_driverController, XboxController m_operatorController, 
         DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
-        Climb m_Climb) {
+        Climb m_Climb, Autos m_Autos) {
         
          /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -154,25 +157,6 @@ public class ConfigureButtonBindings {
     //             m_operatorController.setRumble(RumbleType.kBothRumble, 0);
     //             m_driverController.setRumble(RumbleType.kBothRumble, 0);})));
 
-    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(
-        new ParallelDeadlineGroup(
-            new WaitCommand(1.4),
-            new IntakeWristClosedLoop(m_IntakeWrist, 180),
-            new ShooterWristClosedLoop(m_ShooterWrist, 140))
-        .andThen(
-            new ParallelCommandGroup(
-                new InstantCommand(()-> m_IntakeWrist.setMotorOutput(0), m_IntakeWrist),
-                new InstantCommand(()-> m_ShooterWrist.setMotorOutput(0), m_ShooterWrist))
-            ).andThen(
-            new ParallelDeadlineGroup(
-                new WaitCommand(0.5),
-                new IntakeDump(m_Intake),
-                new IndexIntakeToShooter(m_Indexer))
-            ).andThen(
-        new RunCommand(()-> {
-            m_operatorController.setRumble(RumbleType.kBothRumble, 1);
-            m_driverController.setRumble(RumbleType.kBothRumble, 1);})));
-    
 //131.60
 
     
