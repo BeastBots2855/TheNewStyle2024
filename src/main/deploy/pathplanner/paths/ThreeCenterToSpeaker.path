@@ -50,7 +50,7 @@
     },
     {
       "name": "PrepShooter",
-      "waypointRelativePos": 0.25,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -67,7 +67,7 @@
     },
     {
       "name": "Fire",
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "deadline",
         "data": {
@@ -89,33 +89,28 @@
       }
     },
     {
-      "name": "StartMovingIntake",
-      "waypointRelativePos": 0.8,
+      "name": "Pass",
+      "waypointRelativePos": 0.5,
       "command": {
-        "type": "parallel",
+        "type": "deadline",
         "data": {
           "commands": [
             {
-              "type": "named",
+              "type": "wait",
               "data": {
-                "name": "SetIntakeGround"
+                "waitTime": 0.38
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "PassOff",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
+            },
             {
               "type": "named",
               "data": {
-                "name": "SetIntakeInShooterIn"
+                "name": "IntakeDump"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IndexIntakeToShooter"
               }
             }
           ]
@@ -125,7 +120,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 0.5,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -79,15 +79,9 @@
         "data": {
           "commands": [
             {
-              "type": "wait",
-              "data": {
-                "waitTime": 3.0
-              }
-            },
-            {
               "type": "named",
               "data": {
-                "name": "IntakeConsume"
+                "name": "AutoIntake"
               }
             }
           ]
@@ -97,7 +91,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 0.5,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
