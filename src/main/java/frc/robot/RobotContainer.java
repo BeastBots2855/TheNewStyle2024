@@ -18,6 +18,8 @@ import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.utilities.Autos;
 import frc.robot.utilities.ConfigureButtonBindings;
+import frc.robot.utilities.PhotonVision;
+import frc.robot.utilities.ShuffleBoardInit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 /*
@@ -28,8 +30,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  */
 public class RobotContainer {
   // The robot's subsystems
+  private PhotonVision m_PhotonVision = new PhotonVision();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private ShuffleboardTab m_telopOutput = Shuffleboard.getTab("Teleop");
   private Intake m_Intake = new Intake();
   private IntakeWrist m_IntakeWrist = new IntakeWrist();
   private ShooterWrist m_ShooterWrist = new ShooterWrist();
@@ -49,18 +51,21 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
-    m_telopOutput.addDouble("Intake anggle: ", () -> m_IntakeWrist.getAbsoluteEncoderValue());
-    m_telopOutput.addBoolean("IntakeButtonIsPressed", ()-> m_Intake.isTouchingLimitSwitch());
-    m_telopOutput.addBoolean("IndexerSwitchPressed", ()-> m_Indexer.isTouchingLimitSwitch());
-    m_telopOutput.addBoolean("IndexerIsPrimed", ()-> m_Indexer.getIsPrimed());
-    m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
-    m_telopOutput.addBoolean("isIntakeWristPidOn", m_IntakeWrist::isPidEnabled);
-    m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
     
-    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake,
-        m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Autos);
-  
+    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Autos);
+    new ShuffleBoardInit(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
+    
+
+    m_robotDrive.setDefaultCommand(
+       new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                true, true),
+            m_robotDrive));
+
+    m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
   }
 //
  

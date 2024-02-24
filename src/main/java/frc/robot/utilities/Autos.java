@@ -11,10 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utilities.FeedForwardCharacterization.FeedForwardCharacterizationData;
-import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
-import frc.robot.commands.ShooterCommands.ShooterFire;
-import frc.robot.commands.ShooterCommands.ShooterRescind;
-import frc.robot.subsystems.DriveSubsystem;
+
 
 public class Autos {
 

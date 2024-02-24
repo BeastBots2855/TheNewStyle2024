@@ -24,6 +24,25 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimberClimb;
+import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
+import frc.robot.commands.IndexCommands.IndexShooterToIntake;
+import frc.robot.commands.IntakeCommands.IntakeConsume;
+import frc.robot.commands.IntakeCommands.IntakeDump;
+import frc.robot.commands.ShooterCommands.ShooterFire;
+import frc.robot.commands.ShooterCommands.ShooterRescind;
+import frc.robot.commands.Vision.NoteLockOn;
+import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
+import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
+import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
+import frc.robot.commands.WristCommands.ShooterWristOpenLoop;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.WristFunctionality.IntakeWrist;
+import frc.robot.subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.AutoCommands.AutoIntake;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
@@ -164,7 +183,20 @@ public class ConfigureButtonBindings {
     new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
 
     
-        
+    
+
+
+
+
+    //Note Lock on
+    new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
+        new NoteLockOn(
+            m_robotDrive, 
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+
+
+
 
         NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
         NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));

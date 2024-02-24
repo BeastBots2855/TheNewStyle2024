@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
@@ -23,6 +26,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.Vision;
+import frc.robot.utilities.PhotonVision;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -67,7 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
-      Rotation2d.fromDegrees(m_gyro.getAngle()),
+      getHeadingAsRotation2D(),
       new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -75,15 +80,46 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+    private final SwerveDrivePoseEstimator m_poseEstimator =
+    new SwerveDrivePoseEstimator(
+        DriveConstants.kDriveKinematics,
+        getHeadingAsRotation2D(),
+        new SwerveModulePosition[] {
+          m_frontLeft.getPosition(),
+          m_frontRight.getPosition(),
+          m_rearLeft.getPosition(),
+          m_rearRight.getPosition()
+        },
+        new Pose2d(0, 0, new Rotation2d(0)), 
+        VecBuilder.fill(0.85, 0.85, Units.degreesToRadians(0.5)), // initiial was 0.05 for both on top and 0.5 for bottom, 0.05, 0.05, 0.65
+        VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(60))); // 0.5, 0.5, 50 
+      
+    Field2d m_field = new Field2d();
+    
+
   private boolean isCharacterizing = false;
   private double characterizationVolts = 0;
-
-  Field2d m_field = new Field2d();
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     
     SmartDashboard.putData("field", m_field);
+      AutoBuilder.configureHolonomic(
+      this::getPose2d,
+      this::resetOdometry,
+      this::getChassisSpeeds,
+      this::setRobotRelativeSpeeds, 
+       AutoConstants.autoBuilderPathConfig,
+       () -> {var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()){
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;},
+      this);
+      System.out.println(m_poseEstimator.getEstimatedPosition());
+
+      SmartDashboard.putData("field", m_field);
+
     
   }
   
@@ -91,15 +127,58 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
-        Rotation2d.fromDegrees(-m_gyro.getAngle()),
+    // if(Vision.isVisionEnabled){
+  //     // PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+  //     // {
+  //     //   m_poseEstimator.addVisionMeasurement(
+  //     //     estimatedRobotPose.estimatedPose.toPose2d(), 
+  //     //     estimatedRobotPose.timestampSeconds);
+          
+  //     // });
+  //     m_poseEstimator.update(
+  //       getHeadingAsRotation2D(),
+  //       new SwerveModulePosition[] {
+  //         m_frontLeft.getPosition(),
+  //         m_frontRight.getPosition(),
+  //         m_rearLeft.getPosition(),
+  //         m_rearRight.getPosition()
+  //       });
+  // }else {
+  //   m_odometry.update(
+  //       getHeadingAsRotation2D(),
+  //       new SwerveModulePosition[] {
+  //           m_frontLeft.getPosition(),
+  //           m_frontRight.getPosition(),
+  //           m_rearLeft.getPosition(),
+  //           m_rearRight.getPosition()
+  //   });
+   m_poseEstimator.update(
+        getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
+          m_frontLeft.getPosition(),
+          m_frontRight.getPosition(),
+          m_rearLeft.getPosition(),
+          m_rearRight.getPosition()
         });
-    m_field.setRobotPose(getPose());
+    m_field.setRobotPose(getPose2d());
+   
+
+
+        PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+      {
+        m_poseEstimator.addVisionMeasurement(
+          estimatedRobotPose.estimatedPose.toPose2d(), 
+          estimatedRobotPose.timestampSeconds);
+          
+      });
+    m_field.setRobotPose(getPose2d());
+   
+    System.out.println(getPose2d());
+
+
+    
+  // }
+    
    
 
 
@@ -118,9 +197,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return The pose.
    */
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
+
 
   /**
    * Resets the odometry to the specified pose.
@@ -128,8 +205,18 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
+    if(Vision.isVisionEnabled){
+      m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        }, 
+        pose);
+    } else {
     m_odometry.resetPosition(
-        pose.getRotation(),// Rotation2d.fromDegrees(m_gyro.getAngle()),
+        getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -137,7 +224,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
-    m_gyro.reset();
+      }
   }
 
   /**
@@ -151,7 +238,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-    
+
     double xSpeedCommanded;
     double ySpeedCommanded;
 
@@ -210,7 +297,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))//Rotation2d.fromDegrees(m_gyro.getAngle()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -259,44 +346,31 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns the heading of the robot.
-   *
-   * @return the robot's heading in degrees, from -180 to 180
+   * Returns the heading of the robot looped to increase past 360
    */
-  public double getHeading() {
-    return Rotation2d.fromDegrees(m_gyro.getAngle()).getDegrees();
+  public Rotation2d getHeadingAsRotation2D() {
+    return Rotation2d.fromDegrees(-m_gyro.getAngle());
   }
 
   public double getAngle(){
-    return m_gyro.getAngle();
+    return -m_gyro.getAngle();
+  }
+
+  public Pose2d getPose2d(){
+      // if(Vision.isVisionEnabled){
+      //     return m_poseEstimator.getEstimatedPosition();
+      // } else {
+      // return m_odometry.getPoseMeters();
+      // }
+
+      return m_poseEstimator.getEstimatedPosition();
   }
 
   public double getPitch() {
     return m_gyro.getPitch();
   }
 
-  
-  public double getLoopedHeading() {
-    double angle = m_gyro.getAngle();
-    double cutAngle = m_gyro.getAngle() % 180;
-    double loop = m_gyro.getAngle() % 360;
-    if (angle < 0){
-      if (loop > -180) {
-        return 180 + cutAngle;
-      }
-      else{
-        return cutAngle;
-      }
-    }
-    else{
-      if (loop > 180) {
-        return -180 + cutAngle;
-      }
-      else{
-        return cutAngle;
-      }
-    }
-  }
+
 
   public MAXSwerveModule[] getMaxSwerveModules()
   {
@@ -368,7 +442,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void configureAutoBuilder(){
       AutoBuilder.configureHolonomic(
-      this::getPose,
+      this::getPose2d,
       this::resetOdometry,
       this::getChassisSpeeds,
       this::setRobotRelativeSpeeds, 
