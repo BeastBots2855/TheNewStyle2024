@@ -70,15 +70,15 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-      DriveConstants.kDriveKinematics,
-      getHeadingAsRotation2D(),
-      new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
-      });
+  // SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+  //     DriveConstants.kDriveKinematics,
+  //     getHeadingAsRotation2D(),
+  //     new SwerveModulePosition[] {
+  //         m_frontLeft.getPosition(),
+  //         m_frontRight.getPosition(),
+  //         m_rearLeft.getPosition(),
+  //         m_rearRight.getPosition()
+  //     });
 
     private final SwerveDrivePoseEstimator m_poseEstimator =
     new SwerveDrivePoseEstimator(
@@ -164,13 +164,13 @@ public class DriveSubsystem extends SubsystemBase {
    
 
 
-        PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
-      {
-        m_poseEstimator.addVisionMeasurement(
-          estimatedRobotPose.estimatedPose.toPose2d(), 
-          estimatedRobotPose.timestampSeconds);
+      //   PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+      // {
+      //   m_poseEstimator.addVisionMeasurement(
+      //     estimatedRobotPose.estimatedPose.toPose2d(), 
+      //     estimatedRobotPose.timestampSeconds);
           
-      });
+      // });
     m_field.setRobotPose(getPose2d());
    
     System.out.println(getPose2d());
@@ -205,8 +205,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    if(Vision.isVisionEnabled){
-      m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
+    // if(Vision.isVisionEnabled){
+      m_poseEstimator.resetPosition(pose.getRotation(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -214,17 +214,17 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         }, 
         pose);
-    } else {
-    m_odometry.resetPosition(
-        getHeadingAsRotation2D(),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        },
-        pose);
-      }
+    // } else {
+    // m_odometry.resetPosition(
+    //     getHeadingAsRotation2D(),
+    //     new SwerveModulePosition[] {
+    //         m_frontLeft.getPosition(),
+    //         m_frontRight.getPosition(),
+    //         m_rearLeft.getPosition(),
+    //         m_rearRight.getPosition()
+    //     },
+    //     pose);
+    //   }
   }
 
   /**
