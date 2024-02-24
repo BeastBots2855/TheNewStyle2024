@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
+//stuff
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -18,10 +18,13 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -75,21 +78,12 @@ public class DriveSubsystem extends SubsystemBase {
   private boolean isCharacterizing = false;
   private double characterizationVolts = 0;
 
+  Field2d m_field = new Field2d();
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-      AutoBuilder.configureHolonomic(
-      this::getPose,
-      this::resetOdometry,
-      this::getChassisSpeeds,
-      this::setRobotRelativeSpeeds, 
-       AutoConstants.autoBuilderPathConfig,
-       () -> {var alliance = DriverStation.getAlliance();
-        if(alliance.isPresent()){
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;},
-      this);
-
+    
+    SmartDashboard.putData("field", m_field);
     
   }
   
@@ -98,13 +92,14 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        Rotation2d.fromDegrees(-m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+    m_field.setRobotPose(getPose());
    
 
 
@@ -113,6 +108,8 @@ public class DriveSubsystem extends SubsystemBase {
       m_frontRight.runCharacterization(characterizationVolts, DriveConstants.kFrontRightChassisAngularOffset);
       m_rearLeft.runCharacterization(characterizationVolts, DriveConstants.kBackLeftChassisAngularOffset);
       m_rearRight.runCharacterization(characterizationVolts, DriveConstants.kBackRightChassisAngularOffset);
+
+      
     }
   }
 
@@ -132,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
+        pose.getRotation(),// Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -140,6 +137,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+    m_gyro.reset();
   }
 
   /**
@@ -364,6 +362,23 @@ public class DriveSubsystem extends SubsystemBase {
   m_frontRight.setDesiredState(swerveModuleStates[1]);
   m_rearLeft.setDesiredState(swerveModuleStates[2]);
   m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+
+
+  public void configureAutoBuilder(){
+      AutoBuilder.configureHolonomic(
+      this::getPose,
+      this::resetOdometry,
+      this::getChassisSpeeds,
+      this::setRobotRelativeSpeeds, 
+       AutoConstants.autoBuilderPathConfig,
+       () -> {var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()){
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;},
+      this);
   }
 
 

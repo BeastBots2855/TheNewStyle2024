@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5905008158090483,
-        "y": 6.991369417831561
+        "x": 2.4547263405796946,
+        "y": 5.53650223579517
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.766163363995771,
-        "y": 5.3518523014221495
+        "x": 2.0582129178569635,
+        "y": 5.521816553472107
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.507130871149041
+        "x": 1.3679858486729504,
+        "y": 5.53650223579517
       },
       "prevControl": {
-        "x": 2.004958988519973,
-        "y": 5.527514849608872
+        "x": 1.8966704123032583,
+        "y": 5.53650223579517
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,25 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "PrepShooter",
+      "name": "PrepArangement",
       "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeInShooterIn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "PrepShooter",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -49,25 +66,8 @@
       }
     },
     {
-      "name": "PrepArangement",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SetIntakeInShooterIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Fire",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "deadline",
         "data": {
@@ -89,16 +89,28 @@
       }
     },
     {
-      "name": "StartMovingIntake",
-      "waypointRelativePos": 0.75,
+      "name": "Pass",
+      "waypointRelativePos": 0.5,
       "command": {
-        "type": "parallel",
+        "type": "deadline",
         "data": {
           "commands": [
             {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.38
+              }
+            },
+            {
               "type": "named",
               "data": {
-                "name": "SetIntakeGround"
+                "name": "IntakeDump"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IndexIntakeToShooter"
               }
             }
           ]
@@ -118,9 +130,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4Note",
+  "folder": "ThreeNote",
   "previewStartingState": {
-    "rotation": -0.920778639246878,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

@@ -40,9 +40,9 @@ public final class Constants {
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(27);
+    public static final double kTrackWidth = Units.inchesToMeters(23.5);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(27);
+    public static final double kWheelBase = Units.inchesToMeters(23.5);
     // Distance between front and back wheels on robot
     public static final double kchassisRadiusMeters = Math.pow(Math.pow(kTrackWidth, 2) + Math.pow(kWheelBase, 2), 0.5) * 0.0254;
 
@@ -200,10 +200,12 @@ public final class Constants {
   }
 
   public static final class PIDSetPoint{
-    public static final double intakeGroundPickup = 0;
-    public static final double intakePassOff = 180;
-    public static final double shooterAmp = 30;
-    public static final double shooterSpeaker = 131;
+    public static final double kIntakeGroundPickup = 3;
+    public static final double kIntakePassOff = 180;
+    public static final double kShooterPassOff = 140;
+    public static final double kShooterAmp = 45;
+    public static final double kShooterSpeaker = 131;
+    public static final double kShooterClimb = 90;
 
   }
 

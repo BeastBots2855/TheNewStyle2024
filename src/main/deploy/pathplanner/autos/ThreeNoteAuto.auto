@@ -22,7 +22,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 1.5
                       }
                     },
                     {
@@ -84,37 +84,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SpeakerToCenter"
+            "pathName": "ThreeSpeakerToCenter"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "CenterToSpeaker"
+            "pathName": "ThreeCenterToSpeaker"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "SpeakerToLeftNote"
+            "pathName": "ThreeSpeakerToLeftNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "LeftNoteToSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "SpeakerToRightNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightNoteToSpeaker"
+            "pathName": "ThreeLeftNoteToSpeaker"
           }
         }
       ]

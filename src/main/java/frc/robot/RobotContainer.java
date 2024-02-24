@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,7 +20,6 @@ import frc.robot.utilities.Autos;
 import frc.robot.utilities.ConfigureButtonBindings;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -52,6 +50,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
+    m_telopOutput.addDouble("Intake anggle: ", () -> m_IntakeWrist.getAbsoluteEncoderValue());
     m_telopOutput.addBoolean("IntakeButtonIsPressed", ()-> m_Intake.isTouchingLimitSwitch());
     m_telopOutput.addBoolean("IndexerSwitchPressed", ()-> m_Indexer.isTouchingLimitSwitch());
     m_telopOutput.addBoolean("IndexerIsPrimed", ()-> m_Indexer.getIsPrimed());
@@ -60,19 +59,8 @@ public class RobotContainer {
     m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
     
     new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake,
-        m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
-    
-
-    m_robotDrive.setDefaultCommand(
-       new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
-            m_robotDrive));
-
-    m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
+        m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Autos);
+  
   }
 //
  
