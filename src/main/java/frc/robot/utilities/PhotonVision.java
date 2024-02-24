@@ -23,17 +23,20 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /** Add your docs here. */
-public class PhotonVision {
+public class PhotonVision extends SubsystemBase{
     //creates camera objects for fetching results from cameras
     private static PhotonCamera m_NoteTracker = new PhotonCamera("NoteDetector");
     private static PhotonCamera m_AprilTagTracker = new PhotonCamera("ApriltagTracker");
     private static PhotonPoseEstimator m_visionPoseEstimator;
     private static boolean m_AprilTagIsInSight;
     private static double[] lastBestNote = new double[]{0, 0};
+    private static Timer m_Timer = new Timer();
 
   public PhotonVision(){
     try {
@@ -51,6 +54,7 @@ public class PhotonVision {
     } catch(IOException e){
       System.out.println(e.getMessage() + "\n april tags didnt load");
     }
+    m_Timer.start();
         
   } 
     
@@ -64,6 +68,7 @@ public class PhotonVision {
      */
     public static double getNotePidResponseVariable(){
         calculateBestNote();
+    
         return NoteLocalization.getSignedDistanceFromNearestPathToNote(lastBestNote); 
     }
 
@@ -90,8 +95,20 @@ public class PhotonVision {
         return new double[]{lastBestNote[0], lastBestNote[1]};
     }
 
+    public static boolean canTrustNoteData(){
+        return m_Timer.get() < 0.5;
+    }
+
 
     public static PhotonPoseEstimator getPoseEstimator(){
         return m_visionPoseEstimator;
+    }
+
+    @Override
+    public void periodic(){
+    var results = m_NoteTracker.getLatestResult();
+    if(results.hasTargets()){
+         m_Timer.reset();
+    }
     }
 }

@@ -191,7 +191,7 @@ public class ConfigureButtonBindings {
 
 
     //Note Lock on
-    new Trigger(()-> m_driverController.getLeftBumper()).whileTrue(
+    new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
         new NoteLockOn(
             m_robotDrive, 
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),

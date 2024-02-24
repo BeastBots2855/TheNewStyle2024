@@ -44,7 +44,7 @@ public class NoteLockOn extends Command {
         m_XSpeedSupplier.getAsDouble(),
         m_YSpeedSupplier.getAsDouble(), 
         -thetaOutput,
-        true,
+        false,
         true);
   }
 
