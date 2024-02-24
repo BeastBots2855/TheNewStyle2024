@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.LimitSwitchConstants;
+import frc.robot.subsystems.LED;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -27,6 +28,8 @@ public class Intake extends SubsystemBase {
         m_IntakeMotor.set(output);
     } else if (!m_IntakeButton.get() && output > 0) {
       m_IntakeMotor.set(0);
+      
+     
     } else {
       m_IntakeMotor.set(output);
     }

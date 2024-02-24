@@ -33,6 +33,8 @@ import frc.robot.commands.MechanismSequences.SetIntakeGroundShooterIn;
 import frc.robot.commands.MechanismSequences.SetIntakeInShooterAmp;
 import frc.robot.commands.MechanismSequences.SetIntakeInShooterIn;
 import frc.robot.commands.MechanismSequences.SetIntakeInShooterSpeaker;
+import frc.robot.commands.LedCommands.RAINBOWS;
+import frc.robot.commands.LedCommands.SetLights;
 import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
@@ -46,36 +48,37 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.Constants.Colors;
+import frc.robot.subsystems.LED;
 
 /** Add your docs here. */
 public class ConfigureButtonBindings {
+    private LED m_led = new LED();
     public ConfigureButtonBindings(
         XboxController m_driverController, XboxController m_operatorController, 
         DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
-        Climb m_Climb, Autos m_Autos) {
+        Climb m_Climb) {
         
-    //Driver Bindings
-        //Driving Bindings
-            //Movement
-            m_robotDrive.setDefaultCommand(
-                new RunCommand(
-                    () -> m_robotDrive.drive(
-                        -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                        -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                        -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                        true, true),
-                    m_robotDrive));
-            //Set X
-            new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-                .whileTrue(new RunCommand(
-                    () -> m_robotDrive.setX(),
-                    m_robotDrive));
-            //Reset Heading
-            new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-                .whileTrue(new InstantCommand(
-                m_robotDrive::zeroHeading, 
-                m_robotDrive));
+         /**
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
+   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its`
+   * subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
+   * passing it to a
+   * {@link JoystickButton}.
+   */
+  
+    // new JoystickButton(m_driverController, XboxController.Button.kA.value)
+    //     .whileTrue(new RunCommand(
+    //         () -> m_robotDrive.setX(),
+    //         m_robotDrive));
+
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+        .whileTrue(new InstantCommand(
+          m_robotDrive::zeroHeading, 
+          m_robotDrive));
 
         
         //Climb Bindings
@@ -149,18 +152,37 @@ public class ConfigureButtonBindings {
     //             m_driverController.setRumble(RumbleType.kBothRumble, 1);
     //         } else {
     //             m_operatorController.setRumble(RumbleType.kBothRumble, 0);
-    //             m_driverController.setRumble(RumbleType.kBothRumble, 0);
-    //         }
-    //     }));
+    //             m_driverController.setRumble(RumbleType.kBothRumble, 0);})));
+
+    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(
+        new ParallelDeadlineGroup(
+            new WaitCommand(1.4),
+            new IntakeWristClosedLoop(m_IntakeWrist, 180),
+            new ShooterWristClosedLoop(m_ShooterWrist, 140))
+        .andThen(
+            new ParallelCommandGroup(
+                new InstantCommand(()-> m_IntakeWrist.setMotorOutput(0), m_IntakeWrist),
+                new InstantCommand(()-> m_ShooterWrist.setMotorOutput(0), m_ShooterWrist))
+            ).andThen(
+            new ParallelDeadlineGroup(
+                new WaitCommand(0.5),
+                new IntakeDump(m_Intake),
+                new IndexIntakeToShooter(m_Indexer))
+            ).andThen(
+        new RunCommand(()-> {
+            m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+            m_driverController.setRumble(RumbleType.kBothRumble, 1);})));
     
+//131.60
 
     
+    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis(), m_robotDrive::getPitch));
+    new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
+
     
         
-    //Autos
-        NamedCommands.registerCommand("ShooterFireSlow", new RunCommand(()-> m_Shooter.setMotorOutput(0.5), m_Shooter));
-        NamedCommands.registerCommand("ShooterFireFast", new RunCommand(()-> m_Shooter.setMotorOutput(1), m_Shooter));
-        NamedCommands.registerCommand("ShooterStop", new RunCommand(()-> m_Shooter.setMotorOutput(0), m_Shooter));
+
+        NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
         NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));
         NamedCommands.registerCommand("IndexIntakeToShooter", new IndexIntakeToShooter(m_Indexer));
         NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));
