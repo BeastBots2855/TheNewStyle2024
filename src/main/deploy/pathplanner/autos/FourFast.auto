@@ -1,0 +1,125 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3725738150477713,
+      "y": 5.527514849608872
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterFireFast"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SetIntakeGround"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IndexIntakeToShooter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.1
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterStop"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FourFastSpeakerToCenter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FourFastCenterToSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FourFastSpeakerToLeftNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FourFastLeftNoteToSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FourFastSpeakerToRightNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FourFastRightNoteToSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
