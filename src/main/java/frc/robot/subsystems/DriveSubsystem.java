@@ -294,11 +294,18 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed * 0.5;
-
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    double dt = 0.02;
+    // var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+    //     fieldRelative
+    //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
+    //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    var swerveModuleStates =
+      DriveConstants.kDriveKinematics.toSwerveModuleStates(
+          ChassisSpeeds.discretize(
+              fieldRelative 
+              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d()) 
+              : new ChassisSpeeds(xSpeed, ySpeed, rot),
+              dt));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -306,6 +313,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
+
+
+
+
+  SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 6);
+  m_frontLeft.setDesiredState(swerveModuleStates[0]);
+  m_frontRight.setDesiredState(swerveModuleStates[1]);
+  m_rearLeft.setDesiredState(swerveModuleStates[2]);
+  m_rearRight.setDesiredState(swerveModuleStates[3]);
+}
+
 
   /**
    * Sets the wheels into an X formation to prevent movement.
