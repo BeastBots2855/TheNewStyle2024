@@ -102,21 +102,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    
-    SmartDashboard.putData("field", m_field);
-      AutoBuilder.configureHolonomic(
-      this::getPose2d,
-      this::resetOdometry,
-      this::getChassisSpeeds,
-      this::setRobotRelativeSpeeds, 
-       AutoConstants.autoBuilderPathConfig,
-       () -> {var alliance = DriverStation.getAlliance();
-        if(alliance.isPresent()){
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;},
-      this);
-      System.out.println(m_poseEstimator.getEstimatedPosition());
+      //System.out.println(m_poseEstimator.getEstimatedPosition());
 
       SmartDashboard.putData("field", m_field);
 
@@ -173,7 +159,7 @@ public class DriveSubsystem extends SubsystemBase {
       // });
     m_field.setRobotPose(getPose2d());
    
-    System.out.println(getPose2d());
+    //System.out.println(getPose2d());
 
 
     
@@ -205,7 +191,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    // if(Vision.isVisionEnabled){
       m_poseEstimator.resetPosition(pose.getRotation(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
@@ -214,17 +199,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         }, 
         pose);
-    // } else {
-    // m_odometry.resetPosition(
-    //     getHeadingAsRotation2D(),
-    //     new SwerveModulePosition[] {
-    //         m_frontLeft.getPosition(),
-    //         m_frontRight.getPosition(),
-    //         m_rearLeft.getPosition(),
-    //         m_rearRight.getPosition()
-    //     },
-    //     pose);
-    //   }
+    m_gyro.reset();
   }
 
   /**

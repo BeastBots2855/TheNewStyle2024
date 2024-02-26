@@ -181,8 +181,8 @@ public final class Constants {
 
 
       public static final HolonomicPathFollowerConfig autoBuilderPathConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-      new PIDConstants(5.0, 0.0 ,0.2), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
-      new PIDConstants(1.5, 0.0, 0), //5.0, 0, 0.2
+      new PIDConstants(7.0, 0.0 ,0.2), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
+      new PIDConstants(5, 0.0, 0), //5.0, 0, 0.2
       DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
       DriveConstants.kchassisRadiusMeters, // Drive base radius in meters. Distance from robot center to furthest module.
       new ReplanningConfig());

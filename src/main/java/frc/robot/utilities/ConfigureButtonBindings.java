@@ -75,12 +75,11 @@ import frc.robot.subsystems.LED;
 
 /** Add your docs here. */
 public class ConfigureButtonBindings {
-    private LED m_led = new LED();
     public ConfigureButtonBindings(
         XboxController m_driverController, XboxController m_operatorController, 
         DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
-        Climb m_Climb, Autos m_Autos) {
+        Climb m_Climb,LED m_Led, Autos m_Autos) {
         
          /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -101,6 +100,7 @@ public class ConfigureButtonBindings {
         .whileTrue(new InstantCommand(
           m_robotDrive::zeroHeading, 
           m_robotDrive));
+    new Trigger(()->m_driverController.getAButton()).onTrue(new SetLights(m_Led, Colors.m_purple));
 
         
         //Climb Bindings

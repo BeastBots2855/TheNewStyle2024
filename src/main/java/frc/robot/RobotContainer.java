@@ -13,6 +13,7 @@ import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
@@ -38,6 +39,7 @@ public class RobotContainer {
   private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
   private Climb m_climb = new Climb();
+  private LED m_Led = new LED();
 
   private Autos m_Autos = new Autos(m_robotDrive, m_Shooter);
 
@@ -52,7 +54,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     
-    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Autos);
+    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Led, m_Autos);
     new ShuffleBoardInit(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
     
 
