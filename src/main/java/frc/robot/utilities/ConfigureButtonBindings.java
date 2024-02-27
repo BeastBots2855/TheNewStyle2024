@@ -163,6 +163,7 @@ public class ConfigureButtonBindings {
 
         //new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
 
+
         m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
         
 
@@ -199,6 +200,7 @@ public class ConfigureButtonBindings {
 
 
         NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
+        NamedCommands.registerCommand("ShooterFireFast", new ShooterFire(m_Shooter, ()-> 1.0));
         NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));
         NamedCommands.registerCommand("IndexIntakeToShooter", new IndexIntakeToShooter(m_Indexer));
         NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));

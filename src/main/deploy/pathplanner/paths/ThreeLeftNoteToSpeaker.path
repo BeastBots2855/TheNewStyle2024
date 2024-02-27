@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5905008158090483,
-        "y": 6.991369417831561
+        "x": 2.513469069871951,
+        "y": 6.637928410024977
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.766163363995771,
-        "y": 5.3518523014221495
+        "x": 1.7938706360418095,
+        "y": 5.933015658517901
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.507130871149041
+        "x": 1.191757660796181,
+        "y": 5.521816553472107
       },
       "prevControl": {
-        "x": 2.004958988519973,
-        "y": 5.527514849608872
+        "x": 1.8434164829662676,
+        "y": 5.542200531931938
       },
       "nextControl": null,
       "isLocked": false,
@@ -89,25 +89,8 @@
       }
     },
     {
-      "name": "StartMovingIntake",
-      "waypointRelativePos": 0.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SetIntakeGround"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "pass",
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "deadline",
         "data": {

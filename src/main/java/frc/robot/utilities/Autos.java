@@ -32,6 +32,8 @@ public class Autos {
         autoChooser.addOption("Drivetrain Characterization", "DrivetrainCharacterization");
         autoChooser.addOption("FourNoteAuto", "FourNoteAuto");
         autoChooser.addOption("ThreeNoteAuto", "ThreeNoteAuto");
+        autoChooser.addOption("FourFast", "FourFast");
+        autoChooser.addOption("FourFromThree", "FourFromThree");
         // autoChooser.addOption("Shooter Characterization", "ShooterCharacterization");
         // autoChooser.addOption("MoveBack", "MoveBack");
         
@@ -54,6 +56,8 @@ public class Autos {
         m_commandMap.put("Basic Test Auto", AutoBuilder.buildAuto("MoveBack"));
         m_commandMap.put("FourNoteAuto", AutoBuilder.buildAuto("FourNoteAuto"));
         m_commandMap.put("ThreeNoteAuto", AutoBuilder.buildAuto("ThreeNoteAuto"));
+        m_commandMap.put("FourFast", AutoBuilder.buildAuto("FourFast"));
+        m_commandMap.put("FourFromThree", AutoBuilder.buildAuto("FourFromThree"));
         m_commandMap.put("DrivetrainCharacterization", 
             new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
             m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));

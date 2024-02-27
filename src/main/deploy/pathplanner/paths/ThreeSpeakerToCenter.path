@@ -50,7 +50,7 @@
     },
     {
       "name": "StopFlyWheel",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.05,
       "command": {
         "type": "deadline",
         "data": {

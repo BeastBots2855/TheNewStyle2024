@@ -85,6 +85,18 @@
           "data": {
             "pathName": "ThreeLeftNoteToSpeaker"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ThreeSpeakerToRightNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ThreeRightNoteToSpeaker"
+          }
         }
       ]
     }

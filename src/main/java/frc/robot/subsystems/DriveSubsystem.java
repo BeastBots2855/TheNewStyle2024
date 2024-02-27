@@ -105,7 +105,7 @@ public class DriveSubsystem extends SubsystemBase {
       //System.out.println(m_poseEstimator.getEstimatedPosition());
 
       SmartDashboard.putData("field", m_field);
-
+      //m_gyro.reset();
     
   }
   
@@ -139,7 +139,7 @@ public class DriveSubsystem extends SubsystemBase {
   //           m_rearRight.getPosition()
   //   });
    m_poseEstimator.update(
-        getHeadingAsRotation2D(),
+        Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
@@ -191,7 +191,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-      m_poseEstimator.resetPosition(pose.getRotation(),
+      m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
@@ -199,7 +199,6 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         }, 
         pose);
-    m_gyro.reset();
   }
 
   /**
@@ -278,8 +277,8 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kDriveKinematics.toSwerveModuleStates(
           ChassisSpeeds.discretize(
               fieldRelative 
-              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d()) 
-              : new ChassisSpeeds(xSpeed, ySpeed, rot),
+              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getPose2d().getRotation()) 
+              : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered),
               dt));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -325,7 +324,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
+    m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
+    new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        }, getPose2d());
     System.out.println("Reset Gyro");
   }
 
@@ -333,7 +338,7 @@ public class DriveSubsystem extends SubsystemBase {
    * Returns the heading of the robot looped to increase past 360
    */
   public Rotation2d getHeadingAsRotation2D() {
-    return Rotation2d.fromDegrees(-m_gyro.getAngle());
+    return Rotation2d.fromDegrees(getAngle());
   }
 
   public double getAngle(){
