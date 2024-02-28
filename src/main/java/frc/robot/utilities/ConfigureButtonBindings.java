@@ -178,7 +178,8 @@ public class ConfigureButtonBindings {
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
-
+//side shooter set point 
+//path planner start of auto Shooter recieve 
 
 
         NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
@@ -198,7 +199,6 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
-        NamedCommands.registerCommand("", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
 
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();
