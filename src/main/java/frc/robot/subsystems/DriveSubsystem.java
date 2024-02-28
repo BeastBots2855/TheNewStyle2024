@@ -324,13 +324,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
-    new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        }, getPose2d());
+    // m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
+    // new SwerveModulePosition[] {
+    //         m_frontLeft.getPosition(),
+    //         m_frontRight.getPosition(),
+    //         m_rearLeft.getPosition(),
+    //         m_rearRight.getPosition()
+    //     }, getPose2d());
+    m_gyro.reset();
     System.out.println("Reset Gyro");
   }
 

@@ -91,16 +91,20 @@ public class ConfigureButtonBindings {
    * {@link JoystickButton}.
    */
   
-    // new JoystickButton(m_driverController, XboxController.Button.kA.value)
-    //     .whileTrue(new RunCommand(
-    //         () -> m_robotDrive.setX(),
-    //         m_robotDrive));
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
+        .whileTrue(new RunCommand(
+            () -> m_robotDrive.setX(),
+            m_robotDrive));
 
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new InstantCommand(
           m_robotDrive::zeroHeading, 
           m_robotDrive));
-    new Trigger(()->m_driverController.getAButton()).onTrue(new SetLights(m_Led, Colors.m_purple));
+    new Trigger(()->m_driverController.getAButton()).onTrue(new RAINBOWS(m_Led));
+    new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.m_green));
+    new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.m_yellow));
+    new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.m_red));
+    //new Trigger(()->m_IntakeButton.get()).onTrue(new SetLights(m_Led, Color.green));
 
         
         //Climb Bindings

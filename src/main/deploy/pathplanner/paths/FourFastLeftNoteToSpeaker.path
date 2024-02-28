@@ -50,7 +50,7 @@
     },
     {
       "name": "PrepArangement",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "sequential",
         "data": {
@@ -89,25 +89,8 @@
       }
     },
     {
-      "name": "StartMovingIntake",
-      "waypointRelativePos": 0.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SetIntakeGround"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "pass",
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "deadline",
         "data": {
@@ -137,7 +120,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxAcceleration": 1.8,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

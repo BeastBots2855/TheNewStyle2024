@@ -50,7 +50,7 @@
     },
     {
       "name": "StopFlyWheel",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "deadline",
         "data": {
@@ -91,7 +91,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxAcceleration": 1.8,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
