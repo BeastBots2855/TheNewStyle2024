@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6526466320503541,
-      "y": 4.532947561579464
+      "x": 0.7036346501792881,
+      "y": 6.531677872233673
     },
-    "rotation": -60.25511870305777
+    "rotation": -116.56505117707802
   },
   "command": {
     "type": "sequential",
@@ -65,7 +65,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OnePiece"
+            "pathName": "AStoFarLN"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FarLNtoAmp"
           }
         }
       ]
