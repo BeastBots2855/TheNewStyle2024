@@ -4,10 +4,14 @@
   "holonomicMode": true,
   "pathFolders": [
     "4Note",
+    "Amp",
     "FourFast",
+    "OnePieceMobility",
     "ThreeNote"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "New Folder"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

@@ -7,6 +7,7 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Indexer;
@@ -38,5 +39,11 @@ public class ShuffleBoardInit {
             m_visionTab.addDouble("DistanceFromRing", ()-> PhotonVision.getNotePidResponseVariable());
             m_visionTab.addDouble("RingX", ()-> PhotonVision.getConvertedLastNotePosition()[0]);
             m_visionTab.addDouble("RingY", ()-> PhotonVision.getConvertedLastNotePosition()[1]);
+
+            SmartDashboard.putData(m_robotDrive);
+            SmartDashboard.putData(m_IntakeWrist);
+            SmartDashboard.putData(m_ShooterWrist);
+            SmartDashboard.putData(m_Intake);
+            SmartDashboard.putData(m_Shooter);
         }
 }

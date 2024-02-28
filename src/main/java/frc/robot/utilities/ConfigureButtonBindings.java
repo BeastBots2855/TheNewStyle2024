@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -96,22 +97,29 @@ public class ConfigureButtonBindings {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
+    // new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+    //     .whileTrue(new InstantCommand(
+    //       m_robotDrive::zeroHeading, 
+    //       m_robotDrive));
+
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new InstantCommand(
-          m_robotDrive::zeroHeading, 
-          m_robotDrive));
-    new Trigger(()->m_driverController.getAButton()).onTrue(new RAINBOWS(m_Led));
-    new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.m_green));
-    new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.m_yellow));
-    new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.m_red));
-    //new Trigger(()->m_IntakeButton.get()).onTrue(new SetLights(m_Led, Color.green));
+        ()-> m_robotDrive.resetOdometry(m_robotDrive.getPose2d()), 
+        m_robotDrive));
 
-        
+        //LEDs
+            new Trigger(()->m_driverController.getAButton()).onTrue(new RAINBOWS(m_Led));
+            new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.m_green));
+            new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.m_yellow));
+            new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.m_red));
+
         //Climb Bindings
             //Activate Climb
             new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis(), m_robotDrive::getPitch));
             //Reverse Climb
             new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
+
+            
 
 
 
@@ -171,27 +179,24 @@ public class ConfigureButtonBindings {
         m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
         
 
+
+    //Set lights to green when contacting note
+    new Trigger(()-> m_Indexer.isTouchingLimitSwitch()).onTrue(new RunCommand(()-> new SetLights(m_Led, Colors.m_green)));
     //The Forsaken One   
-    // new Trigger(()-> true).whileTrue(
-    //     new RunCommand(()-> {
-    //         if (m_Intake.shouldRumble()){
-    //             m_operatorController.setRumble(RumbleType.kBothRumble, 1);
-    //             m_driverController.setRumble(RumbleType.kBothRumble, 1);
-    //         } else {
-    //             m_operatorController.setRumble(RumbleType.kBothRumble, 0);
-    //             m_driverController.setRumble(RumbleType.kBothRumble, 0);})));
+    new Trigger(()-> m_Indexer.isTouchingLimitSwitch()).onTrue(
+        new RunCommand(()-> {
+                m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+                m_driverController.setRumble(RumbleType.kBothRumble, 1);}))
+        .onFalse(
+            new RunCommand(()-> {
+                m_operatorController.setRumble(RumbleType.kBothRumble, 0);
+                m_driverController.setRumble(RumbleType.kBothRumble, 0);})
+        );
 
-//131.60
 
     
-    new Trigger(()-> m_driverController.getRightTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> m_driverController.getRightTriggerAxis(), m_robotDrive::getPitch));
-    new Trigger(()-> m_driverController.getLeftTriggerAxis() != 0).whileTrue(new ClimberClimb(m_Climb, ()-> -m_driverController.getLeftTriggerAxis(), m_robotDrive::getPitch));
 
     
-    
-
-
-
 
     //Note Lock on
     new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
@@ -224,11 +229,7 @@ public class ConfigureButtonBindings {
 
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();
-        SmartDashboard.putData(m_robotDrive);
-        SmartDashboard.putData(m_IntakeWrist);
-        SmartDashboard.putData(m_ShooterWrist);
-        SmartDashboard.putData(m_Intake);
-        SmartDashboard.putData(m_Shooter);
+
         
         
     }
