@@ -158,7 +158,7 @@ public class ConfigureButtonBindings {
 
 
     //Set lights to green when contacting note
-    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(new SetLights(m_Led, Colors.green)).whileFalse(new SetLights(m_Led, Colors.yellow));
+    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(new SetLights(m_Led, Colors.green)).whileFalse(new RAINBOWS(m_Led));
     //The Forsaken One   
     new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(
         new RunCommand(()-> {
@@ -183,7 +183,7 @@ public class ConfigureButtonBindings {
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
 //
-   new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.green)); 
+   new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.yellow)); 
    new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.red));
           
             
