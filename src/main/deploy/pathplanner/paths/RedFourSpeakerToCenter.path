@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.309243119380694,
-        "y": 5.609930647410491
+        "x": 1.3386144840268221,
+        "y": 5.565873600441298
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3763132980811417,
-        "y": 7.2764218255709245
+        "x": 2.338614484026823,
+        "y": 5.565873600441298
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6916664742420395,
-        "y": 7.0058881935945685
+        "x": 2.5868974814872714,
+        "y": 5.565873600441298
       },
       "prevControl": {
-        "x": 2.094686155443133,
-        "y": 6.872732420633946
+        "x": 1.5868974814872714,
+        "y": 5.565873600441298
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,25 @@
   "constraintZones": [],
   "eventMarkers": [
     {
+      "name": "PrepArrangement",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeGroundShooterIn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "StopFlyWheel",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "deadline",
         "data": {
@@ -55,27 +72,10 @@
       }
     },
     {
-      "name": "PrepArrangement",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SetIntakeGroundShooterIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.35,
       "command": {
-        "type": "parallel",
+        "type": "deadline",
         "data": {
           "commands": [
             {
@@ -97,11 +97,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.9890615383908091,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "FourFast",
+  "folder": "RedFour",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -157,6 +157,7 @@ public final class Constants {
 
   public static final class ShooterConstants {
       public static final int ShooterMotorCANID = 31;
+      public static final int ShooterMotor2CANID = 33;
       public static final double kMotorConsumeSpeed = 0.3;
   }
 
@@ -220,19 +221,14 @@ public final class Constants {
     public static final double kShooterClimb = 90;
 
   }
-public class Colors {
-    static Random randColor = new Random();
-    static int randRGB = randColor.nextInt(150);
-     static int randRGB2 = randColor.nextInt(1);
-     static int randRGB3 = randColor.nextInt(150);
-    public static final RGBColor m_red = new RGBColor(255, 0, 0);
-    public static final RGBColor m_blue = new RGBColor(0,0,255);
-    public static final RGBColor m_green = new RGBColor(0,255,0);
-    public static final RGBColor m_purple = new RGBColor(150, 0, 150);
-    public static final RGBColor m_yellow = new RGBColor(255,100,0);
-    public static final RGBColor m_rand = new RGBColor(randRGB, randRGB2 , randRGB3);
-    public static final RGBColor m_cyan = new RGBColor(0,150,150);
-    public static final RGBColor m_orange = new RGBColor(255,50,0);
+public class Colors { 
+    public static final RGBColor red = new RGBColor(255, 0, 0);
+    public static final RGBColor blue = new RGBColor(0,0,255);
+    public static final RGBColor green = new RGBColor(0,255,0);
+    public static final RGBColor purple = new RGBColor(150, 0, 150);
+    public static final RGBColor yellow = new RGBColor(255,100,0);
+    public static final RGBColor cyan = new RGBColor(0,150,150);
+    public static final RGBColor orange = new RGBColor(255,50,0);
   }
 
 

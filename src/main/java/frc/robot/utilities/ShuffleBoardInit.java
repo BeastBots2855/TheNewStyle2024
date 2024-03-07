@@ -29,6 +29,9 @@ public class ShuffleBoardInit {
         Climb m_Climb) {
 
             m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
+            m_telopOutput.addDouble("Box setPoint: ", () -> m_ShooterWrist.getSetpoint());
+            m_telopOutput.addBoolean("Box isWithinTolerance: ", () -> m_ShooterWrist.isWithinPidTolerance());
+            m_telopOutput.addDouble("Intake anggle: ", () -> m_IntakeWrist.getAbsoluteEncoderValue());
             m_telopOutput.addBoolean("IntakeButtonIsPressed", ()-> m_Intake.isTouchingLimitSwitch());
             m_telopOutput.addBoolean("IndexerSwitchPressed", ()-> m_Indexer.isTouchingLimitSwitch());
             m_telopOutput.addBoolean("IndexerIsPrimed", ()-> m_Indexer.getIsPrimed());

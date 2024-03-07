@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.309243119380694,
-        "y": 5.609930647410491
+        "x": 1.2945574370576298,
+        "y": 5.551187918118234
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3763132980811417,
-        "y": 7.2764218255709245
+        "x": 1.6002032004064008,
+        "y": 3.7781421017387493
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6916664742420395,
-        "y": 7.0058881935945685
+        "x": 2.6450227445909436,
+        "y": 3.890087052901379
       },
       "prevControl": {
-        "x": 2.094686155443133,
-        "y": 6.872732420633946
+        "x": 2.0829025903934313,
+        "y": 4.077460437633885
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,9 +33,9 @@
   "eventMarkers": [
     {
       "name": "StopFlyWheel",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.0,
       "command": {
-        "type": "deadline",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -73,7 +73,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,11 +97,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.9890615383908091,
+    "rotation": -1.7899106082461234,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "FourFast",
+  "folder": "RedFour",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

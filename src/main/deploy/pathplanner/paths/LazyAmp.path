@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.046366638187822,
-        "y": 7.42568176045443
+        "x": 0.7606160666866788,
+        "y": 6.5021359133627366
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.609739764938675,
-        "y": 7.351051793008805
+        "x": 0.602027385873349,
+        "y": 7.080518161038573
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.342854503895427,
-        "y": 7.42568176045443
+        "x": 0.49008243471071944,
+        "y": 7.369709284875367
       },
       "prevControl": {
-        "x": 5.3317015724986545,
-        "y": 7.41635301452034
+        "x": 0.8072597963381698,
+        "y": 7.22044934999186
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,25 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "PrepArrangements",
-      "waypointRelativePos": 0.1,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SetIntakeInShooterIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Pass",
-      "waypointRelativePos": 0.4,
+      "name": "ShooterStop",
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "deadline",
         "data": {
@@ -58,19 +41,13 @@
             {
               "type": "wait",
               "data": {
-                "waitTime": 0.38
+                "waitTime": 0.1
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "IntakeDump"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "IndexIntakeToShooter"
+                "name": "ShooterStop"
               }
             }
           ]
@@ -80,20 +57,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 1.3322198533169203,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Amp",
   "previewStartingState": {
-    "rotation": -0.6684839827481854,
+    "rotation": 57.74528947313287,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

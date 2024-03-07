@@ -16,44 +16,44 @@
     },
     {
       "anchor": {
-        "x": 2.9540750694436766,
-        "y": 7.679664391587922
+        "x": 2.9622001062183942,
+        "y": 7.705544138361004
       },
       "prevControl": {
-        "x": 1.9555069371735914,
-        "y": 7.733159112959534
+        "x": 1.963631973948309,
+        "y": 7.759038859732616
       },
       "nextControl": {
-        "x": 4.066302326156255,
-        "y": 7.620080788549748
+        "x": 4.074427362930972,
+        "y": 7.64596053532283
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.264594787257306,
-        "y": 7.447950379772801
+        "x": 5.2570716050523005,
+        "y": 7.584270441268155
       },
       "prevControl": {
-        "x": 4.586808751601516,
-        "y": 7.460619277635526
+        "x": 4.605864953662175,
+        "y": 7.636631789391537
       },
       "nextControl": {
-        "x": 5.972977623377817,
-        "y": 7.434709579097652
+        "x": 5.963298893306176,
+        "y": 7.527485067814807
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.913340413610544,
-        "y": 7.447950379772801
+        "x": 8.06502413004826,
+        "y": 7.407024268593991
       },
       "prevControl": {
-        "x": 6.8739375606112905,
-        "y": 7.4678115807855265
+        "x": 7.025621277049006,
+        "y": 7.426885469606717
       },
       "nextControl": null,
       "isLocked": false,
@@ -63,12 +63,12 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.4,
-      "rotationDegrees": 92.96029011513431,
+      "rotationDegrees": 4.047833884126655,
       "rotateFast": false
     },
     {
       "waypointRelativePos": 1.25,
-      "rotationDegrees": 88.5409275406623,
+      "rotationDegrees": 0.16223597200361453,
       "rotateFast": false
     },
     {
@@ -81,7 +81,7 @@
   "eventMarkers": [
     {
       "name": "PrepArrangement",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 1.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -121,7 +121,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 1.9,
+      "waypointRelativePos": 2.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -130,6 +130,23 @@
               "type": "named",
               "data": {
                 "name": "AutoIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "IntakeIn",
+      "waypointRelativePos": 0.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "SetIntakeInShooterIn"
               }
             }
           ]

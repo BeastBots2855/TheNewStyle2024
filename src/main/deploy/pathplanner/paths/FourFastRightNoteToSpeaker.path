@@ -110,6 +110,29 @@
           ]
         }
       }
+    },
+    {
+      "name": "KeepPulling",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeConsume"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.5
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

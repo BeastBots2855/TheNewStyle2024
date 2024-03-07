@@ -3,10 +3,11 @@
   "robotLength": 0.59,
   "holonomicMode": true,
   "pathFolders": [
+    "2PieceFar",
     "4Note",
     "Amp",
     "FourFast",
-    "2PieceFar",
+    "RedFour",
     "OnePieceMobility",
     "ThreeNote"
   ],

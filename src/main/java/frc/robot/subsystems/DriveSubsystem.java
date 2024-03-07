@@ -269,15 +269,20 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed * 0.5;
     double dt = 0.02;
+    Rotation2d currentAngle =  DriverStation.getAlliance().get() ==  DriverStation.Alliance.Red ? 
+      getPose2d().getRotation().rotateBy(Rotation2d.fromDegrees(180)) : 
+      getPose2d().getRotation();
+    // Rotation2d currentAngle = getPose2d().getRotation();
     // var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
     //     fieldRelative
     //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
     //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+
     var swerveModuleStates =
       DriveConstants.kDriveKinematics.toSwerveModuleStates(
           ChassisSpeeds.discretize(
               fieldRelative 
-              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getPose2d().getRotation()) 
+              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, currentAngle) 
               : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered),
               dt));
     SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -324,14 +329,18 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    // m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
-    // new SwerveModulePosition[] {
-    //         m_frontLeft.getPosition(),
-    //         m_frontRight.getPosition(),
-    //         m_rearLeft.getPosition(),
-    //         m_rearRight.getPosition()
-    //     }, getPose2d());
-    m_gyro.reset();
+
+    // m_gyro.reset();
+    var newAngle = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ?
+    Rotation2d.fromDegrees(0) :
+    Rotation2d.fromDegrees(180);
+    m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
+    new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+        }, new Pose2d(m_poseEstimator.getEstimatedPosition().getTranslation(), newAngle));
     System.out.println("Reset Gyro");
   }
 
@@ -340,6 +349,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Rotation2d getHeadingAsRotation2D() {
     return Rotation2d.fromDegrees(getAngle());
+
   }
 
   public double getAngle(){

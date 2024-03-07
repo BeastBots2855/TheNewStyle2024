@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3725738150477713,
-      "y": 5.527514849608872
+      "x": 0.7606160666866788,
+      "y": 6.5021359133627366
     },
-    "rotation": 0
+    "rotation": -118.26400414852392
   },
   "command": {
     "type": "sequential",
@@ -36,12 +36,6 @@
                       "data": {
                         "name": "SetIntakeGround"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": null
-                      }
                     }
                   ]
                 }
@@ -71,37 +65,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FourFastSpeakerToCenter"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FourFastCenterToSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FourFastSpeakerToLeftNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FourFastLeftNoteToSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FourFastSpeakerToRightNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FourFastRightNoteToSpeaker"
+            "pathName": "LazyAmp"
           }
         }
       ]

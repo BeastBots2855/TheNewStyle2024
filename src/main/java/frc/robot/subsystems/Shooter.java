@@ -12,13 +12,16 @@ import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  private final CANSparkMax m_ShooterMotor;
+  private final CANSparkMax m_ShooterMotor1;
+  private final CANSparkMax m_ShooterMotor2;
   public Shooter() {
-    m_ShooterMotor = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
+    m_ShooterMotor1 = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
+    m_ShooterMotor2 = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless); 
   }
 
   public void setMotorOutput(double output){
-    m_ShooterMotor.set(output);
+    m_ShooterMotor1.set(output);
+    m_ShooterMotor2.set(output);
   }
 
   @Override
