@@ -182,7 +182,7 @@ public class ConfigureButtonBindings {
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
-
+//
    new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.green)); 
    new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.red));
           
