@@ -420,6 +420,8 @@ public class DriveSubsystem extends SubsystemBase {
     characterizationVolts = volts;
   }
 
+  
+
   public double getCharacterizationVelocity() {
     double driveVelocityAverage = 0.0;
     driveVelocityAverage += m_frontRight.getCharacterizationVelocity();

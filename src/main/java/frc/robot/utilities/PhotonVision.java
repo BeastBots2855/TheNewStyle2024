@@ -22,16 +22,22 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoShoot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.Vision;
 
 /** Add your docs here. */
 public class PhotonVision extends SubsystemBase{
@@ -40,7 +46,6 @@ public class PhotonVision extends SubsystemBase{
     private static PhotonCamera m_AprilTagTracker = new PhotonCamera("ApriltagTracker");
     private static PhotonPoseEstimator m_visionPoseEstimator;
     private static AprilTagFieldLayout fieldLayout;
-    private static boolean m_AprilTagIsInSight;
     private static double[] lastBestNote = new double[]{0, 0};
     private static Timer m_Timer = new Timer();
 
@@ -57,10 +62,10 @@ public class PhotonVision extends SubsystemBase{
                 Units.inchesToMeters(19.5)), 
             new Rotation3d(0, 0,0)));
     } catch(IOException e){
-      System.out.println(e.getMessage() + "\n april tags didnt load");
+      System.out.println(e.getMessage() + "\n vision estimator initialization failed");
     }
     m_Timer.start();
-    fieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+    fieldLayout = Vision.kTagLayout;
         
   } 
     
@@ -74,7 +79,6 @@ public class PhotonVision extends SubsystemBase{
      */
     public static double getNotePidResponseVariable(){
         calculateBestNote();
-    
         return NoteLocalization.getSignedDistanceFromNearestPathToNote(lastBestNote); 
     }
 
@@ -149,4 +153,36 @@ public class PhotonVision extends SubsystemBase{
                     }
                 }
             }
+
+        public Translation2d getGoalPose(){
+            boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+            .equals(DriverStation.Alliance.Blue);
+            Translation2d goalPose = isBlue ? FieldConstants.BLUE_SPEAKER : FieldConstants.RED_SPEAKER;
+            return goalPose;
+        }
+        
+        public Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
+            Translation2d goalPose = getGoalPose();
+            double distanceToSpeaker = currentPose.getTranslation().getDistance(goalPose);
+            double x = goalPose.getX()
+                    - (robotVel.vxMetersPerSecond * (distanceToSpeaker / FieldConstants.NOTE_VELOCITY));
+            double y = goalPose.getY() - (robotVel.vyMetersPerSecond * (distanceToSpeaker / FieldConstants.NOTE_VELOCITY));
+            Translation2d goalPoseAdjusted = new Translation2d(x, y);
+            // Pose2d speaker = new Pose2d(goalPoseAdjusted, new Rotation2d());
+            // m_goalPoseField.setRobotPose(speaker);
+            return goalPoseAdjusted; 
+        }
+
+        public double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel){
+            double distance = currentPose.getTranslation().getDistance(getAdjustedSpeakerPosition(currentPose, robotVel));
+            return AutoShoot.DISTANCE_TO_ANGLE_MAP.get(distance);
+        }
+
+        public double getRobotToSpeakerAngle(Pose2d currentPose, ChassisSpeeds robotVel) {
+            double x = getAdjustedSpeakerPosition(currentPose, robotVel).getX() - currentPose.getX();
+            double y = getAdjustedSpeakerPosition(currentPose, robotVel).getY() - currentPose.getY();
+            return Math.atan2(y, x);
+        }
+
+        
 }
