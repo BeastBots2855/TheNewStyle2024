@@ -158,7 +158,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-      public static final int ShooterMotorCANID = 31;
+      public static final int topMotorCanID = 33;
+      public static final int bottomMotorCanID = 34;
       public static final double kMotorConsumeSpeed = 0.3;
   }
 
