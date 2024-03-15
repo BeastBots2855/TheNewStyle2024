@@ -17,6 +17,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -265,6 +266,38 @@ public class Colors {
         public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
 
+        
+    }
+
+    public static class FieldConstants {
+        public static final double VISION_FIELD_MARGIN = 0.5;
+        public static final double VISION_Z_MARGIN = 0.75;
+        public static final double VISION_STD_XY_SCALE = 0.02;
+        public static final double VISION_STD_ROT_SCALE = 0.035;
+
+        public static final double FIELD_LENGTH = 16.5417;
+        public static final double FIELD_WIDTH = 8.0136;
+
+        public static final double NOTE_VELOCITY = 10.0;
+
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0241, 5.547868);
+        public static final Translation2d RED_SPEAKER = new Translation2d(FIELD_LENGTH - BLUE_SPEAKER.getX(),
+            BLUE_SPEAKER.getY() + 0.1);
+        public static final Translation2d STAGE = new Translation2d(4.981067, 4.105783);
+
+        public static final double SPEAKER_HEIGHT = 2.08;
+        public static final Pose3d BLUE_SPEAKER_3D = new Pose3d(BLUE_SPEAKER.getX(), BLUE_SPEAKER.getY(), SPEAKER_HEIGHT,
+            new Rotation3d());
+        public static final Pose3d RED_SPEAKER_3D = new Pose3d(RED_SPEAKER.getX(), RED_SPEAKER.getY(), SPEAKER_HEIGHT,
+            new Rotation3d());
+
+        public static final double OPPONENT_WING_LINE = 10.66;
+        public static final double AMP_X = 1.9;
+
+        public static final PIDConstants AUTO_AIM_ROT_PID_CONSTANTS = new PIDConstants(9.5, 0.01, 0.5);
+        public static final PIDConstants AUTO_AIM_ROT_PID_CONSTANTS_TELE = new PIDConstants(10.5, 0.01, 0.5);
+
+        public static final double VISION_REJECT_DISTANCE = 2.3;
     }
 
 

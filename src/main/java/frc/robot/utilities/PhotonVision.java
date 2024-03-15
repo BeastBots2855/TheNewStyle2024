@@ -7,6 +7,7 @@ package frc.robot.utilities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -17,6 +18,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -27,6 +30,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.FieldConstants;
 
 /** Add your docs here. */
 public class PhotonVision extends SubsystemBase{
@@ -34,6 +39,7 @@ public class PhotonVision extends SubsystemBase{
     private static PhotonCamera m_NoteTracker = new PhotonCamera("NoteDetector");
     private static PhotonCamera m_AprilTagTracker = new PhotonCamera("ApriltagTracker");
     private static PhotonPoseEstimator m_visionPoseEstimator;
+    private static AprilTagFieldLayout fieldLayout;
     private static boolean m_AprilTagIsInSight;
     private static double[] lastBestNote = new double[]{0, 0};
     private static Timer m_Timer = new Timer();
@@ -50,11 +56,11 @@ public class PhotonVision extends SubsystemBase{
                 -Units.inchesToMeters(14), 
                 Units.inchesToMeters(19.5)), 
             new Rotation3d(0, 0,0)));
-
     } catch(IOException e){
       System.out.println(e.getMessage() + "\n april tags didnt load");
     }
     m_Timer.start();
+    fieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
         
   } 
     
@@ -99,7 +105,6 @@ public class PhotonVision extends SubsystemBase{
         return m_Timer.get() < 0.5;
     }
 
-
     public static PhotonPoseEstimator getPoseEstimator(){
         return m_visionPoseEstimator;
     }
@@ -111,4 +116,37 @@ public class PhotonVision extends SubsystemBase{
          m_Timer.reset();
     }
     }
+
+     public void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
+            PhotonPoseEstimator poseEstimator = PhotonVision.getPoseEstimator();
+                // print out the time for this line to run 
+                Optional<EstimatedRobotPose> pose = poseEstimator.update();
+                if (pose.isPresent()) {
+                    Pose3d pose3d = pose.get().estimatedPose;
+                    Pose2d pose2d = pose3d.toPose2d();
+                    if (
+                        pose3d.getX() >= -FieldConstants.VISION_FIELD_MARGIN &&
+                        pose3d.getX() <= FieldConstants.FIELD_LENGTH + FieldConstants.VISION_FIELD_MARGIN &&
+                        pose3d.getY() >= -FieldConstants.VISION_FIELD_MARGIN &&
+                        pose3d.getY() <= FieldConstants.FIELD_WIDTH + FieldConstants.VISION_FIELD_MARGIN &&
+                        pose3d.getZ() >= -FieldConstants.VISION_Z_MARGIN &&
+                        pose3d.getZ() <= FieldConstants.VISION_Z_MARGIN
+                    ) {
+                        double sum = 0.0;
+                        for (PhotonTrackedTarget target : pose.get().targetsUsed) {
+                            Optional<Pose3d> tagPose =
+                                fieldLayout.getTagPose(target.getFiducialId());
+                            if (tagPose.isEmpty()) continue;
+                            sum += currentPose.getTranslation().getDistance(tagPose.get().getTranslation().toTranslation2d());
+                        }
+
+                        int tagCount = pose.get().targetsUsed.size();
+                        double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
+                        double xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
+                        double rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
+                        //time this as well
+                        m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
+                    }
+                }
+            }
 }

@@ -3,6 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 //stuff
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -11,6 +17,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -324,14 +331,20 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    // m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
-    // new SwerveModulePosition[] {
-    //         m_frontLeft.getPosition(),
-    //         m_frontRight.getPosition(),
-    //         m_rearLeft.getPosition(),
-    //         m_rearRight.getPosition()
-    //     }, getPose2d());
-    m_gyro.reset();
+//     boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+//     .equals(DriverStation.Alliance.Blue);
+// Rotation2d heading = isBlue ? new Rotation2d() : new Rotation2d(Math.PI);
+
+// m_poseEstimator.resetPosition(
+//     Rotation2d.fromDegrees(getHeading()),
+//     new SwerveModulePosition[] {
+//             m_frontLeft.getPosition(),
+//             m_frontRight.getPosition(),
+//             m_rearLeft.getPosition(),
+//             m_rearRight.getPosition()
+//     },
+//     new Pose2d(m_poseEstimator.getEstimatedPosition().getX(), m_poseEstimator.getEstimatedPosition().getY(),
+//             heading));
     System.out.println("Reset Gyro");
   }
 
@@ -445,9 +458,5 @@ public class DriveSubsystem extends SubsystemBase {
         return false;},
       this);
   }
-
-
-
-  
 
 }
