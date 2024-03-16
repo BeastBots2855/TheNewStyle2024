@@ -121,7 +121,7 @@ public class PhotonVision extends SubsystemBase{
     }
     }
 
-     public void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
+     public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
             PhotonPoseEstimator poseEstimator = PhotonVision.getPoseEstimator();
                 // print out the time for this line to run 
                 Optional<EstimatedRobotPose> pose = poseEstimator.update();

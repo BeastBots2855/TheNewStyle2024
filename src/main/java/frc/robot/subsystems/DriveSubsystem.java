@@ -145,6 +145,8 @@ public class DriveSubsystem extends SubsystemBase {
   //           m_rearLeft.getPosition(),
   //           m_rearRight.getPosition()
   //   });
+
+  PhotonVision.addFilteredPoseData(getPose2d(), m_poseEstimator);
    m_poseEstimator.update(
         Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
