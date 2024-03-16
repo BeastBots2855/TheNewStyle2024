@@ -30,7 +30,7 @@ private final Shooter m_shooter;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setMotorOutput(m_SpeedSupplier.get()*0.8);
+    m_shooter.setMotorOutput(m_SpeedSupplier.get());
 
   }
 

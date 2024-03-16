@@ -38,6 +38,8 @@ public class ShuffleBoardInit {
             m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
             m_telopOutput.addBoolean("isIntakeWristPidOn", m_IntakeWrist::isPidEnabled);
             m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
+            m_telopOutput.addBoolean("ShooterVelocity", m_ShooterWrist::isPidEnabled);
+            
 
             m_visionTab.addDouble("DistanceFromRing", ()-> PhotonVision.getNotePidResponseVariable());
             m_visionTab.addDouble("RingX", ()-> PhotonVision.getConvertedLastNotePosition()[0]);
