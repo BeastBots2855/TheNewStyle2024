@@ -31,6 +31,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -48,12 +49,13 @@ public class PhotonVision extends SubsystemBase{
     private static AprilTagFieldLayout fieldLayout;
     private static double[] lastBestNote = new double[]{0, 0};
     private static Timer m_Timer = new Timer();
+    private static Field2d m_photonVisionField = new Field2d();
 
   public PhotonVision(){
     try {
       m_visionPoseEstimator = new PhotonPoseEstimator(
         AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile), 
-        PoseStrategy.CLOSEST_TO_LAST_POSE, 
+        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
         m_AprilTagTracker, 
         new Transform3d(
             new Translation3d(
@@ -65,7 +67,9 @@ public class PhotonVision extends SubsystemBase{
       System.out.println(e.getMessage() + "\n vision estimator initialization failed");
     }
     m_Timer.start();
+    
     fieldLayout = Vision.kTagLayout;
+    SmartDashboard.putData("directVision", m_photonVisionField);
         
   } 
     
@@ -151,6 +155,9 @@ public class PhotonVision extends SubsystemBase{
                         //time this as well
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
+
+                    m_photonVisionField.setRobotPose(pose2d);
+                    System.out.println("got a pose");
                 }
             }
 

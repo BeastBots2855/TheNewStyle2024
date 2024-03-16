@@ -166,7 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
       //     estimatedRobotPose.timestampSeconds);
           
       // });
-    m_field.setRobotPose(getPose2d());
+    
    
     //System.out.println(getPose2d());
 
@@ -362,12 +362,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose2d(){
-      // if(Vision.isVisionEnabled){
-      //     return m_poseEstimator.getEstimatedPosition();
-      // } else {
-      // return m_odometry.getPoseMeters();
-      // }
-
       return m_poseEstimator.getEstimatedPosition();
   }
 
