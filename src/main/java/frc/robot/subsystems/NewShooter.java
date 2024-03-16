@@ -31,8 +31,8 @@ public class NewShooter extends SubsystemBase {
         m_topSparkMax = new CANSparkMax(ShooterConstants.topMotorCanID, MotorType.kBrushless);
         m_bottomSparkMax = new CANSparkMax(ShooterConstants.bottomMotorCanID, MotorType.kBrushless);
 
-        m_topMotorFeedforward = new SimpleMotorFeedforward(0.244, 0.391);
-        m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.244, 0.391);
+        m_topMotorFeedforward = new SimpleMotorFeedforward(0.1799, 0.00033);
+        m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.2188, 0.00036);
 
         m_topSparkMax.restoreFactoryDefaults();
         m_bottomSparkMax.restoreFactoryDefaults();
