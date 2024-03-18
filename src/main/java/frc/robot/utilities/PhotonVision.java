@@ -44,7 +44,7 @@ import frc.robot.Constants.Vision;
 public class PhotonVision extends SubsystemBase{
     //creates camera objects for fetching results from cameras
     private static PhotonCamera m_NoteTracker = new PhotonCamera("NoteDetector");
-    private static PhotonCamera m_AprilTagTracker = new PhotonCamera("ApriltagTracker");
+    private static PhotonCamera m_AprilTagTracker = new PhotonCamera("AprilTagTracker");
     private static PhotonPoseEstimator m_visionPoseEstimator;
     private static AprilTagFieldLayout fieldLayout;
     private static double[] lastBestNote = new double[]{0, 0};
@@ -62,7 +62,7 @@ public class PhotonVision extends SubsystemBase{
                 Units.inchesToMeters(6), 
                 -Units.inchesToMeters(14), 
                 Units.inchesToMeters(19.5)), 
-            new Rotation3d(0, 0,0)));
+            new Rotation3d(0, 0, Math.PI)));
     } catch(IOException e){
       System.out.println(e.getMessage() + "\n vision estimator initialization failed");
     }
@@ -157,7 +157,6 @@ public class PhotonVision extends SubsystemBase{
                     }
 
                     m_photonVisionField.setRobotPose(pose2d);
-                    System.out.println("got a pose");
                 }
             }
 

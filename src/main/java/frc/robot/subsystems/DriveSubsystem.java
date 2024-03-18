@@ -146,7 +146,7 @@ public class DriveSubsystem extends SubsystemBase {
   //           m_rearRight.getPosition()
   //   });
 
-  PhotonVision.addFilteredPoseData(getPose2d(), m_poseEstimator);
+  
    m_poseEstimator.update(
         Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
@@ -155,6 +155,7 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
+    PhotonVision.addFilteredPoseData(getPose2d(), m_poseEstimator);
     m_field.setRobotPose(getPose2d());
    
 
@@ -333,20 +334,20 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-//     boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
-//     .equals(DriverStation.Alliance.Blue);
-// Rotation2d heading = isBlue ? new Rotation2d() : new Rotation2d(Math.PI);
+    boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+    .equals(DriverStation.Alliance.Blue);
+Rotation2d heading = isBlue ? new Rotation2d() : new Rotation2d(Math.PI);
 
-// m_poseEstimator.resetPosition(
-//     Rotation2d.fromDegrees(getHeading()),
-//     new SwerveModulePosition[] {
-//             m_frontLeft.getPosition(),
-//             m_frontRight.getPosition(),
-//             m_rearLeft.getPosition(),
-//             m_rearRight.getPosition()
-//     },
-//     new Pose2d(m_poseEstimator.getEstimatedPosition().getX(), m_poseEstimator.getEstimatedPosition().getY(),
-//             heading));
+m_poseEstimator.resetPosition(
+    getHeadingAsRotation2D(),
+    new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
+    },
+    new Pose2d(m_poseEstimator.getEstimatedPosition().getX(), m_poseEstimator.getEstimatedPosition().getY(),
+            heading));
     System.out.println("Reset Gyro");
   }
 
