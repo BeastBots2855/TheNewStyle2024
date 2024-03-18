@@ -28,6 +28,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -283,6 +284,11 @@ public class DriveSubsystem extends SubsystemBase {
     //     fieldRelative
     //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
     //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+
+    if (DriverStation.getAlliance().get().equals(Alliance.Red)){
+      xSpeedDelivered *= -1;
+      ySpeedDelivered *= -1;
+    }
     var swerveModuleStates =
       DriveConstants.kDriveKinematics.toSwerveModuleStates(
           ChassisSpeeds.discretize(
@@ -292,6 +298,7 @@ public class DriveSubsystem extends SubsystemBase {
               dt));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+        
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);

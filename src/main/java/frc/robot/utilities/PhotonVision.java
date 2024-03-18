@@ -59,10 +59,10 @@ public class PhotonVision extends SubsystemBase{
         m_AprilTagTracker, 
         new Transform3d(
             new Translation3d(
-                Units.inchesToMeters(7.5), 
                 -Units.inchesToMeters(13), 
+                Units.inchesToMeters(7.5), 
                 Units.inchesToMeters(22.5)), 
-            new Rotation3d(0, 0.349 , Math.PI)));
+            new Rotation3d(0, -0.349 , Math.PI)));
     } catch(IOException e){
       System.out.println(e.getMessage() + "\n vision estimator initialization failed");
     }
