@@ -17,6 +17,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -245,7 +246,7 @@ public class Colors {
   
 
 
-  public static class Vision {
+  public static final class Vision {
 
         public static final boolean isVisionEnabled = true;
         public static final String kAprilTagCameraName = "ApriltagTracker";
@@ -265,6 +266,9 @@ public class Colors {
         // (Fake values. Experiment and determine estimation noise on an actual robot.)
         public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
         public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+      
+        public static final Vector<N3> odometryStd = VecBuilder.fill(0.06, 0.06, 0.01);
+        public static final Vector<N3> visionStd = VecBuilder.fill(0.35, 0.35, 0.8);
 
 
         
@@ -274,7 +278,7 @@ public class Colors {
         public static final double VISION_FIELD_MARGIN = 0.5;
         public static final double VISION_Z_MARGIN = 0.75;
         public static final double VISION_STD_XY_SCALE = 0.02;
-        public static final double VISION_STD_ROT_SCALE = 0.035;
+        public static final double VISION_STD_ROT_SCALE = 1.065;//0.035;
 
         public static final double FIELD_LENGTH = 16.5417;
         public static final double FIELD_WIDTH = 8.0136;

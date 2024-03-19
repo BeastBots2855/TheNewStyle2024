@@ -99,8 +99,10 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
         },
         new Pose2d(0, 0, new Rotation2d(0)), 
-        VecBuilder.fill(0.85, 0.85, Units.degreesToRadians(0.5)), // initiial was 0.05 for both on top and 0.5 for bottom, 0.05, 0.05, 0.65
-        VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(60))); // 0.5, 0.5, 50 
+        Vision.odometryStd,
+        Vision.visionStd); 
+        // VecBuilder.fill(0.85, 0.85, Units.degreesToRadians(0.5)), // initiial was 0.05 for both on top and 0.5 for bottom, 0.05, 0.05, 0.65
+        // VecBuilder.fill(0.55, 0.55, Units.degreesToRadians(6))); // 0.5, 0.5, 50 
       
     Field2d m_field = new Field2d();
     

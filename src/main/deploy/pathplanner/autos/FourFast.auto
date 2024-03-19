@@ -36,12 +36,6 @@
                       "data": {
                         "name": "SetIntakeGround"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": null
-                      }
                     }
                   ]
                 }
