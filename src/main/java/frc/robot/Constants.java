@@ -223,7 +223,7 @@ public final class Constants {
     public static final double kIntakeGroundPickup = 3;
     public static final double kIntakePassOff = 180;
     public static final double kShooterPassOff = 55;
-    public static final double kShooterAmp = 327;
+    public static final double kShooterAmp = 330;
     public static final double kShooterSpeaker = 41;
     public static final double kShooterClimb = 90;
 
