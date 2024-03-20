@@ -46,6 +46,8 @@ public class NoteLockOn extends Command {
         -thetaOutput,
         false,
         true);
+        
+
   }
 
   // Called once the command ends or is interrupted.
