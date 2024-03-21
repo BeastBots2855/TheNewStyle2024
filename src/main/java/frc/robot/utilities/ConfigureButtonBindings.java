@@ -126,7 +126,7 @@ public class ConfigureButtonBindings {
                         .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
 
                 //New shooter velocity
-                new Trigger(()-> m_operatorController.getPOV(0) == 0)
+                new Trigger(()-> m_operatorController.getPOV(0) == 90)
                         .whileTrue(new NewShooterFire(ShooterTwo, ()->1.0));
 
                 //Run Indexer and Shooter Forward

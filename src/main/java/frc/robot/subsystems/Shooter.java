@@ -14,7 +14,7 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private final CANSparkMax m_ShooterMotor;
   public Shooter() {
-    m_ShooterMotor = new CANSparkMax(31, MotorType.kBrushless);
+    m_ShooterMotor = new CANSparkMax(39, MotorType.kBrushless);
   }
 
   public void setMotorOutput(double output){

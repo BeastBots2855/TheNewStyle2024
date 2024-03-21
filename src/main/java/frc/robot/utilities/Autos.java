@@ -54,7 +54,7 @@ public class Autos {
     }
 
     public void mapCommands(){
-        m_commandMap.put("Basic Test Auto", AutoBuilder.buildAuto("MoveBack"));
+        // m_commandMap.put("Basic Test Auto", AutoBuilder.buildAuto("MoveBack"));
         m_commandMap.put("FourNoteAuto", AutoBuilder.buildAuto("FourNoteAuto"));
         m_commandMap.put("ThreeNoteAuto", AutoBuilder.buildAuto("ThreeNoteAuto"));
         m_commandMap.put("FourFast", AutoBuilder.buildAuto("FourFast"));
