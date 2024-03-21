@@ -50,6 +50,7 @@ public class ShuffleBoardInit {
              m_visionTab.addDouble("GetAngleToSpeakerX", ()-> PhotonVision.getRobotToSpeakerAngleXDisplacement());
               m_visionTab.addDouble("GetAngleToSpeakerY", ()-> PhotonVision.getRobotToSpeakerAngleYDisplacement());
               m_visionTab.addDouble("getCurrentAngle", ()-> m_robotDrive.getPose2d().getRotation().getRadians());
+              m_visionTab.addDouble("distanceToSpeaker", ()->PhotonVision.getDistanceToSpeaker());
 
 
             SmartDashboard.putData(m_robotDrive);

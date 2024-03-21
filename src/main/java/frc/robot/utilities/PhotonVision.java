@@ -205,6 +205,10 @@ public class PhotonVision extends SubsystemBase{
             return displacementToSpeakery;
         }
 
+        public static double getDistanceToSpeaker(){
+            return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
+        }
+
         public static void setDisplacementToTargetAngle(double displacement){
             displacementToTargetAngle = displacement;
         }
