@@ -43,20 +43,20 @@ public class NewShooter extends SubsystemBase {
         m_topPidController = m_topSparkMax.getPIDController();
         m_bottomPidController = m_bottomSparkMax.getPIDController();
 
-        m_bottomSparkMax.setInverted(true);
+        // m_bottomSparkMax.setInverted(true);
 
 
-        m_topPidController.setP(0.0005);
-        m_topPidController.setI(0.0000);
+        m_topPidController.setP(0.00000681);
+        m_topPidController.setI(0.0000000015);
         m_topPidController.setD(0);
-        m_topPidController.setFF(0);
+        m_topPidController.setFF(0.00016);
         m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-        m_bottomPidController.setP(0.0004);
-        m_bottomPidController.setI(0.00001);
+        m_bottomPidController.setP(0.00000681);
+        m_bottomPidController.setI(0.0000000015);
         m_bottomPidController.setD(0);
-        m_bottomPidController.setFF(0);
+        m_bottomPidController.setFF(0.00016);
         m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
@@ -69,8 +69,8 @@ public class NewShooter extends SubsystemBase {
       }
 
       public void setMotorVelocities(double targetSpeed){
-        m_topPidController.setReference(2000, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(targetSpeed));
-        // m_bottomPidController.setReference(2000, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(targetSpeed));
+        m_topPidController.setReference(5000, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(targetSpeed));
+        m_bottomPidController.setReference(5000, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(targetSpeed));
       }
 
       @Override
