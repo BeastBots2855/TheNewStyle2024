@@ -45,17 +45,17 @@ public class NewShooter extends SubsystemBase {
 
         m_bottomMotorEncoder.setInverted(true);
 
-        m_topPidController.setP(ModuleConstants.kDrivingP);
-        m_topPidController.setI(ModuleConstants.kDrivingI);
-        m_topPidController.setD(ModuleConstants.kDrivingD);
-        m_topPidController.setFF(ModuleConstants.kDrivingFF);
+        m_topPidController.setP(0.04);
+        m_topPidController.setI(0);
+        m_topPidController.setD(0);
+        m_topPidController.setFF(0);
         m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-        m_bottomPidController.setP(ModuleConstants.kDrivingP);
-        m_bottomPidController.setI(ModuleConstants.kDrivingI);
-        m_bottomPidController.setD(ModuleConstants.kDrivingD);
-        m_bottomPidController.setFF(ModuleConstants.kDrivingFF);
+        m_bottomPidController.setP(0.04);
+        m_bottomPidController.setI(0);
+        m_bottomPidController.setD(0);
+        m_bottomPidController.setFF(0);
         m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
