@@ -51,6 +51,10 @@ public class PhotonVision extends SubsystemBase{
     private static Timer m_Timer = new Timer();
     private static Field2d m_photonVisionField = new Field2d();
 
+    private static double displacementToTargetAngle = 0;
+    private static double displacementToSpeakerX = 0;
+    private static double displacementToSpeakery = 0;
+
   public PhotonVision(){
     try {
       m_visionPoseEstimator = new PhotonPoseEstimator(
@@ -160,14 +164,14 @@ public class PhotonVision extends SubsystemBase{
                 }
             }
 
-        public Translation2d getGoalPose(){
+        public static Translation2d getGoalPose(){
             boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
             .equals(DriverStation.Alliance.Blue);
             Translation2d goalPose = isBlue ? FieldConstants.BLUE_SPEAKER : FieldConstants.RED_SPEAKER;
             return goalPose;
         }
         
-        public Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
+        public static Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
             Translation2d goalPose = getGoalPose();
             double distanceToSpeaker = currentPose.getTranslation().getDistance(goalPose);
             double x = goalPose.getX()
@@ -179,15 +183,34 @@ public class PhotonVision extends SubsystemBase{
             return goalPoseAdjusted; 
         }
 
-        public double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel){
+        public static double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel){
             double distance = currentPose.getTranslation().getDistance(getAdjustedSpeakerPosition(currentPose, robotVel));
             return AutoShoot.DISTANCE_TO_ANGLE_MAP.get(distance);
         }
 
-        public double getRobotToSpeakerAngle(Pose2d currentPose, ChassisSpeeds robotVel) {
+        public static double getTagetAngleRobotToSpeaker(Pose2d currentPose, ChassisSpeeds robotVel) {
             double x = getAdjustedSpeakerPosition(currentPose, robotVel).getX() - currentPose.getX();
+            displacementToSpeakerX = x;
             double y = getAdjustedSpeakerPosition(currentPose, robotVel).getY() - currentPose.getY();
+            displacementToSpeakery = y;
+            // System.out.println(Math.atan2(y, x));
             return Math.atan2(y, x);
+        }
+
+        public static double getRobotToSpeakerAngleXDisplacement() {
+            return displacementToSpeakerX;
+        }
+
+        public static double getRobotToSpeakerAngleYDisplacement() {
+            return displacementToSpeakery;
+        }
+
+        public static void setDisplacementToTargetAngle(double displacement){
+            displacementToTargetAngle = displacement;
+        }
+
+        public static double getDisplacementToTargetAngle(){
+            return displacementToTargetAngle;
         }
 
         

@@ -23,6 +23,7 @@ import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.commands.Vision.NoteLockOn;
+import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
@@ -187,6 +188,13 @@ public class ConfigureButtonBindings {
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
+            
+
+    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+        new SpeakerLockOn(
+            m_robotDrive, 
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 //
    new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.yellow)); 
    new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.red));

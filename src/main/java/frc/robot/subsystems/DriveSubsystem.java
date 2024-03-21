@@ -291,10 +291,10 @@ public class DriveSubsystem extends SubsystemBase {
     //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
     //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
-    if (DriverStation.getAlliance().get().equals(Alliance.Red)){
-      xSpeedDelivered *= -1;
-      ySpeedDelivered *= -1;
-    }
+    // if (DriverStation.getAlliance().get().equals(Alliance.Red)){
+    //   xSpeedDelivered *= -1;
+    //   ySpeedDelivered *= -1;
+    // }
     var swerveModuleStates =
       DriveConstants.kDriveKinematics.toSwerveModuleStates(
           ChassisSpeeds.discretize(
