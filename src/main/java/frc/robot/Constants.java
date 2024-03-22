@@ -307,7 +307,7 @@ public class Colors {
       public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
     static {
       DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
-      // DISTANCE_TO_ANGLE_MAP.put(1.25, ArmConstants.kSUBWOOFER);
+      DISTANCE_TO_ANGLE_MAP.put(1.51, 53.3);
       // DISTANCE_TO_ANGLE_MAP.put(2.2, ArmConstants.kOffset - 0.077);
       // DISTANCE_TO_ANGLE_MAP.put(3.0, ArmConstants.kOffset - 0.059);
       // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);
