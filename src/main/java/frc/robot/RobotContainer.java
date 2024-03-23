@@ -69,7 +69,7 @@ public class RobotContainer {
                 true, true),
             m_robotDrive));
 
-    m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorRPM(ShooterConstants.kIdleRPM), m_Shooter));
+    m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorRPM(ShooterConstants.kSpeakerRPM), m_Shooter));
   }
 //
  

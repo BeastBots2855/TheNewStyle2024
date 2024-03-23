@@ -39,6 +39,7 @@ import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.commands.AutoCommands.AutoIntake;
 import frc.robot.commands.AutoCommands.InitialShot;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
+import frc.robot.commands.Automatted.AutoAimWithShooterAngle;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
 import frc.robot.commands.MechanismSequences.SetClimbPosition;
 import frc.robot.commands.MechanismSequences.SetIntakeGroundShooterIn;
@@ -196,11 +197,20 @@ public class ConfigureButtonBindings {
 
             
     //Speaker Lock on 
+    // new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+    //     new SpeakerLockOn(
+    //         m_robotDrive, 
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+   
+
     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-        new SpeakerLockOn(
-            m_robotDrive, 
+        new AutoAimWithShooterAngle(
+            m_robotDrive,
+            m_ShooterWrist,
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
+            ));
    
     //Set lights to yellow if trying to track a note and can see a note
     new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.yellow)); 

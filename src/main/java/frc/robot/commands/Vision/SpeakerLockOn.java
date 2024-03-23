@@ -26,7 +26,7 @@ public class SpeakerLockOn extends Command {
     addRequirements(m_DriveSubsystem);
 
 
-    m_ThetaController = new PIDController(2, 0, 0.001);
+    m_ThetaController = new PIDController(3, 0, 0.001);
     m_ThetaController.enableContinuousInput(-Math.PI, Math.PI);
 
   }

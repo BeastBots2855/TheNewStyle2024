@@ -29,6 +29,7 @@ public class Autos {
         // autoChooser.addOption(null, null);
         //autoChooser.addOption("Drivetrain Characterization", "DrivetrainCharacterization");
         autoChooser.addOption("BlueFour", "BlueFour");
+        autoChooser.addOption("Move", "Move");
         autoChooser.addOption("RedFour", "RedFour");
         autoChooser.addOption("AmpSideAuto", "AmpSideAuto");
         autoChooser.addOption("LazyAmp", "LazyAmp");
@@ -52,6 +53,7 @@ public class Autos {
         m_commandMap.put("AmpSideAuto", AutoBuilder.buildAuto("AmpSideAuto"));
         m_commandMap.put("LazyAmp", AutoBuilder.buildAuto("LazyAmp"));
         m_commandMap.put("OnePieceMobility", AutoBuilder.buildAuto("OnePieceMobility"));
+        m_commandMap.put("Move", AutoBuilder.buildAuto("Move"));
     //     m_commandMap.put("DrivetrainCharacterization", 
     //         new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
     //         m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));

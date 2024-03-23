@@ -189,8 +189,8 @@ public final class Constants {
 
 
       public static final HolonomicPathFollowerConfig autoBuilderPathConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-      new PIDConstants(8, 0.0 ,0), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
-      new PIDConstants(5, 0.0, 0), //5.0, 0, 0.2
+      new PIDConstants(0.5, 0.0 ,0), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
+      new PIDConstants(3, 0.0, 0), //5.0, 0, 0.2
       DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
       DriveConstants.kchassisRadiusMeters, // Drive base radius in meters. Distance from robot center to furthest module.
       new ReplanningConfig());
@@ -279,15 +279,15 @@ public class Colors {
     public static class FieldConstants {
         public static final double VISION_FIELD_MARGIN = 0.5;
         public static final double VISION_Z_MARGIN = 0.75;
-        public static final double VISION_STD_XY_SCALE = 0.02;
-        public static final double VISION_STD_ROT_SCALE = 0.065;//0.035;
+        public static final double VISION_STD_XY_SCALE = 0.1; //0.01
+        public static final double VISION_STD_ROT_SCALE = 0.3;//0.035;
 
         public static final double FIELD_LENGTH = 16.5417;
         public static final double FIELD_WIDTH = 8.0136;
 
         public static final double NOTE_VELOCITY = 10.0;
 
-        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0241, 5.547868);
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0241 - 0.5, 5.547868);
         public static final Translation2d RED_SPEAKER = new Translation2d(FIELD_LENGTH - BLUE_SPEAKER.getX(),
             BLUE_SPEAKER.getY() + 0.1);
         public static final Translation2d STAGE = new Translation2d(4.981067, 4.105783);
@@ -310,9 +310,12 @@ public class Colors {
     public static class AutoShoot {
       public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
     static {
-      DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
-      DISTANCE_TO_ANGLE_MAP.put(1.51, 53.3);
-      DISTANCE_TO_ANGLE_MAP.put(3.42, 36.5);
+      DISTANCE_TO_ANGLE_MAP.put(3.35, 35.1);
+      DISTANCE_TO_ANGLE_MAP.put(3.0, 39.3);
+      DISTANCE_TO_ANGLE_MAP.put(2.65, 41.7);
+      DISTANCE_TO_ANGLE_MAP.put(1.73, 56.5);
+      
+      
       // DISTANCE_TO_ANGLE_MAP.put(2.2, ArmConstants.kOffset - 0.077);
       // DISTANCE_TO_ANGLE_MAP.put(3.0, ArmConstants.kOffset - 0.059);
       // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);
