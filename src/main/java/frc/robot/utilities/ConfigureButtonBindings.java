@@ -37,6 +37,7 @@ import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.commands.AutoCommands.AutoIntake;
+import frc.robot.commands.AutoCommands.InitialShot;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
 import frc.robot.commands.MechanismSequences.SetClimbPosition;
@@ -230,7 +231,7 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
-
+        NamedCommands.registerCommand("InitialShot", new InitialShot());        
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();
 

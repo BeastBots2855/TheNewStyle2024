@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "InitialShot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Amp Side 3 Note 1"
@@ -33,12 +39,6 @@
           "type": "path",
           "data": {
             "pathName": "Amp Side 3 Note 3R"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         },
         {
