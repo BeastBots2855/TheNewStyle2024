@@ -34,7 +34,7 @@ private final NewShooter m_shooter;
   @Override
   public void execute() {
     // m_shooter.setMotorVelocities(5000);
-    // m_shooter.setMotorRPM(5000); //* m_SpeedSupplier.get());
+    m_shooter.setMotorRPM(5000 * m_SpeedSupplier.get());
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +46,6 @@ private final NewShooter m_shooter;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
