@@ -298,6 +298,9 @@ public class Colors {
 
         public static final Pose2d RED_AMP_Robot = new Pose2d(14.61, 7.67, Rotation2d.fromDegrees(90));
 
+        public static final Pose2d BLUE_FEEDER_LOCATION = new Pose2d(1, 7, Rotation2d.fromDegrees(90));
+
+        public static final Pose2d RED_FEEDER_LOCATION = new Pose2d(15, 7, Rotation2d.fromDegrees(90));
         // public static final double SPEAKER_HEIGHT = 2.08;
         // public static final Pose3d BLUE_SPEAKER_3D = new Pose3d(BLUE_SPEAKER.getX(), BLUE_SPEAKER.getY(), SPEAKER_HEIGHT,
         //     new Rotation3d());
@@ -324,6 +327,20 @@ public class Colors {
       // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);
       // DISTANCE_TO_ANGLE_MAP.put(4.9, ArmConstants.kOffset - 0.035);
       // DISTANCE_TO_ANGLE_MAP.put(5.5, ArmConstants.kOffset - 0.029);
+    }
+
+    public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
+    static {
+      DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
+      DISTANCE_TO_ANGLE_MAP.put(1.51, 53.3);
+      DISTANCE_TO_ANGLE_MAP.put(3.42, 36.5);
+    }
+
+    public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_FEEDER_MAP = new InterpolatingDoubleTreeMap();
+    static {
+      DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
+      DISTANCE_TO_ANGLE_MAP.put(1.51, 53.3);
+      DISTANCE_TO_ANGLE_MAP.put(3.42, 36.5);
     }
     }
 

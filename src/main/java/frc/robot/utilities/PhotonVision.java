@@ -197,6 +197,12 @@ public class PhotonVision extends SubsystemBase{
             return Math.atan2(y, x);
         }
 
+        public static double getTagetAngleRobotToTargetPose(Pose2d targetPose, Pose2d currentPose) {
+            double x = targetPose.getX() - currentPose.getX();
+            double y = targetPose.getY() - currentPose.getY();
+            return Math.atan2(y, x);
+        }
+
         public static double getRobotToSpeakerAngleXDisplacement() {
             return displacementToSpeakerX;
         }
