@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3725738150477713,
-      "y": 5.527514849608872
+      "x": 1.3386144840268221,
+      "y": 5.565873600441298
     },
     "rotation": 0
   },
@@ -12,7 +12,7 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "deadline",
           "data": {
             "commands": [
               {
@@ -36,24 +36,24 @@
                       "data": {
                         "name": "SetIntakeGround"
                       }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.9
+                      }
                     },
                     {
-                      "type": "sequential",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.9
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "IndexIntakeToShooter"
-                            }
-                          }
-                        ]
+                        "name": "IndexIntakeToShooter"
                       }
                     }
                   ]
@@ -65,42 +65,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ThreeSpeakerToCenter"
+            "pathName": "FourFastSpeakerToCenter"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ThreeCenterToSpeaker"
+            "pathName": "FourFastCenterToSpeaker"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ThreeSpeakerToLeftNote"
+            "pathName": "FourFastSpeakerToLeftNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ThreeLeftNoteToSpeaker"
+            "pathName": "FourFastLeftNoteToSpeaker"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ThreeSpeakerToRightNote"
+            "pathName": "FourFastSpeakerToRightNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ThreeRightNoteToSpeaker"
+            "pathName": "FourFastRightNoteToSpeaker"
           }
         }
       ]
     }
   },
-  "folder": "New Folder",
+  "folder": null,
   "choreoAuto": false
 }

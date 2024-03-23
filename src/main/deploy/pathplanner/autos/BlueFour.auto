@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3725738150477713,
-      "y": 5.527514849608872
+      "x": 1.3386144840268221,
+      "y": 5.565873600441298
     },
     "rotation": 0
   },
@@ -35,12 +35,6 @@
                       "type": "named",
                       "data": {
                         "name": "SetIntakeGround"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": null
                       }
                     }
                   ]
@@ -107,6 +101,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "New Folder",
   "choreoAuto": false
 }

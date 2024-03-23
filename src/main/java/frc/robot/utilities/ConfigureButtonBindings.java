@@ -23,6 +23,7 @@ import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.commands.Vision.NoteLockOn;
+import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
 import frc.robot.commands.WristCommands.IntakeWristOpenLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
@@ -46,6 +47,8 @@ import frc.robot.commands.LedCommands.RAINBOWS;
 import frc.robot.commands.LedCommands.SetLights;
 import frc.robot.Constants.Colors;
 import frc.robot.subsystems.LED;
+import frc.robot.commands.Vision.NoteLockOn;
+import frc.robot.utilities.PhotonVision;
 
 /** Add your docs here. */
 public class ConfigureButtonBindings {
@@ -70,21 +73,26 @@ public class ConfigureButtonBindings {
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-    // new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-    //     .whileTrue(new InstantCommand(
-    //       m_robotDrive::zeroHeading, 
-    //       m_robotDrive));
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+        .whileTrue(new InstantCommand(
+          m_robotDrive::zeroHeading, 
+          m_robotDrive));
 
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new InstantCommand(
-        ()-> m_robotDrive.resetOdometry(m_robotDrive.getPose2d()), 
-        m_robotDrive));
+          m_robotDrive::zeroHeading, 
+          m_robotDrive));
+
+    // new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+    //     .onTrue(null)(new InstantCommand(
+    //     ()-> m_robotDrive.zeroHeading()), 
+    //     m_robotDrive);
 
         //LEDs
             new Trigger(()->m_driverController.getAButton()).onTrue(new RAINBOWS(m_Led));
-            new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.m_green));
-            new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.m_yellow));
-            new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.m_red));
+            new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.green));
+            new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.yellow));
+            new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.red));
 
         //Climb Bindings
             //Activate Climb
@@ -145,7 +153,9 @@ public class ConfigureButtonBindings {
 
     //Non-Driver Controlled Actions
         new Trigger(()-> m_Intake.isTouchingLimitSwitch() && !DriverStation.isAutonomousEnabled()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
-
+        
+        
+        
         //new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
 
 
@@ -154,13 +164,13 @@ public class ConfigureButtonBindings {
 
 
     //Set lights to green when contacting note
-    new Trigger(()-> m_Indexer.isTouchingLimitSwitch()).onTrue(new RunCommand(()-> new SetLights(m_Led, Colors.m_green)));
+    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(new SetLights(m_Led, Colors.green)).whileFalse(new RAINBOWS(m_Led));
     //The Forsaken One   
-    new Trigger(()-> m_Indexer.isTouchingLimitSwitch()).onTrue(
+    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(
         new RunCommand(()-> {
                 m_operatorController.setRumble(RumbleType.kBothRumble, 1);
                 m_driverController.setRumble(RumbleType.kBothRumble, 1);}))
-        .onFalse(
+        .whileFalse(
             new RunCommand(()-> {
                 m_operatorController.setRumble(RumbleType.kBothRumble, 0);
                 m_driverController.setRumble(RumbleType.kBothRumble, 0);})
@@ -177,6 +187,19 @@ public class ConfigureButtonBindings {
             m_robotDrive, 
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+
+            
+
+    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+        new SpeakerLockOn(
+            m_robotDrive, 
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+//
+   new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.yellow)); 
+   new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.red));
+          
+            
 
 //side shooter set point 
 //path planner start of auto Shooter recieve 

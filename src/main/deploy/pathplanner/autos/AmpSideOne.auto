@@ -5,7 +5,7 @@
       "x": 0.7036346501792881,
       "y": 6.531677872233673
     },
-    "rotation": 61.50495654073463
+    "rotation": 59.162568152725555
   },
   "command": {
     "type": "sequential",
@@ -29,12 +29,6 @@
                       "type": "named",
                       "data": {
                         "name": "ShooterFireFast"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SetIntakeGround"
                       }
                     }
                   ]
@@ -66,12 +60,6 @@
           "type": "path",
           "data": {
             "pathName": "AStoFarLN"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FarLNtoAmp"
           }
         }
       ]

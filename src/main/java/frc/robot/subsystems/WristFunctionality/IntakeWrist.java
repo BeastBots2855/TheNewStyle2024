@@ -30,7 +30,7 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
 
   public IntakeWrist() {
     m_PidController = new PIDController(0.01, 0, 0.0);
-    m_PidTolerance = 2;
+    m_PidTolerance = 3;
     // m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = 0.03;
     m_wristMotor = new CANSparkMax(IntakeWristConstants.IntakeWristCANID, MotorType.kBrushless);
@@ -54,6 +54,10 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
 
   public void setSetpoint(double setPoint){
     m_PidController.setSetpoint(setPoint);
+  }
+
+  public double getSetpoint(){
+    return m_PidController.getSetpoint();
   }
 
   public void enablePid(){

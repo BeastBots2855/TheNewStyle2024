@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.6916664742420395,
-        "y": 7.0058881935945685
+        "x": 2.654351490521163,
+        "y": 7.080518161036322
       },
       "prevControl": {
-        "x": 2.094686155443133,
-        "y": 6.872732420633946
+        "x": 2.047983005056919,
+        "y": 7.005888193594569
       },
       "nextControl": null,
       "isLocked": false,
@@ -101,7 +101,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "FourFast",
+  "folder": "RedFour",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

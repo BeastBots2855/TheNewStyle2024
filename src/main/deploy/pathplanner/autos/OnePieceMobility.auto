@@ -5,7 +5,7 @@
       "x": 0.6526466320503541,
       "y": 4.532947561579464
     },
-    "rotation": 0
+    "rotation": -60.20197781914487
   },
   "command": {
     "type": "sequential",
@@ -16,40 +16,47 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "deadline",
                 "data": {
-                  "waitTime": 1.5
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterFireFast"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SetIntakeGround"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "ShooterFireFast"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetIntakeGround"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.9
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IndexIntakeToShooter"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.9
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IndexIntakeToShooter"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -59,6 +66,57 @@
           "type": "path",
           "data": {
             "pathName": "OnePiece"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SetIntakeInShooterIn"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.38
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeDump"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IndexIntakeToShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

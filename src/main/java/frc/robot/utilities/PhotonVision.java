@@ -31,6 +31,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -43,29 +44,36 @@ import frc.robot.Constants.Vision;
 public class PhotonVision extends SubsystemBase{
     //creates camera objects for fetching results from cameras
     private static PhotonCamera m_NoteTracker = new PhotonCamera("NoteDetector");
-    private static PhotonCamera m_AprilTagTracker = new PhotonCamera("ApriltagTracker");
+    private static PhotonCamera m_AprilTagTracker = new PhotonCamera("AprilTagTracker");
     private static PhotonPoseEstimator m_visionPoseEstimator;
     private static AprilTagFieldLayout fieldLayout;
     private static double[] lastBestNote = new double[]{0, 0};
     private static Timer m_Timer = new Timer();
+    private static Field2d m_photonVisionField = new Field2d();
+
+    private static double displacementToTargetAngle = 0;
+    private static double displacementToSpeakerX = 0;
+    private static double displacementToSpeakery = 0;
 
   public PhotonVision(){
     try {
       m_visionPoseEstimator = new PhotonPoseEstimator(
         AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile), 
-        PoseStrategy.CLOSEST_TO_LAST_POSE, 
+        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
         m_AprilTagTracker, 
         new Transform3d(
             new Translation3d(
-                Units.inchesToMeters(6), 
-                -Units.inchesToMeters(14), 
-                Units.inchesToMeters(19.5)), 
-            new Rotation3d(0, 0,0)));
+                -Units.inchesToMeters(13), 
+                Units.inchesToMeters(7.5), 
+                Units.inchesToMeters(22.5)), 
+            new Rotation3d(Math.PI / 2, -0.349 , Math.PI)));
     } catch(IOException e){
       System.out.println(e.getMessage() + "\n vision estimator initialization failed");
     }
     m_Timer.start();
+    
     fieldLayout = Vision.kTagLayout;
+    SmartDashboard.putData("directVision", m_photonVisionField);
         
   } 
     
@@ -121,7 +129,7 @@ public class PhotonVision extends SubsystemBase{
     }
     }
 
-     public void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
+     public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
             PhotonPoseEstimator poseEstimator = PhotonVision.getPoseEstimator();
                 // print out the time for this line to run 
                 Optional<EstimatedRobotPose> pose = poseEstimator.update();
@@ -151,17 +159,19 @@ public class PhotonVision extends SubsystemBase{
                         //time this as well
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
+
+                    m_photonVisionField.setRobotPose(pose2d);
                 }
             }
 
-        public Translation2d getGoalPose(){
+        public static Translation2d getGoalPose(){
             boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
             .equals(DriverStation.Alliance.Blue);
             Translation2d goalPose = isBlue ? FieldConstants.BLUE_SPEAKER : FieldConstants.RED_SPEAKER;
             return goalPose;
         }
         
-        public Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
+        public static Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
             Translation2d goalPose = getGoalPose();
             double distanceToSpeaker = currentPose.getTranslation().getDistance(goalPose);
             double x = goalPose.getX()
@@ -173,15 +183,38 @@ public class PhotonVision extends SubsystemBase{
             return goalPoseAdjusted; 
         }
 
-        public double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel){
+        public static double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel){
             double distance = currentPose.getTranslation().getDistance(getAdjustedSpeakerPosition(currentPose, robotVel));
             return AutoShoot.DISTANCE_TO_ANGLE_MAP.get(distance);
         }
 
-        public double getRobotToSpeakerAngle(Pose2d currentPose, ChassisSpeeds robotVel) {
+        public static double getTagetAngleRobotToSpeaker(Pose2d currentPose, ChassisSpeeds robotVel) {
             double x = getAdjustedSpeakerPosition(currentPose, robotVel).getX() - currentPose.getX();
+            displacementToSpeakerX = x;
             double y = getAdjustedSpeakerPosition(currentPose, robotVel).getY() - currentPose.getY();
+            displacementToSpeakery = y;
+            // System.out.println(Math.atan2(y, x));
             return Math.atan2(y, x);
+        }
+
+        public static double getRobotToSpeakerAngleXDisplacement() {
+            return displacementToSpeakerX;
+        }
+
+        public static double getRobotToSpeakerAngleYDisplacement() {
+            return displacementToSpeakery;
+        }
+
+        public static double getDistanceToSpeaker(){
+            return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
+        }
+
+        public static void setDisplacementToTargetAngle(double displacement){
+            displacementToTargetAngle = displacement;
+        }
+
+        public static double getDisplacementToTargetAngle(){
+            return displacementToTargetAngle;
         }
 
         

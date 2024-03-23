@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7036346501792881,
-      "y": 6.531677872233673
+      "x": 0.7606160666866788,
+      "y": 6.5021359133627366
     },
-    "rotation": 61.50495654073463
+    "rotation": -118.26400414852392
   },
   "command": {
     "type": "sequential",
@@ -65,13 +65,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AStoFarLN"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FarLNtoAmp"
+            "pathName": "LazyAmp"
           }
         }
       ]

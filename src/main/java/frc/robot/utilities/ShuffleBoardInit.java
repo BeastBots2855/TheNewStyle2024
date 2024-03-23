@@ -29,16 +29,29 @@ public class ShuffleBoardInit {
         Climb m_Climb) {
 
             m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
+            m_telopOutput.addDouble("Box setPoint: ", () -> m_ShooterWrist.getSetpoint());
+            m_telopOutput.addBoolean("Box isWithinTolerance: ", () -> m_ShooterWrist.isWithinPidTolerance());
+            m_telopOutput.addDouble("Intake anggle: ", () -> m_IntakeWrist.getAbsoluteEncoderValue());
             m_telopOutput.addBoolean("IntakeButtonIsPressed", ()-> m_Intake.isTouchingLimitSwitch());
             m_telopOutput.addBoolean("IndexerSwitchPressed", ()-> m_Indexer.isTouchingLimitSwitch());
             m_telopOutput.addBoolean("IndexerIsPrimed", ()-> m_Indexer.getIsPrimed());
             m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
             m_telopOutput.addBoolean("isIntakeWristPidOn", m_IntakeWrist::isPidEnabled);
             m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
+            m_telopOutput.addDouble("ShooterVelocity", m_Shooter::getVelocity);
+            
 
             m_visionTab.addDouble("DistanceFromRing", ()-> PhotonVision.getNotePidResponseVariable());
             m_visionTab.addDouble("RingX", ()-> PhotonVision.getConvertedLastNotePosition()[0]);
             m_visionTab.addDouble("RingY", ()-> PhotonVision.getConvertedLastNotePosition()[1]);
+
+            m_visionTab.addDouble("targetAngle", ()-> PhotonVision.getTagetAngleRobotToSpeaker(m_robotDrive.getPose2d(), m_robotDrive.getChassisSpeeds()));
+            m_visionTab.addDouble("GetDisplacemetnToTargetAngle", ()-> PhotonVision.getDisplacementToTargetAngle());
+             m_visionTab.addDouble("GetAngleToSpeakerX", ()-> PhotonVision.getRobotToSpeakerAngleXDisplacement());
+              m_visionTab.addDouble("GetAngleToSpeakerY", ()-> PhotonVision.getRobotToSpeakerAngleYDisplacement());
+              m_visionTab.addDouble("getCurrentAngle", ()-> m_robotDrive.getPose2d().getRotation().getRadians());
+              m_visionTab.addDouble("distanceToSpeaker", ()->PhotonVision.getDistanceToSpeaker());
+
 
             SmartDashboard.putData(m_robotDrive);
             SmartDashboard.putData(m_IntakeWrist);

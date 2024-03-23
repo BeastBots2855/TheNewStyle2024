@@ -17,6 +17,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -158,8 +159,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-      public static final int topMotorCanID = 33;
-      public static final int bottomMotorCanID = 34;
+      public static final int ShooterMotorCANID = 31;
+      public static final int ShooterMotor2CANID = 33;
       public static final double kMotorConsumeSpeed = 0.3;
   }
 
@@ -215,38 +216,35 @@ public final class Constants {
   }
 
   public static final class PIDSetPoint{
+    // public static final double kIntakeGroundPickup = 3;
+    // public static final double kIntakePassOff = 180;
+    // public static final double kShooterPassOff = 140;
+    // public static final double kShooterAmp = 45;
+    // public static final double kShooterSpeaker = 131;
+    // public static final double kShooterClimb = 90;
+
     public static final double kIntakeGroundPickup = 3;
     public static final double kIntakePassOff = 180;
-    public static final double kShooterPassOff = 140;
-    public static final double kShooterAmp = 45;
-    public static final double kShooterSpeaker = 131;
+    public static final double kShooterPassOff = 55;
+    public static final double kShooterAmp = 330;
+    public static final double kShooterSpeaker = 41;
     public static final double kShooterClimb = 90;
 
   }
-public class Colors {
-    static Random randColor = new Random();
-    static int randRGB = randColor.nextInt(150);
-     static int randRGB2 = randColor.nextInt(1);
-     static int randRGB3 = randColor.nextInt(150);
-    public static final RGBColor m_red = new RGBColor(255, 0, 0);
-    public static final RGBColor m_blue = new RGBColor(0,0,255);
-    public static final RGBColor m_green = new RGBColor(0,255,0);
-    public static final RGBColor m_purple = new RGBColor(150, 0, 150);
-    public static final RGBColor m_yellow = new RGBColor(255,100,0);
-    public static final RGBColor m_rand = new RGBColor(randRGB, randRGB2 , randRGB3);
-    public static final RGBColor m_cyan = new RGBColor(0,150,150);
-    public static final RGBColor m_orange = new RGBColor(255,50,0);
+public class Colors { 
+    public static final RGBColor red = new RGBColor(255, 0, 0);
+    public static final RGBColor blue = new RGBColor(0,0,255);
+    public static final RGBColor green = new RGBColor(0,255,0);
+    public static final RGBColor purple = new RGBColor(150, 0, 150);
+    public static final RGBColor yellow = new RGBColor(255,100,0);
+    public static final RGBColor cyan = new RGBColor(0,150,150);
+    public static final RGBColor orange = new RGBColor(255,50,0);
   }
 
-
-    public static final double intakeGroundPickup = 0;
-    public static final double intakePassOff = 180;
-    public static final double shooterAmp = 30;
-    public static final double shooterSpeaker = 131;
   
 
 
-  public static class Vision {
+  public static final class Vision {
 
         public static final boolean isVisionEnabled = true;
         public static final String kAprilTagCameraName = "ApriltagTracker";
@@ -266,6 +264,9 @@ public class Colors {
         // (Fake values. Experiment and determine estimation noise on an actual robot.)
         public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
         public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+      
+        public static final Vector<N3> odometryStd = VecBuilder.fill(0.06, 0.06, 0.01);
+        public static final Vector<N3> visionStd = VecBuilder.fill(0.35, 0.35, 0.8);
 
 
         
@@ -275,7 +276,7 @@ public class Colors {
         public static final double VISION_FIELD_MARGIN = 0.5;
         public static final double VISION_Z_MARGIN = 0.75;
         public static final double VISION_STD_XY_SCALE = 0.02;
-        public static final double VISION_STD_ROT_SCALE = 0.035;
+        public static final double VISION_STD_ROT_SCALE = 0.065;//0.035;
 
         public static final double FIELD_LENGTH = 16.5417;
         public static final double FIELD_WIDTH = 8.0136;
@@ -305,7 +306,9 @@ public class Colors {
     public static class AutoShoot {
       public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
     static {
-      // DISTANCE_TO_ANGLE_MAP.put(1.25, ArmConstants.kSUBWOOFER);
+      DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
+      DISTANCE_TO_ANGLE_MAP.put(1.51, 53.3);
+      DISTANCE_TO_ANGLE_MAP.put(3.42, 36.5);
       // DISTANCE_TO_ANGLE_MAP.put(2.2, ArmConstants.kOffset - 0.077);
       // DISTANCE_TO_ANGLE_MAP.put(3.0, ArmConstants.kOffset - 0.059);
       // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);

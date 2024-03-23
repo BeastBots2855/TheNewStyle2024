@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7067810806033543,
+      "y": 6.665582254583274
+    },
+    "rotation": 60.94539590130958
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 3 Note 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 3 Note 2R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 3 Note 4R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 3 Note 3R"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Side 3 Note 5R"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

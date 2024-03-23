@@ -29,7 +29,7 @@ public class LED extends SubsystemBase {
     m_led.setData(m_ledBuffer);
     m_led.start();
     for(int i = 0; i < m_ledBuffer.getLength(); i++ ){
-      m_ledBuffer.setRGB(i, 255, 100, 0);
+      m_ledBuffer.setRGB(i,255,100,0);
     }
     m_led.setData(m_ledBuffer);
     System.out.println("LED's on");
