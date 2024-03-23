@@ -36,6 +36,7 @@ import frc.robot.subsystems.OldShooter;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
+import frc.robot.commands.AutoCommands.AutoAmpScore;
 import frc.robot.commands.AutoCommands.AutoIntake;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
@@ -58,7 +59,7 @@ public class ConfigureButtonBindings {
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
         Climb m_Climb,LED m_Led, Autos m_Autos, NewShooter m_Shooter) {
         
-         /**
+    /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by
    * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its`
@@ -89,10 +90,11 @@ public class ConfigureButtonBindings {
     //     m_robotDrive);
 
         //LEDs
-            new Trigger(()->m_driverController.getAButton()).onTrue(new RAINBOWS(m_Led));
-            new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.green));
-            new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.yellow));
-            new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.red));
+            // new Trigger(()->m_driverController.getAButton()).onTrue(new RAINBOWS(m_Led));
+            // new Trigger(()->m_driverController.getBButton()).onTrue(new SetLights(m_Led, Colors.green));
+            // new Trigger(()->m_driverController.getYButton()).onTrue(new SetLights(m_Led, Colors.yellow));
+            // new Trigger(()->m_driverController.getXButton()).onTrue(new SetLights(m_Led, Colors.red));
+        
 
         //Climb Bindings
             //Activate Climb
@@ -159,31 +161,33 @@ public class ConfigureButtonBindings {
     //Non-Driver Controlled Actions
         new Trigger(()-> m_Intake.isTouchingLimitSwitch() && !DriverStation.isAutonomousEnabled()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
         
+        //Set lights to yellow if trying to track a note and can see a note
+        new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.yellow)); 
+        //Set lights to red if trying to track a note and can't see a note
+        new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.red));
         
-        
-        //new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
-
-
-        // m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
-        
-
-
-    //Set lights to green when contacting note
-    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(new SetLights(m_Led, Colors.green)).whileFalse(new RAINBOWS(m_Led));
-    //The Forsaken One   
-    new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(
-        new RunCommand(()-> {
-                m_operatorController.setRumble(RumbleType.kBothRumble, 1);
-                m_driverController.setRumble(RumbleType.kBothRumble, 1);}))
-        .whileFalse(
+        //Set lights to green when contacting note
+        new Trigger(()-> m_Intake.isTouchingLimitSwitch()).whileTrue(new SetLights(m_Led, Colors.green)).whileFalse(new RAINBOWS(m_Led));
+        //The Forsaken One   
+        new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(
             new RunCommand(()-> {
-                m_operatorController.setRumble(RumbleType.kBothRumble, 0);
-                m_driverController.setRumble(RumbleType.kBothRumble, 0);})
-        );
+                    m_operatorController.setRumble(RumbleType.kBothRumble, 1);
+                    m_driverController.setRumble(RumbleType.kBothRumble, 1);}))
+            .onFalse(
+                new RunCommand(()-> {
+                    m_operatorController.setRumble(RumbleType.kBothRumble, 0);
+                    m_driverController.setRumble(RumbleType.kBothRumble, 0);})
+            );
 
 
     
 
+
+
+
+
+
+//Experimental Vision
     
 
     //Note Lock on
@@ -200,16 +204,16 @@ public class ConfigureButtonBindings {
             m_robotDrive, 
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
-   
-    //Set lights to yellow if trying to track a note and can see a note
-    new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.yellow)); 
 
-    //Set lights to red if trying to track a note and can't see a note
-    new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.red));
+    //Amp Auto Score
+    new Trigger(()-> m_driverController.getAButton()).onTrue(
+        new AutoAmpScore(m_robotDrive, m_ShooterWrist, m_IntakeWrist, m_Shooter));
+    
+   
+
           
             
 
-//side shooter set point 
 //path planner start of auto Shooter recieve 
 
 

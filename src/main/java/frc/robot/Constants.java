@@ -18,7 +18,9 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -292,19 +294,23 @@ public class Colors {
             BLUE_SPEAKER.getY() + 0.1);
         public static final Translation2d STAGE = new Translation2d(4.981067, 4.105783);
 
-        public static final double SPEAKER_HEIGHT = 2.08;
-        public static final Pose3d BLUE_SPEAKER_3D = new Pose3d(BLUE_SPEAKER.getX(), BLUE_SPEAKER.getY(), SPEAKER_HEIGHT,
-            new Rotation3d());
-        public static final Pose3d RED_SPEAKER_3D = new Pose3d(RED_SPEAKER.getX(), RED_SPEAKER.getY(), SPEAKER_HEIGHT,
-            new Rotation3d());
+        public static final Pose2d BLUE_AMP_Robot = new Pose2d(1.84, 7.67, Rotation2d.fromDegrees(90));
 
-        public static final double OPPONENT_WING_LINE = 10.66;
-        public static final double AMP_X = 1.9;
+        public static final Pose2d RED_AMP_Robot = new Pose2d(14.61, 7.67, Rotation2d.fromDegrees(90));
 
-        public static final PIDConstants AUTO_AIM_ROT_PID_CONSTANTS = new PIDConstants(9.5, 0.01, 0.5);
-        public static final PIDConstants AUTO_AIM_ROT_PID_CONSTANTS_TELE = new PIDConstants(10.5, 0.01, 0.5);
+        // public static final double SPEAKER_HEIGHT = 2.08;
+        // public static final Pose3d BLUE_SPEAKER_3D = new Pose3d(BLUE_SPEAKER.getX(), BLUE_SPEAKER.getY(), SPEAKER_HEIGHT,
+        //     new Rotation3d());
+        // public static final Pose3d RED_SPEAKER_3D = new Pose3d(RED_SPEAKER.getX(), RED_SPEAKER.getY(), SPEAKER_HEIGHT,
+        //     new Rotation3d());
 
-        public static final double VISION_REJECT_DISTANCE = 2.3;
+        // public static final double OPPONENT_WING_LINE = 10.66;
+        // public static final double AMP_X = 1.9;
+
+        // public static final PIDConstants AUTO_AIM_ROT_PID_CONSTANTS = new PIDConstants(9.5, 0.01, 0.5);
+        // public static final PIDConstants AUTO_AIM_ROT_PID_CONSTANTS_TELE = new PIDConstants(10.5, 0.01, 0.5);
+
+        // public static final double VISION_REJECT_DISTANCE = 2.3;
     }
 
     public static class AutoShoot {
