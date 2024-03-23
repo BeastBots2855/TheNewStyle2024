@@ -20,6 +20,7 @@ import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.IntakeCommands.IntakeDump;
+import frc.robot.commands.ShooterCommands.NewShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterFire;
 import frc.robot.commands.ShooterCommands.ShooterRescind;
 import frc.robot.commands.Vision.NoteLockOn;
@@ -47,8 +48,7 @@ import frc.robot.commands.LedCommands.RAINBOWS;
 import frc.robot.commands.LedCommands.SetLights;
 import frc.robot.Constants.Colors;
 import frc.robot.subsystems.LED;
-import frc.robot.commands.Vision.NoteLockOn;
-import frc.robot.utilities.PhotonVision;
+import frc.robot.subsystems.NewShooter;
 
 /** Add your docs here. */
 public class ConfigureButtonBindings {
@@ -56,7 +56,7 @@ public class ConfigureButtonBindings {
         XboxController m_driverController, XboxController m_operatorController, 
         DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
-        Climb m_Climb,LED m_Led, Autos m_Autos) {
+        Climb m_Climb,LED m_Led, Autos m_Autos, NewShooter ShooterTwo) {
         
          /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -130,6 +130,11 @@ public class ConfigureButtonBindings {
                         .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(-1), m_Indexer))
                         .whileTrue(new RunCommand(()->m_Shooter.setMotorOutput(-1), m_Shooter))
                         .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
+
+                //New shooter velocity
+                new Trigger(()-> m_operatorController.getPOV(0) == 90)
+                        .whileTrue(new NewShooterFire(ShooterTwo, ()->1.0));
+
                 //Run Indexer and Shooter Forward
                     new Trigger(()-> m_operatorController.getPOV(0) == 180)
                         .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(1), m_Indexer).alongWith(
@@ -159,7 +164,7 @@ public class ConfigureButtonBindings {
         //new Trigger(()-> m_Intake.isTouchingLimitSwitch()).onTrue(new GroundNoteToIndexer(m_IntakeWrist, m_ShooterWrist, m_Intake, m_Indexer));
 
 
-        m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
+        // m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
         
 
 

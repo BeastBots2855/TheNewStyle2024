@@ -31,8 +31,8 @@ public class NewShooter extends SubsystemBase {
         m_topSparkMax = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
         m_bottomSparkMax = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless);
 
-        m_topMotorFeedforward = new SimpleMotorFeedforward(0.244, 0.391);
-        m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.244, 0.391);
+        m_topMotorFeedforward = new SimpleMotorFeedforward(0.1799, 0.00033);
+        m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.2188, 0.00036);
 
         m_topSparkMax.restoreFactoryDefaults();
         m_bottomSparkMax.restoreFactoryDefaults();
@@ -43,33 +43,40 @@ public class NewShooter extends SubsystemBase {
         m_topPidController = m_topSparkMax.getPIDController();
         m_bottomPidController = m_bottomSparkMax.getPIDController();
 
-        m_bottomMotorEncoder.setInverted(true);
+        // m_bottomSparkMax.setInverted(true);
 
-        m_topPidController.setP(ModuleConstants.kDrivingP);
-        m_topPidController.setI(ModuleConstants.kDrivingI);
-        m_topPidController.setD(ModuleConstants.kDrivingD);
-        m_topPidController.setFF(ModuleConstants.kDrivingFF);
+
+        m_topPidController.setP(0.00000681);
+        m_topPidController.setI(0.0000000015);
+        m_topPidController.setD(0);
+        m_topPidController.setFF(0.00016);
         m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-        m_bottomPidController.setP(ModuleConstants.kDrivingP);
-        m_bottomPidController.setI(ModuleConstants.kDrivingI);
-        m_bottomPidController.setD(ModuleConstants.kDrivingD);
-        m_bottomPidController.setFF(ModuleConstants.kDrivingFF);
+        m_bottomPidController.setP(0.00000681);
+        m_bottomPidController.setI(0.0000000015);
+        m_bottomPidController.setD(0);
+        m_bottomPidController.setFF(0.00016);
         m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
+
+
+        m_bottomPidController.setFeedbackDevice(m_bottomMotorEncoder);
+        m_topPidController.setFeedbackDevice(m_topMotorEncoder);
 
         m_topSparkMax.burnFlash();
         m_bottomSparkMax.burnFlash();
       }
 
       public void setMotorVelocities(double targetSpeed){
-        m_topPidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(targetSpeed));
-        m_bottomPidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(targetSpeed));
+        m_topPidController.setReference(5000, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(targetSpeed));
+        m_bottomPidController.setReference(5000, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(targetSpeed));
       }
 
       @Override
       public void periodic() {
         // This method will be called once per scheduler run
+        System.out.println(m_topMotorEncoder.getVelocity());
+        
       }
 }
