@@ -28,8 +28,8 @@ public class NewShooter extends SubsystemBase {
   private final SparkPIDController m_bottomPidController;
   public NewShooter() {
 
-        m_topSparkMax = new CANSparkMax(ShooterConstants.topMotorCanID, MotorType.kBrushless);
-        m_bottomSparkMax = new CANSparkMax(ShooterConstants.bottomMotorCanID, MotorType.kBrushless);
+        m_topSparkMax = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
+        m_bottomSparkMax = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless);
 
         m_topMotorFeedforward = new SimpleMotorFeedforward(0.244, 0.391);
         m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.244, 0.391);
