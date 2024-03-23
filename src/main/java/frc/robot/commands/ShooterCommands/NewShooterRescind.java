@@ -7,14 +7,14 @@ package frc.robot.commands.ShooterCommands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.NewShooter;
 
-public class ShooterFire extends Command {
+public class NewShooterRescind extends Command {
   /** Creates a new ShooterEject. */
 
-private final Shooter m_shooter; 
+private final NewShooter m_shooter; 
   private final Supplier<Double> m_SpeedSupplier;
-  public ShooterFire(Shooter m_shooter, Supplier<Double> m_SpeedSupplier) {
+  public NewShooterRescind(NewShooter m_shooter, Supplier<Double> m_SpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_SpeedSupplier = m_SpeedSupplier;
     this.m_shooter = m_shooter;
@@ -25,19 +25,21 @@ private final Shooter m_shooter;
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
+  public void initialize() {
+    m_shooter.setMotorRPM(-5000 * m_SpeedSupplier.get());
+  }
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setMotorOutput(m_SpeedSupplier.get());
+    // m_shooter.setMotorVelocities(5000);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.setMotorOutput(0);
+    m_shooter.setMotorRPM(500);
   }
 
   // Returns true when the command should end.

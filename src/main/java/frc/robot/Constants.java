@@ -162,6 +162,10 @@ public final class Constants {
       public static final int ShooterMotorCANID = 31;
       public static final int ShooterMotor2CANID = 33;
       public static final double kMotorConsumeSpeed = 0.3;
+      public static final double maxShooterRPM = 5500;
+      public static final double kSpeakerRPM = 5000;
+      public static final double kAmpRPM = 1000;
+      public static final double kIdleRPM = 500;
   }
 
   public static final class IndexerConstants {

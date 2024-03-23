@@ -6,12 +6,12 @@ package frc.robot.commands.ShooterCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.OldShooter;
 
-public class ShooterRescind extends Command {
+public class OldShooterRescind extends Command {
   /** Creates a new IntakeConsume. */
-  private final Shooter m_Shooter;
-  public ShooterRescind(Shooter m_Shooter) {
+  private final OldShooter m_Shooter;
+  public OldShooterRescind(OldShooter m_Shooter) {
     this.m_Shooter = m_Shooter;
     addRequirements(m_Shooter);
     

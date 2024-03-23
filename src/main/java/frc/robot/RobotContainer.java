@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.NewShooter;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.OldShooter;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
@@ -37,13 +38,12 @@ public class RobotContainer {
   private Intake m_Intake = new Intake();
   private IntakeWrist m_IntakeWrist = new IntakeWrist();
   private ShooterWrist m_ShooterWrist = new ShooterWrist();
-  private Shooter m_Shooter = new Shooter();
   private Indexer m_Indexer = new Indexer();
   private Climb m_climb = new Climb();
   private LED m_Led = new LED();
-  private NewShooter ShooterTwo = new NewShooter();
+  private NewShooter m_Shooter = new NewShooter();
 
-  private Autos m_Autos = new Autos(m_robotDrive, m_Shooter);
+  private Autos m_Autos = new Autos(m_robotDrive);
 
 
   // The driver's controller
@@ -56,7 +56,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     
-    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Led, m_Autos, ShooterTwo);
+    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Led, m_Autos, m_Shooter);
     new ShuffleBoardInit(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
     
 
@@ -69,7 +69,7 @@ public class RobotContainer {
                 true, true),
             m_robotDrive));
 
-    m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorOutput(0.1), m_Shooter));
+    m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorRPM(ShooterConstants.kIdleRPM), m_Shooter));
   }
 //
  

@@ -21,8 +21,8 @@ import frc.robot.commands.IndexCommands.IndexShooterToIntake;
 import frc.robot.commands.IntakeCommands.IntakeConsume;
 import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.ShooterCommands.NewShooterFire;
-import frc.robot.commands.ShooterCommands.ShooterFire;
-import frc.robot.commands.ShooterCommands.ShooterRescind;
+import frc.robot.commands.ShooterCommands.NewShooterFire;
+import frc.robot.commands.ShooterCommands.NewShooterRescind;
 import frc.robot.commands.Vision.NoteLockOn;
 import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
@@ -32,7 +32,7 @@ import frc.robot.commands.WristCommands.ShooterWristOpenLoop;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.OldShooter;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
@@ -54,9 +54,9 @@ import frc.robot.subsystems.NewShooter;
 public class ConfigureButtonBindings {
     public ConfigureButtonBindings(
         XboxController m_driverController, XboxController m_operatorController, 
-        DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
+        DriveSubsystem m_robotDrive, Intake m_Intake, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
-        Climb m_Climb,LED m_Led, Autos m_Autos, NewShooter ShooterTwo) {
+        Climb m_Climb,LED m_Led, Autos m_Autos, NewShooter m_Shooter) {
         
          /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -124,21 +124,21 @@ public class ConfigureButtonBindings {
             //Shooters
                 //ShooterFire
                 new Trigger(()-> m_operatorController.getRightTriggerAxis() > 0).whileTrue(
-                    new ShooterFire(m_Shooter, m_operatorController::getRightTriggerAxis));
+                    new NewShooterFire(m_Shooter, m_operatorController::getRightTriggerAxis));
                 //Run Indexer and Shooter Backward
                     new Trigger(()-> m_operatorController.getPOV(0) == 0)
                         .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(-1), m_Indexer))
-                        .whileTrue(new RunCommand(()->m_Shooter.setMotorOutput(-1), m_Shooter))
+                        .whileTrue(new RunCommand(()->m_Shooter.setRPMForAmp(), m_Shooter))
                         .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
 
                 //New shooter velocity
                 new Trigger(()-> m_operatorController.getPOV(0) == 90)
-                        .whileTrue(new NewShooterFire(ShooterTwo, ()->1.0));
+                        .whileTrue(new NewShooterFire(m_Shooter, ()->1.0));
 
                 //Run Indexer and Shooter Forward
                     new Trigger(()-> m_operatorController.getPOV(0) == 180)
                         .whileTrue(new RunCommand(()->m_Indexer.setMotorOutput(1), m_Indexer).alongWith(
-                            new ShooterRescind(m_Shooter)))
+                            new NewShooterRescind(m_Shooter, ()-> 0.2)))
                         .whileFalse(new RunCommand(()->m_Indexer.setMotorOutput(0), m_Indexer));
                 //Run Indexer Forward
                     new Trigger(()-> m_operatorController.getRightBumper())
@@ -194,15 +194,18 @@ public class ConfigureButtonBindings {
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
             
-
+    //Speaker Lock on 
     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
         new SpeakerLockOn(
             m_robotDrive, 
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
-//
-   new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.yellow)); 
-   new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).onTrue(new SetLights(m_Led, Colors.red));
+   
+    //Set lights to yellow if trying to track a note and can see a note
+    new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.yellow)); 
+
+    //Set lights to red if trying to track a note and can't see a note
+    new Trigger(()->!PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.red));
           
             
 
@@ -210,9 +213,9 @@ public class ConfigureButtonBindings {
 //path planner start of auto Shooter recieve 
 
 
-        NamedCommands.registerCommand("ShooterFire", new ShooterFire(m_Shooter, ()-> 0.5));
-        NamedCommands.registerCommand("ShooterFireFast", new ShooterFire(m_Shooter, ()-> 1.0));
-        NamedCommands.registerCommand("ShooterRescind", new ShooterRescind(m_Shooter));
+        NamedCommands.registerCommand("ShooterFire", new NewShooterFire(m_Shooter, ()-> 0.5));
+        NamedCommands.registerCommand("ShooterFireFast", new NewShooterFire(m_Shooter, ()-> 1.0));
+        NamedCommands.registerCommand("ShooterRescind", new NewShooterRescind(m_Shooter, ()-> 0.2));
         NamedCommands.registerCommand("IndexIntakeToShooter", new IndexIntakeToShooter(m_Indexer));
         NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));
         NamedCommands.registerCommand("IntakeConsume", new IntakeConsume(m_Intake, ()-> 0.5));

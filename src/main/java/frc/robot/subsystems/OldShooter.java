@@ -11,12 +11,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
-public class Shooter extends SubsystemBase {
+public class OldShooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private final CANSparkMax m_ShooterMotor1;
   private final CANSparkMax m_ShooterMotor2;
   private final RelativeEncoder mEncoder;
-  public Shooter() {
+  public OldShooter() {
     m_ShooterMotor1 = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
     m_ShooterMotor2 = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless); 
     mEncoder = m_ShooterMotor1.getEncoder();

@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.NewShooter;
+import frc.robot.subsystems.OldShooter;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
@@ -24,7 +25,7 @@ public class ShuffleBoardInit {
 
     public ShuffleBoardInit(
         XboxController m_driverController, XboxController m_operatorController, 
-        DriveSubsystem m_robotDrive, Intake m_Intake, Shooter m_Shooter, 
+        DriveSubsystem m_robotDrive, Intake m_Intake, NewShooter m_Shooter, 
         IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
         Climb m_Climb) {
 
@@ -38,7 +39,8 @@ public class ShuffleBoardInit {
             m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
             m_telopOutput.addBoolean("isIntakeWristPidOn", m_IntakeWrist::isPidEnabled);
             m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
-            m_telopOutput.addDouble("ShooterVelocity", m_Shooter::getVelocity);
+            m_telopOutput.addDouble("TopShooterMotorRPM", m_Shooter::getTopMotorRPM);
+            m_telopOutput.addDouble("BottomShooterMotorRPM", m_Shooter::getBottomMotorRPM);
             
 
             m_visionTab.addDouble("DistanceFromRing", ()-> PhotonVision.getNotePidResponseVariable());
@@ -47,10 +49,10 @@ public class ShuffleBoardInit {
 
             m_visionTab.addDouble("targetAngle", ()-> PhotonVision.getTagetAngleRobotToSpeaker(m_robotDrive.getPose2d(), m_robotDrive.getChassisSpeeds()));
             m_visionTab.addDouble("GetDisplacemetnToTargetAngle", ()-> PhotonVision.getDisplacementToTargetAngle());
-             m_visionTab.addDouble("GetAngleToSpeakerX", ()-> PhotonVision.getRobotToSpeakerAngleXDisplacement());
-              m_visionTab.addDouble("GetAngleToSpeakerY", ()-> PhotonVision.getRobotToSpeakerAngleYDisplacement());
-              m_visionTab.addDouble("getCurrentAngle", ()-> m_robotDrive.getPose2d().getRotation().getRadians());
-              m_visionTab.addDouble("distanceToSpeaker", ()->PhotonVision.getDistanceToSpeaker());
+            m_visionTab.addDouble("GetAngleToSpeakerX", ()-> PhotonVision.getRobotToSpeakerAngleXDisplacement());
+            m_visionTab.addDouble("GetAngleToSpeakerY", ()-> PhotonVision.getRobotToSpeakerAngleYDisplacement());
+            m_visionTab.addDouble("getCurrentAngle", ()-> m_robotDrive.getPose2d().getRotation().getRadians());
+            m_visionTab.addDouble("distanceToSpeaker", ()->PhotonVision.getDistanceToSpeaker());
 
 
             SmartDashboard.putData(m_robotDrive);
