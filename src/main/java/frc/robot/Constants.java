@@ -317,18 +317,6 @@ public class Colors {
     }
 
     public static class AutoShoot {
-      public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
-    static {
-      DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
-      DISTANCE_TO_ANGLE_MAP.put(1.51, 53.3);
-      DISTANCE_TO_ANGLE_MAP.put(3.42, 36.5);
-      // DISTANCE_TO_ANGLE_MAP.put(2.2, ArmConstants.kOffset - 0.077);
-      // DISTANCE_TO_ANGLE_MAP.put(3.0, ArmConstants.kOffset - 0.059);
-      // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);
-      // DISTANCE_TO_ANGLE_MAP.put(4.9, ArmConstants.kOffset - 0.035);
-      // DISTANCE_TO_ANGLE_MAP.put(5.5, ArmConstants.kOffset - 0.029);
-    }
-
     public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
     static {
       DISTANCE_TO_ANGLE_MAP.put(2.45, 44.9);
