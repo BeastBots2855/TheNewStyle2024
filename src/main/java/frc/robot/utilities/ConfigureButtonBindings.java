@@ -23,6 +23,7 @@ import frc.robot.commands.IntakeCommands.IntakeDump;
 import frc.robot.commands.ShooterCommands.NewShooterFire;
 import frc.robot.commands.ShooterCommands.NewShooterFire;
 import frc.robot.commands.ShooterCommands.NewShooterRescind;
+import frc.robot.commands.Vision.FeederLockOn;
 import frc.robot.commands.Vision.NoteLockOn;
 import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.IntakeWristClosedLoop;
@@ -193,11 +194,11 @@ public class ConfigureButtonBindings {
     
 
     //Note Lock on
-    new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
-        new NoteLockOn(
-            m_robotDrive, 
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+    // new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
+    //     new NoteLockOn(
+    //         m_robotDrive, 
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
             
     //Speaker Lock on 
@@ -212,6 +213,13 @@ public class ConfigureButtonBindings {
         new AutoAimWithShooterAngle(
             m_robotDrive,
             m_ShooterWrist,
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+
+    //Feeder Lock on 
+    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+        new FeederLockOn(
+            m_robotDrive,
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
