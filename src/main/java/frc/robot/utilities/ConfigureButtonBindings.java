@@ -202,11 +202,11 @@ public class ConfigureButtonBindings {
 
             
    // Speaker Lock on 
-     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-         new SpeakerLockOn(
-             m_robotDrive, 
-             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+    //  new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+    //      new SpeakerLockOn(
+    //          m_robotDrive, 
+    //          ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //          ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
    
 
      new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
@@ -217,11 +217,11 @@ public class ConfigureButtonBindings {
              ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
     //Feeder Lock on 
-    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-        new FeederLockOn(
-            m_robotDrive,
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+    // new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+    //     new FeederLockOn(
+    //         m_robotDrive,
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
     //Amp Auto Score
     // new Trigger(()-> m_driverController.getAButton()).onTrue(
