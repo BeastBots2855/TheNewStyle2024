@@ -194,27 +194,27 @@ public class ConfigureButtonBindings {
     
 
     //Note Lock on
-    // new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
-    //     new NoteLockOn(
-    //         m_robotDrive, 
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+     new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
+         new NoteLockOn(
+             m_robotDrive, 
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
             
-    //Speaker Lock on 
-    // new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-    //     new SpeakerLockOn(
-    //         m_robotDrive, 
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+   // Speaker Lock on 
+     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+         new SpeakerLockOn(
+             m_robotDrive, 
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
    
 
-    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-        new AutoAimWithShooterAngle(
-            m_robotDrive,
-            m_ShooterWrist,
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+         new AutoAimWithShooterAngle(
+             m_robotDrive,
+             m_ShooterWrist,
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
     //Feeder Lock on 
     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
@@ -224,8 +224,8 @@ public class ConfigureButtonBindings {
             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
     //Amp Auto Score
-    new Trigger(()-> m_driverController.getAButton()).onTrue(
-        new AutoAmpScore(m_robotDrive, m_ShooterWrist, m_IntakeWrist, m_Shooter));
+    // new Trigger(()-> m_driverController.getAButton()).onTrue(
+    //     new AutoAmpScore(m_robotDrive, m_ShooterWrist, m_IntakeWrist, m_Shooter));
     //Set lights to yellow if trying to track a note and can see a note
     new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.yellow)); 
 
