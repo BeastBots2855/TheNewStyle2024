@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5905008158090483,
-        "y": 6.991369417831561
+        "x": 2.6456402107795283,
+        "y": 6.681985456994171
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.766163363995771,
-        "y": 5.3518523014221495
+        "x": 1.9700988239185788,
+        "y": 5.830215882256452
       },
       "isLocked": false,
       "linkedName": null
@@ -67,7 +67,7 @@
     },
     {
       "name": "Fire",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.8,
       "command": {
         "type": "deadline",
         "data": {
@@ -90,7 +90,7 @@
     },
     {
       "name": "pass",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "deadline",
         "data": {
@@ -98,7 +98,7 @@
             {
               "type": "wait",
               "data": {
-                "waitTime": 0.38
+                "waitTime": 0.5
               }
             },
             {
@@ -132,7 +132,7 @@
   "reversed": false,
   "folder": "FourFast",
   "previewStartingState": {
-    "rotation": -0.920778639246878,
+    "rotation": 55.6697828044967,
     "velocity": 0
   },
   "useDefaultConstraints": false

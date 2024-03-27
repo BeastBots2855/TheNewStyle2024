@@ -166,7 +166,7 @@ public class PhotonVision extends SubsystemBase{
                             rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
                         }
                         //time this as well
-                        // pose2d = pose2d.plus(new Transform2d(-0.2, 0, Rotation2d.fromDegrees(0)));
+                        pose2d = pose2d.plus(new Transform2d(-0.3, 0, Rotation2d.fromDegrees(0)));
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
 
