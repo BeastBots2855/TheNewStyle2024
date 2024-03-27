@@ -32,6 +32,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -224,6 +225,21 @@ public class PhotonVision extends SubsystemBase{
             return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
         }
 
+        public static double getDistanceToFeeder(Pose2d currentPose){
+            Pose2d feederPose;
+            if(DriverStation.getAlliance().get() == Alliance.Red){
+                feederPose = FieldConstants.RED_FEEDER_LOCATION;
+            } else {
+                feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
+            }
+            double x = feederPose.getX() - currentPose.getX();
+            displacementToSpeakerX = x;
+            double y = feederPose.getY() - currentPose.getY();
+            displacementToSpeakery = y;
+            // System.out.println(Math.atan2(y, x));
+            return Math.atan2(y, x);
+        }
+
         public static void setDisplacementToTargetAngle(double displacement){
             displacementToTargetAngle = displacement;
         }
@@ -231,6 +247,8 @@ public class PhotonVision extends SubsystemBase{
         public static double getDisplacementToTargetAngle(){
             return displacementToTargetAngle;
         }
+
+
 
         
 }
