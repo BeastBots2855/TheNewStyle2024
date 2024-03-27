@@ -41,7 +41,7 @@ import frc.robot.commands.AutoCommands.AutoAmpScore;
 import frc.robot.commands.AutoCommands.AutoIntake;
 import frc.robot.commands.AutoCommands.InitialShot;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
-import frc.robot.commands.Automatted.AutoAimWithShooterAngle;
+import frc.robot.commands.Automatted.AutoSpeakerAlignWithDrive;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
 import frc.robot.commands.MechanismSequences.SetClimbPosition;
 import frc.robot.commands.MechanismSequences.SetIntakeGroundShooterIn;
@@ -210,7 +210,7 @@ public class ConfigureButtonBindings {
    
 
      new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-         new AutoAimWithShooterAngle(
+         new AutoSpeakerAlignWithDrive(
              m_robotDrive,
              m_ShooterWrist,
              ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
