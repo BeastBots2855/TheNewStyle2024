@@ -102,7 +102,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "bentest",
+  "folder": null,
   "previewStartingState": {
     "rotation": 61.82140989004084,
     "velocity": 0

@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -154,9 +155,17 @@ public class PhotonVision extends SubsystemBase{
 
                         int tagCount = pose.get().targetsUsed.size();
                         double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
-                        double xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
-                        double rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
+                        double xyStd;
+                        double rotStd;
+                        if(DriverStation.isDisabled()) {
+                            xyStd = FieldConstants.DISABLED_VISION_STD_XY_SCALE * stdScale;
+                            rotStd = FieldConstants.DISABLED_VISION_STD_ROT_SCALE * stdScale;
+                        } else {
+                            xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
+                            rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
+                        }
                         //time this as well
+                        // pose2d = pose2d.plus(new Transform2d(-0.2, 0, Rotation2d.fromDegrees(0)));
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
 

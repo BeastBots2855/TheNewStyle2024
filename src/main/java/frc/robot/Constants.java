@@ -231,7 +231,7 @@ public final class Constants {
 
     public static final double kIntakeGroundPickup = 3;
     public static final double kIntakePassOff = 180;
-    public static final double kShooterPassOff = 55;
+    public static final double kShooterPassOff = 60;
     public static final double kShooterAmp = 330;
     public static final double kShooterSpeaker = 41;
     public static final double kShooterClimb = 90;
@@ -283,6 +283,10 @@ public class Colors {
         public static final double VISION_Z_MARGIN = 0.75;
         public static final double VISION_STD_XY_SCALE = 0.1; //0.01
         public static final double VISION_STD_ROT_SCALE = 0.3;//0.035;
+        public static final double DISABLED_VISION_STD_XY_SCALE = 0.005; //0.01
+        public static final double DISABLED_VISION_STD_ROT_SCALE = 0.02;//0.035;
+        
+
 
         public static final double FIELD_LENGTH = 16.5417;
         public static final double FIELD_WIDTH = 8.0136;
