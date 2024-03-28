@@ -50,7 +50,7 @@
     },
     {
       "name": "PrepArangement",
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.25,
       "command": {
         "type": "sequential",
         "data": {
@@ -90,7 +90,7 @@
     },
     {
       "name": "pass",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "deadline",
         "data": {
