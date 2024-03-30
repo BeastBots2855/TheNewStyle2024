@@ -7,6 +7,7 @@ package frc.robot.commands.Automatted;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants.AutoShoot;
 import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;

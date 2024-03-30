@@ -34,6 +34,7 @@ public class Autos {
         autoChooser.addOption("AmpSideAuto", "AmpSideAuto");
         autoChooser.addOption("LazyAmp", "LazyAmp");
         autoChooser.addOption("OnePieceMobility", "OnePieceMobility");
+        autoChooser.addOption("Amp Side 3 Note Better", "Amp Side 3 Note Better");
         autoTab.add(autoChooser);
         
     }
@@ -55,6 +56,7 @@ public class Autos {
         m_commandMap.put("OnePieceMobility", AutoBuilder.buildAuto("OnePieceMobility"));
         m_commandMap.put("Move", AutoBuilder.buildAuto("Move"));
         m_commandMap.put("BlueFour", AutoBuilder.buildAuto("BlueFour"));
+        m_commandMap.put("Amp Side 3 Note Better", AutoBuilder.buildAuto("Amp Side 3 Note Better"));
     //     m_commandMap.put("DrivetrainCharacterization", 
     //         new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
     //         m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));

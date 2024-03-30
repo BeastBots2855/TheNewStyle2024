@@ -25,6 +25,7 @@ public class AutoFeedAlignWithDrive extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new FeederLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
-    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()->AutoShoot.FEEDER_DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToFeeder(m_DriveSubsystem.getPose2d()))));
+    // new ShooterWristClosedLoopTracking(m_ShooterWrist, ()->AutoShoot.FEEDER_DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToFeeder(m_DriveSubsystem.getPose2d()))));
+    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()-> 48.0));
   }
 }

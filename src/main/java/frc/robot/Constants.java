@@ -153,7 +153,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
       public static final int IntakeMotorCANID = 20;
-      public static final double motorEjectSpeed = -0.5;
+      public static final double motorEjectSpeed = -1;
   }
 
   public static final class ShooterWristConstants {
@@ -294,16 +294,22 @@ public class Colors {
 
         public static final double NOTE_VELOCITY = 10.0;
 
-        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0241 - 0.5, 5.547868);
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0241 + 0.1, 5.547868 + 0.16);
         public static final Translation2d RED_SPEAKER = new Translation2d(FIELD_LENGTH - BLUE_SPEAKER.getX(),
-            BLUE_SPEAKER.getY() + 0.1);
+            BLUE_SPEAKER.getY() -0.1);
+
+        //           public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0241 + 0.1, 5.547868 + -0.04);
+        // public static final Translation2d RED_SPEAKER = new Translation2d(FIELD_LENGTH - BLUE_SPEAKER.getX(),
+        //     BLUE_SPEAKER.getY() + 0.1);
+
+
         public static final Translation2d STAGE = new Translation2d(4.981067, 4.105783);
 
         public static final Pose2d BLUE_AMP_Robot = new Pose2d(1.84, 7.67, Rotation2d.fromDegrees(90));
 
         public static final Pose2d RED_AMP_Robot = new Pose2d(14.61, 7.67, Rotation2d.fromDegrees(90));
 
-        public static final Pose2d BLUE_FEEDER_LOCATION = new Pose2d(1, 7, Rotation2d.fromDegrees(90));
+        public static final Pose2d BLUE_FEEDER_LOCATION = new Pose2d(2, 7, Rotation2d.fromDegrees(90));
 
         public static final Pose2d RED_FEEDER_LOCATION = new Pose2d(15, 7, Rotation2d.fromDegrees(90));
         // public static final double SPEAKER_HEIGHT = 2.08;
@@ -324,17 +330,17 @@ public class Colors {
     public static class AutoShoot {
     public static final InterpolatingDoubleTreeMap DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
     static {
-      DISTANCE_TO_ANGLE_MAP.put(3.35, 35.1);
-      DISTANCE_TO_ANGLE_MAP.put(3.0, 39.3);
-      DISTANCE_TO_ANGLE_MAP.put(2.65, 41.7);
-      DISTANCE_TO_ANGLE_MAP.put(1.73, 56.5);
+      // DISTANCE_TO_ANGLE_MAP.put(3.35, 35.1);
+      // DISTANCE_TO_ANGLE_MAP.put(3.0, 39.3);
+      // DISTANCE_TO_ANGLE_MAP.put(2.65, 41.7);
+      // DISTANCE_TO_ANGLE_MAP.put(1.73, 56.5);
       
       
-      // DISTANCE_TO_ANGLE_MAP.put(2.2, ArmConstants.kOffset - 0.077);
-      // DISTANCE_TO_ANGLE_MAP.put(3.0, ArmConstants.kOffset - 0.059);
-      // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);
-      // DISTANCE_TO_ANGLE_MAP.put(4.9, ArmConstants.kOffset - 0.035);
-      // DISTANCE_TO_ANGLE_MAP.put(5.5, ArmConstants.kOffset - 0.029);
+      DISTANCE_TO_ANGLE_MAP.put(3.75, 29.5);
+      DISTANCE_TO_ANGLE_MAP.put(3.07, 31.6);
+      DISTANCE_TO_ANGLE_MAP.put(2.58, 33.3);
+      DISTANCE_TO_ANGLE_MAP.put(1.58, 43.5);
+      DISTANCE_TO_ANGLE_MAP.put(1.14, 59.6);
     }
 
     public static final InterpolatingDoubleTreeMap FEEDER_DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
