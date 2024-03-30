@@ -36,9 +36,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Amp Side 3 Note 3R"
+            "waitTime": 1.0
           }
         },
         {
