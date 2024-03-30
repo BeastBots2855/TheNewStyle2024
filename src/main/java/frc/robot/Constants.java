@@ -282,8 +282,8 @@ public class Colors {
     public static class FieldConstants {
         public static final double VISION_FIELD_MARGIN = 0.5;
         public static final double VISION_Z_MARGIN = 0.75;
-        public static final double VISION_STD_XY_SCALE = 0.1; //0.01
-        public static final double VISION_STD_ROT_SCALE = 0.3;//0.035;
+        public static final double VISION_STD_XY_SCALE = 0.4; //0.01 0.1
+        public static final double VISION_STD_ROT_SCALE = 0.6;//0.035;0.3
         public static final double DISABLED_VISION_STD_XY_SCALE = 0.005; //0.01
         public static final double DISABLED_VISION_STD_ROT_SCALE = 0.02;//0.035;
         
