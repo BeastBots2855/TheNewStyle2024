@@ -439,7 +439,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void setRobotRelativeSpeeds(ChassisSpeeds chassisSpeeds)
   {
-    //chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+    chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
       swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);

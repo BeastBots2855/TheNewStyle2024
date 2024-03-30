@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.AutoShoot;
+import frc.robot.commands.Vision.FeederLockOn;
 import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoopTracking;
@@ -18,12 +19,12 @@ import frc.robot.utilities.PhotonVision;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoAimWithShooterAngle extends ParallelCommandGroup {
+public class AutoFeedAlignWithDrive extends ParallelCommandGroup {
   /** Creates a new AutoAimWithShooterAngle. */
-  public AutoAimWithShooterAngle(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist, DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
+  public AutoFeedAlignWithDrive(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist, DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new SpeakerLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
-    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()->AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())));
+    addCommands(new FeederLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
+    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()->AutoShoot.FEEDER_DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToFeeder(m_DriveSubsystem.getPose2d()))));
   }
 }

@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "PrepArangement",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.05,
       "command": {
         "type": "parallel",
         "data": {
@@ -90,7 +90,7 @@
     },
     {
       "name": "Pass",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "deadline",
         "data": {

@@ -191,7 +191,7 @@ public final class Constants {
 
 
       public static final HolonomicPathFollowerConfig autoBuilderPathConfig = new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-      new PIDConstants(0.5, 0.0 ,0), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
+      new PIDConstants(3.5, 0.0 ,0.2), //original p = 5, 1st attempt: p = 5, d = 0.5, 2nd attempt: p= 5, d = 0.5, 3rd attempt: p = 5, d = 3 this caused the wheels to shutter
       new PIDConstants(3, 0.0, 0), //5.0, 0, 0.2
       DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
       DriveConstants.kchassisRadiusMeters, // Drive base radius in meters. Distance from robot center to furthest module.
@@ -231,7 +231,7 @@ public final class Constants {
 
     public static final double kIntakeGroundPickup = 3;
     public static final double kIntakePassOff = 180;
-    public static final double kShooterPassOff = 55;
+    public static final double kShooterPassOff = 60;
     public static final double kShooterAmp = 330;
     public static final double kShooterSpeaker = 41;
     public static final double kShooterClimb = 90;
@@ -265,6 +265,7 @@ public class Colors {
         // The layout of the AprilTags on the field
         public static final AprilTagFieldLayout kTagLayout =
                 AprilTagFields.kDefaultField.loadAprilTagLayoutField();
+        
 
         // The standard deviations of our vision estimated poses, which affect correction rate
         // (Fake values. Experiment and determine estimation noise on an actual robot.)
@@ -281,8 +282,12 @@ public class Colors {
     public static class FieldConstants {
         public static final double VISION_FIELD_MARGIN = 0.5;
         public static final double VISION_Z_MARGIN = 0.75;
-        public static final double VISION_STD_XY_SCALE = 0.1; //0.01
-        public static final double VISION_STD_ROT_SCALE = 0.3;//0.035;
+        public static final double VISION_STD_XY_SCALE = 0.4; //0.01 0.1
+        public static final double VISION_STD_ROT_SCALE = 0.6;//0.035;0.3
+        public static final double DISABLED_VISION_STD_XY_SCALE = 0.005; //0.01
+        public static final double DISABLED_VISION_STD_ROT_SCALE = 0.02;//0.035;
+        
+
 
         public static final double FIELD_LENGTH = 16.5417;
         public static final double FIELD_WIDTH = 8.0136;
@@ -330,6 +335,12 @@ public class Colors {
       // DISTANCE_TO_ANGLE_MAP.put(4.1, ArmConstants.kOffset - 0.044);
       // DISTANCE_TO_ANGLE_MAP.put(4.9, ArmConstants.kOffset - 0.035);
       // DISTANCE_TO_ANGLE_MAP.put(5.5, ArmConstants.kOffset - 0.029);
+    }
+
+    public static final InterpolatingDoubleTreeMap FEEDER_DISTANCE_TO_ANGLE_MAP = new InterpolatingDoubleTreeMap();
+    static {
+      DISTANCE_TO_ANGLE_MAP.put(8.98, 45.31);
+      DISTANCE_TO_ANGLE_MAP.put(8.09, 47.4);
     }
     }
 

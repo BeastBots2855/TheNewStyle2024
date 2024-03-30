@@ -107,7 +107,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "CJ",
+  "folder": null,
   "previewStartingState": {
     "rotation": 14.14958818200227,
     "velocity": 0

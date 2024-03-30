@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -31,6 +32,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -154,9 +156,22 @@ public class PhotonVision extends SubsystemBase{
 
                         int tagCount = pose.get().targetsUsed.size();
                         double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
-                        double xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
-                        double rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
+                        double xyStd;
+                        double rotStd;
+                        if(DriverStation.isDisabled()) {
+                            xyStd = FieldConstants.DISABLED_VISION_STD_XY_SCALE * stdScale;
+                            rotStd = FieldConstants.DISABLED_VISION_STD_ROT_SCALE * stdScale;
+                        } else {
+                            xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
+                            rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
+                        }
                         //time this as well
+                        if(DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue).equals(Alliance.Blue))
+                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
+
+                        else 
+                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
+                    
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
 
@@ -215,6 +230,21 @@ public class PhotonVision extends SubsystemBase{
             return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
         }
 
+        public static double getDistanceToFeeder(Pose2d currentPose){
+            Pose2d feederPose;
+            if(DriverStation.getAlliance().get() == Alliance.Red){
+                feederPose = FieldConstants.RED_FEEDER_LOCATION;
+            } else {
+                feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
+            }
+            double x = feederPose.getX() - currentPose.getX();
+            displacementToSpeakerX = x;
+            double y = feederPose.getY() - currentPose.getY();
+            displacementToSpeakery = y;
+            // System.out.println(Math.atan2(y, x));
+            return Math.atan2(y, x);
+        }
+
         public static void setDisplacementToTargetAngle(double displacement){
             displacementToTargetAngle = displacement;
         }
@@ -222,6 +252,8 @@ public class PhotonVision extends SubsystemBase{
         public static double getDisplacementToTargetAngle(){
             return displacementToTargetAngle;
         }
+
+
 
         
 }

@@ -37,11 +37,11 @@ import frc.robot.subsystems.OldShooter;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 import frc.robot.subsystems.WristFunctionality.ShooterWrist;
-import frc.robot.commands.AutoCommands.AutoAmpScore;
+// import frc.robot.commands.AutoCommands.AutoAmpScore;
 import frc.robot.commands.AutoCommands.AutoIntake;
 import frc.robot.commands.AutoCommands.InitialShot;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
-import frc.robot.commands.Automatted.AutoAimWithShooterAngle;
+import frc.robot.commands.Automatted.AutoSpeakerAlignWithDrive;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
 import frc.robot.commands.MechanismSequences.SetClimbPosition;
 import frc.robot.commands.MechanismSequences.SetIntakeGroundShooterIn;
@@ -194,38 +194,38 @@ public class ConfigureButtonBindings {
     
 
     //Note Lock on
-    // new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
-    //     new NoteLockOn(
-    //         m_robotDrive, 
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+     new Trigger(()-> m_driverController.getLeftBumper() && PhotonVision.canTrustNoteData()).whileTrue(
+         new NoteLockOn(
+             m_robotDrive, 
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
             
-    //Speaker Lock on 
-    // new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-    //     new SpeakerLockOn(
-    //         m_robotDrive, 
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+   // Speaker Lock on 
+    //  new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+    //      new SpeakerLockOn(
+    //          m_robotDrive, 
+    //          ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //          ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
    
 
-    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-        new AutoAimWithShooterAngle(
-            m_robotDrive,
-            m_ShooterWrist,
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+     new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+         new AutoSpeakerAlignWithDrive(
+             m_robotDrive,
+             m_ShooterWrist,
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+             ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
     //Feeder Lock on 
-    new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-        new FeederLockOn(
-            m_robotDrive,
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+    // new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
+    //     new FeederLockOn(
+    //         m_robotDrive,
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
     //Amp Auto Score
-    new Trigger(()-> m_driverController.getAButton()).onTrue(
-        new AutoAmpScore(m_robotDrive, m_ShooterWrist, m_IntakeWrist, m_Shooter));
+    // new Trigger(()-> m_driverController.getAButton()).onTrue(
+    //     new AutoAmpScore(m_robotDrive, m_ShooterWrist, m_IntakeWrist, m_Shooter));
     //Set lights to yellow if trying to track a note and can see a note
     new Trigger(()-> PhotonVision.canTrustNoteData() && m_driverController.getLeftBumper()).whileTrue(new SetLights(m_Led, Colors.yellow)); 
 
@@ -255,7 +255,7 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
-        NamedCommands.registerCommand("InitialShot", new InitialShot());        
+        // NamedCommands.registerCommand("InitialShot", new InitialShot());        
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();
 

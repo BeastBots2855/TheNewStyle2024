@@ -54,6 +54,7 @@ public class Autos {
         m_commandMap.put("LazyAmp", AutoBuilder.buildAuto("LazyAmp"));
         m_commandMap.put("OnePieceMobility", AutoBuilder.buildAuto("OnePieceMobility"));
         m_commandMap.put("Move", AutoBuilder.buildAuto("Move"));
+        m_commandMap.put("BlueFour", AutoBuilder.buildAuto("BlueFour"));
     //     m_commandMap.put("DrivetrainCharacterization", 
     //         new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
     //         m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));
