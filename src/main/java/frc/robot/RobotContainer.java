@@ -33,7 +33,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private PhotonVision m_PhotonVision = new PhotonVision();
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private Intake m_Intake = new Intake();
   private IntakeWrist m_IntakeWrist = new IntakeWrist();
@@ -55,6 +54,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    PhotonVision.InitializePhotonVision();
     
     new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Led, m_Autos, m_Shooter);
     new ShuffleBoardInit(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);

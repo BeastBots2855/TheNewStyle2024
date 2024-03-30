@@ -56,7 +56,7 @@ public class PhotonVision extends SubsystemBase{
     private static double displacementToSpeakerX = 0;
     private static double displacementToSpeakery = 0;
 
-  public PhotonVision(){
+  public static void InitializePhotonVision(){
     try {
       m_visionPoseEstimator = new PhotonPoseEstimator(
         AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile), 
