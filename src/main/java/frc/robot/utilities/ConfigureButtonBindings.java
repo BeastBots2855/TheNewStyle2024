@@ -41,6 +41,7 @@ import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 import frc.robot.commands.AutoCommands.AutoIntake;
 import frc.robot.commands.AutoCommands.InitialShot;
 import frc.robot.commands.AutoCommands.SetIntakeGround;
+import frc.robot.commands.Automatted.AutoFeedAlignWithDrive;
 import frc.robot.commands.Automatted.AutoSpeakerAlignWithDrive;
 import frc.robot.commands.MechanismSequences.GroundNoteToIndexer;
 import frc.robot.commands.MechanismSequences.SetClimbPosition;
@@ -216,14 +217,15 @@ public class ConfigureButtonBindings {
              ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
              ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
-    //Feeder Lock on 
-    // new Trigger(()-> m_driverController.getRightBumper()).whileTrue(
-    //     new FeederLockOn(
-    //         m_robotDrive,
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-    //         ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
+    // Feeder Lock on 
+    new Trigger(()-> m_driverController.getAButton()).whileTrue(
+        new AutoFeedAlignWithDrive(
+            m_robotDrive,
+            m_ShooterWrist,
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+            ()-> -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)));
 
-    //Amp Auto Score
+    // //Amp Auto Score
     // new Trigger(()-> m_driverController.getAButton()).onTrue(
     //     new AutoAmpScore(m_robotDrive, m_ShooterWrist, m_IntakeWrist, m_Shooter));
     //Set lights to yellow if trying to track a note and can see a note
