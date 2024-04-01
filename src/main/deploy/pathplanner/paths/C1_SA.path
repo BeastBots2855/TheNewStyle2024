@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.9,
-        "y": 7.45
+        "x": 2.6309545284564635,
+        "y": 6.975699103455452
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.93,
-        "y": 7.45
+        "x": 2.2344411057337323,
+        "y": 6.961013421132389
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0555821333618252,
-        "y": 7.032741257491394
+        "x": 0.9127296966579629,
+        "y": 6.637928410024977
       },
       "prevControl": {
-        "x": 1.4778149867065566,
-        "y": 8.235186992016601
+        "x": 1.221129025442309,
+        "y": 7.313469796885926
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "PrepArrangement",
-      "waypointRelativePos": 0,
+      "name": "PrepArangement",
+      "waypointRelativePos": 0.05,
       "command": {
         "type": "parallel",
         "data": {
@@ -56,7 +50,7 @@
     },
     {
       "name": "PrepShooter",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -73,7 +67,7 @@
     },
     {
       "name": "Fire",
-      "waypointRelativePos": 0.9,
+      "waypointRelativePos": 0.8,
       "command": {
         "type": "deadline",
         "data": {
@@ -96,7 +90,7 @@
     },
     {
       "name": "Pass",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "deadline",
         "data": {
@@ -126,20 +120,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.3,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.98065001017357,
+    "rotation": 48.503531644784424,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "CJ",
+  "folder": "AmpSide3Me",
   "previewStartingState": {
-    "rotation": -0.5664140887803721,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

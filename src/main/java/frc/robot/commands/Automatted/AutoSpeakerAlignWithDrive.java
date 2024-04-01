@@ -24,7 +24,11 @@ public class AutoSpeakerAlignWithDrive extends ParallelCommandGroup {
   public AutoSpeakerAlignWithDrive(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist, DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new SpeakerLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier), 
-    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()-> Math.max(0, Math.min(63, AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())))));
+    addCommands(new SpeakerLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
+    
+    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()-> AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())),
+    new PrintCommand("distance: " + PhotonVision.getDistanceToSpeaker()), 
+    new PrintCommand("output: " + Math.max(0, Math.min(63, AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())))), 
+    new PrintCommand("map value" + AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())));
   }
 }

@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.9464048057910655,
-        "y": 6.686887667641241
+        "x": 0.6777587794889373,
+        "y": 6.696671139317234
       },
       "prevControl": {
-        "x": 2.578789979263268,
-        "y": 6.722020177278586
+        "x": 1.1623862961500528,
+        "y": 7.049127515070773
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.7,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -72,7 +72,7 @@
     },
     {
       "name": "StopFlyWheel",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.05,
       "command": {
         "type": "deadline",
         "data": {
@@ -95,7 +95,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "deadline",
         "data": {
@@ -182,13 +182,13 @@
   ],
   "globalConstraints": {
     "maxVelocity": 2.0,
-    "maxAcceleration": 1.0,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 500.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 14.25703535965001,
+    "rotation": 55.40771131249011,
     "rotateFast": false
   },
   "reversed": false,

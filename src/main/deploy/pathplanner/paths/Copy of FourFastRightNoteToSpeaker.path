@@ -3,60 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.9,
-        "y": 7.45
+        "x": 2.4987833875488867,
+        "y": 4.244162191365528
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.93,
-        "y": 7.45
+        "x": 2.4547263405796946,
+        "y": 5.374959730241464
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0555821333618252,
-        "y": 7.032741257491394
+        "x": 1.3374413054104268,
+        "y": 5.574358195791997
       },
       "prevControl": {
-        "x": 1.4778149867065566,
-        "y": 8.235186992016601
+        "x": 1.749813589072617,
+        "y": 5.507130871149041
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "PrepArrangement",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "SetIntakeInShooterIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "PrepShooter",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,18 +49,29 @@
       }
     },
     {
-      "name": "Fire",
-      "waypointRelativePos": 0.9,
+      "name": "PrepArrangements",
+      "waypointRelativePos": 0.1,
       "command": {
-        "type": "deadline",
+        "type": "parallel",
         "data": {
           "commands": [
             {
-              "type": "wait",
+              "type": "named",
               "data": {
-                "waitTime": 1.0
+                "name": "SetIntakeInShooterIn"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fire",
+      "waypointRelativePos": 0.9,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {
@@ -95,8 +83,8 @@
       }
     },
     {
-      "name": "Pass",
-      "waypointRelativePos": 0.4,
+      "name": "pass",
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "deadline",
         "data": {
@@ -122,24 +110,47 @@
           ]
         }
       }
+    },
+    {
+      "name": "KeepPulling",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeConsume"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.5
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.8,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.98065001017357,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "CJ",
+  "folder": "OpenSide3",
   "previewStartingState": {
-    "rotation": -0.5664140887803721,
+    "rotation": -15.945395900922856,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

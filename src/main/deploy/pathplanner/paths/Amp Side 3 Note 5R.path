@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.9346939692452838,
-        "y": 6.722020177278586
+        "x": 0.7805585557503859,
+        "y": 6.623242727701913
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6724766716295196,
-        "y": 8.39666980332533
+        "x": 1.5183412581346247,
+        "y": 8.297892353748658
       },
       "isLocked": false,
       "linkedName": null
@@ -107,9 +107,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "CJ",
   "previewStartingState": {
-    "rotation": 14.14958818200227,
+    "rotation": 58.29857033049434,
     "velocity": 0
   },
   "useDefaultConstraints": true
