@@ -129,6 +129,10 @@ public class PhotonVision extends SubsystemBase{
     if(results.hasTargets()){
          m_Timer.reset();
     }
+    
+    System.out.println("distance2: " + getDistanceToSpeaker());
+    System.out.println("map value: " + AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker()));
+    System.out.println("output: " + Math.max(0, Math.min(63, AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker()))));
     }
 
      public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
@@ -165,13 +169,6 @@ public class PhotonVision extends SubsystemBase{
                             xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
                             rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
                         }
-                        //time this as well
-                        if(DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue).equals(Alliance.Blue))
-                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
-
-                        else 
-                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
-                    
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
 

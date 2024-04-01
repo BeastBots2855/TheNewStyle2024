@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.WristFunctionality;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeWristConstants;
 import frc.robot.Constants.LimitSwitchConstants;
+import frc.robot.utilities.PhotonVision;
 
 public class IntakeWrist extends SubsystemBase implements Wrist {
   /** Creates a new Wrist. */
@@ -113,6 +116,8 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
       if(m_isPidEnabled) {
           runPid();
       }
+      DoubleSupplier visionDoubleSupplier = ()-> PhotonVision.getDistanceToSpeaker();
+      System.out.println("ssdsssssss" + visionDoubleSupplier.getAsDouble());
       
    }
 
