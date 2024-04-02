@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SetVisionModeAuto"
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -60,6 +66,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetVisionModeStandard"
           }
         },
         {

@@ -13,6 +13,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -41,6 +42,7 @@ import frc.robot.Constants.AutoShoot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.Vision;
+import frc.robot.Constants.Vision.VisionMode;
 
 /** Add your docs here. */
 public class PhotonVision extends SubsystemBase{
@@ -52,6 +54,8 @@ public class PhotonVision extends SubsystemBase{
     private static double[] lastBestNote = new double[]{0, 0};
     private static Timer m_Timer = new Timer();
     private static Field2d m_photonVisionField = new Field2d();
+
+    private static VisionMode m_VisionMode = VisionMode.DISABLED;
 
     private static double displacementToTargetAngle = 0;
     private static double displacementToSpeakerX = 0;
@@ -129,6 +133,10 @@ public class PhotonVision extends SubsystemBase{
     if(results.hasTargets()){
          m_Timer.reset();
     }
+
+    if(DriverStation.isTeleopEnabled()){
+        m_VisionMode = VisionMode.STANDARD;
+    }
     }
 
      public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
@@ -158,20 +166,17 @@ public class PhotonVision extends SubsystemBase{
                         double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
                         double xyStd;
                         double rotStd;
-                        if(DriverStation.isDisabled()) {
+                        if(m_VisionMode == VisionMode.DISABLED) {
                             xyStd = FieldConstants.DISABLED_VISION_STD_XY_SCALE * stdScale;
                             rotStd = FieldConstants.DISABLED_VISION_STD_ROT_SCALE * stdScale;
+                        } else if(m_VisionMode == VisionMode.AUTONONMOUS_INIT) {
+                            xyStd = FieldConstants.AUTONOMOUS_VISION_STD_XY_SCALE * stdScale;
+                            rotStd = FieldConstants.AUTONOMOUS_VISION_STD_ROT_SCALE * stdScale;
                         } else {
                             xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
                             rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
                         }
-                        //time this as well
-                        if(DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue).equals(Alliance.Blue))
-                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
-
-                        else 
-                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
-                    
+                        
                         m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
                     }
 
@@ -253,7 +258,11 @@ public class PhotonVision extends SubsystemBase{
             return displacementToTargetAngle;
         }
 
+        public static void setVisionMode(VisionMode newVisionMode){
+            m_VisionMode = newVisionMode;
+        }
 
+       
 
         
 }

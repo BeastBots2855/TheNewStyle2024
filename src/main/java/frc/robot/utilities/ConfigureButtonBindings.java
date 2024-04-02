@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.Vision.VisionMode;
 import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.IndexCommands.IndexIntakeToShooter;
 import frc.robot.commands.IndexCommands.IndexShooterToIntake;
@@ -257,6 +258,8 @@ public class ConfigureButtonBindings {
         NamedCommands.registerCommand("SetIntakeInShooterIn", new SetIntakeInShooterIn(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterAmp", new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist));
         NamedCommands.registerCommand("SetIntakeInShooterSpeaker", new SetIntakeInShooterSpeaker(m_ShooterWrist, m_IntakeWrist));
+        NamedCommands.registerCommand("SetVisionModeAuto", new InstantCommand(()-> PhotonVision.setVisionMode(VisionMode.AUTONONMOUS_INIT)));
+        NamedCommands.registerCommand("SetVisionModeStandard", new InstantCommand(()-> PhotonVision.setVisionMode(VisionMode.STANDARD)));
         // NamedCommands.registerCommand("InitialShot", new InitialShot());        
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();

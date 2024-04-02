@@ -275,6 +275,12 @@ public class Colors {
         public static final Vector<N3> odometryStd = VecBuilder.fill(0.06, 0.06, 0.01);
         public static final Vector<N3> visionStd = VecBuilder.fill(0.35, 0.35, 0.8);
 
+        public enum VisionMode{
+          DISABLED,
+          AUTONONMOUS_INIT,
+          STANDARD
+        }
+
 
         
     }
@@ -286,6 +292,8 @@ public class Colors {
         public static final double VISION_STD_ROT_SCALE = 0.6;//0.035;0.3
         public static final double DISABLED_VISION_STD_XY_SCALE = 0.005; //0.01
         public static final double DISABLED_VISION_STD_ROT_SCALE = 0.02;//0.035;
+        public static final double AUTONOMOUS_VISION_STD_XY_SCALE = 0.001; //0.01
+        public static final double AUTONOMOUS_VISION_STD_ROT_SCALE = 0.001;//0.035;
         
 
 
