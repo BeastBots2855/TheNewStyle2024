@@ -73,7 +73,7 @@
     },
     {
       "name": "Fire",
-      "waypointRelativePos": 0.9,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "deadline",
         "data": {
