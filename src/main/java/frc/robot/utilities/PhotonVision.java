@@ -56,6 +56,8 @@ public class PhotonVision extends SubsystemBase{
     private static double displacementToTargetAngle = 0;
     private static double displacementToSpeakerX = 0;
     private static double displacementToSpeakery = 0;
+    private static double displacementToFeedery = 0;
+    private static double dispalcementToFeederx = 0;
 
   public PhotonVision(){
     try {
@@ -227,6 +229,10 @@ public class PhotonVision extends SubsystemBase{
             return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
         }
 
+        // public static double getDistanceToFeeder(){
+        //     return Math.pow(displacementToFeedery * displacementToFeedery + dispalcementToFeederx * dispalcementToFeederx, 0.5);
+        // }
+
         public static double getDistanceToFeeder(Pose2d currentPose){
             Pose2d feederPose;
             if(DriverStation.getAlliance().get() == Alliance.Red){
@@ -235,9 +241,9 @@ public class PhotonVision extends SubsystemBase{
                 feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
             }
             double x = feederPose.getX() - currentPose.getX();
-            displacementToSpeakerX = x;
+            dispalcementToFeederx = x;
             double y = feederPose.getY() - currentPose.getY();
-            displacementToSpeakery = y;
+            displacementToFeedery = y;
             // System.out.println(Math.atan2(y, x));
             return Math.atan2(y, x);
         }
