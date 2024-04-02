@@ -129,14 +129,16 @@ public class PhotonVision extends SubsystemBase{
 
     @Override
     public void periodic(){
-    var results = m_NoteTracker.getLatestResult();
-    if(results.hasTargets()){
-         m_Timer.reset();
-    }
+        var results = m_NoteTracker.getLatestResult();
+        if(results.hasTargets()){
+            m_Timer.reset();
+        }
 
-    if(DriverStation.isTeleopEnabled()){
-        m_VisionMode = VisionMode.STANDARD;
-    }
+        if(DriverStation.isTeleopEnabled()){
+            m_VisionMode = VisionMode.STANDARD;
+        } else if(DriverStation.isDisabled()){
+            m_VisionMode = VisionMode.DISABLED;
+        }
     }
 
      public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
