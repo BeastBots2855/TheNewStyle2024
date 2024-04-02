@@ -251,8 +251,12 @@ public class PhotonVision extends SubsystemBase{
 
         public static double getDistanceToFeeder(Pose2d currentPose){
             Pose2d feederPose;
-            if(DriverStation.getAlliance().get() == Alliance.Red){
-                feederPose = FieldConstants.RED_FEEDER_LOCATION;
+            if(DriverStation.getAlliance().isPresent()){
+                if(DriverStation.getAlliance().get() == Alliance.Red){
+                    feederPose = FieldConstants.RED_FEEDER_LOCATION;
+                } else {
+                    feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
+                }
             } else {
                 feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
             }

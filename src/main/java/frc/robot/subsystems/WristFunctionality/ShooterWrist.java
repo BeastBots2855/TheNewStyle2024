@@ -81,11 +81,6 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
       } else {
         setMotorOutput(0);
       }
-      // System.out.println("angle: " + angle);
-      // System.out.println("Position: " + m_absoluteEncoder.getPosition());
-      // System.out.println("Target: " + m_PidController.getSetpoint());
-      // System.out.println("Error: "  );
-      // System.out.println("Output: " + output);
   }
 
   public boolean isWithinPidTolerance(){

@@ -90,11 +90,6 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
         setMotorOutput(0);
       }
 
-
-      // System.out.println("Position: " + m_absoluteEncoder.getPosition());
-      // System.out.println("Target: " + m_PidController.getSetpoint());
-      // System.out.println("Error: "  );
-      // System.out.println("Output: " + output);
   }
 
   public boolean isWithinPidTolerance(){
@@ -117,7 +112,6 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
           runPid();
       }
       DoubleSupplier visionDoubleSupplier = ()-> PhotonVision.getDistanceToSpeaker();
-      System.out.println("ssdsssssss" + visionDoubleSupplier.getAsDouble());
       
    }
 

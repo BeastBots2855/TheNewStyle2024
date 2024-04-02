@@ -234,7 +234,8 @@ public final class Constants {
     public static final double kShooterPassOff = 60;
     public static final double kShooterAmp = 330;
     public static final double kShooterSpeaker = 41;
-    public static final double kShooterClimb = 90;
+    public static final double kShooterClimb = 0;
+    public static final double kIntakeClimb = 75.8;
 
   }
 public class Colors { 
