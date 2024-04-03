@@ -25,7 +25,7 @@ public class AutoIntake extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new IntakeConsume(m_Intake, ()-> 0.5)
+        new IntakeConsume(m_Intake, ()-> 1.0)
           .until(()->m_Intake.isTouchingLimitSwitch()).
           andThen(new GroundNoteToIndexer(
             m_IntakeWrist, 

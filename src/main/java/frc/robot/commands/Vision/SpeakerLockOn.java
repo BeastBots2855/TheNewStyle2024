@@ -50,7 +50,7 @@ public class SpeakerLockOn extends Command {
         true,
         false);
     PhotonVision.setDisplacementToTargetAngle(m_ThetaController.getPositionError());
-    System.out.println(thetaOutput);
+    // System.out.println(thetaOutput);
         
 
   }

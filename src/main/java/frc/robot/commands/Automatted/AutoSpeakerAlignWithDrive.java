@@ -7,6 +7,7 @@ package frc.robot.commands.Automatted;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants.AutoShoot;
 import frc.robot.commands.Vision.SpeakerLockOn;
 import frc.robot.commands.WristCommands.ShooterWristClosedLoop;
@@ -24,6 +25,7 @@ public class AutoSpeakerAlignWithDrive extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new SpeakerLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
-    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()->AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())));
+    
+    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()-> AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())));
   }
 }

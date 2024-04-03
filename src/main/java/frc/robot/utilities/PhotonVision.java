@@ -13,6 +13,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -41,6 +42,7 @@ import frc.robot.Constants.AutoShoot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.Vision;
+import frc.robot.Constants.Vision.VisionMode;
 
 /** Add your docs here. */
 public class PhotonVision extends SubsystemBase{
@@ -53,9 +55,13 @@ public class PhotonVision extends SubsystemBase{
     private static Timer m_Timer = new Timer();
     private static Field2d m_photonVisionField = new Field2d();
 
+    private static VisionMode m_VisionMode = VisionMode.DISABLED;
+
     private static double displacementToTargetAngle = 0;
     private static double displacementToSpeakerX = 0;
     private static double displacementToSpeakery = 0;
+    private static double displacementToFeedery = 0;
+    private static double dispalcementToFeederx = 0;
 
   public PhotonVision(){
     try {
@@ -125,10 +131,16 @@ public class PhotonVision extends SubsystemBase{
 
     @Override
     public void periodic(){
-    var results = m_NoteTracker.getLatestResult();
-    if(results.hasTargets()){
-         m_Timer.reset();
-    }
+        var results = m_NoteTracker.getLatestResult();
+        if(results.hasTargets()){
+            m_Timer.reset();
+        }
+
+        if(DriverStation.isTeleopEnabled()){
+            m_VisionMode = VisionMode.STANDARD;
+        } else if(DriverStation.isDisabled()){
+            m_VisionMode = VisionMode.DISABLED;
+        }
     }
 
      public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
@@ -158,9 +170,12 @@ public class PhotonVision extends SubsystemBase{
                         double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
                         double xyStd;
                         double rotStd;
-                        if(DriverStation.isDisabled()) {
+                        if(m_VisionMode == VisionMode.DISABLED) {
                             xyStd = FieldConstants.DISABLED_VISION_STD_XY_SCALE * stdScale;
                             rotStd = FieldConstants.DISABLED_VISION_STD_ROT_SCALE * stdScale;
+                        } else if(m_VisionMode == VisionMode.AUTONONMOUS_INIT) {
+                            xyStd = FieldConstants.AUTONOMOUS_VISION_STD_XY_SCALE * stdScale;
+                            rotStd = FieldConstants.AUTONOMOUS_VISION_STD_ROT_SCALE * stdScale;
                         } else {
                             xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
                             rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
@@ -230,17 +245,25 @@ public class PhotonVision extends SubsystemBase{
             return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
         }
 
+        // public static double getDistanceToFeeder(){
+        //     return Math.pow(displacementToFeedery * displacementToFeedery + dispalcementToFeederx * dispalcementToFeederx, 0.5);
+        // }
+
         public static double getDistanceToFeeder(Pose2d currentPose){
             Pose2d feederPose;
-            if(DriverStation.getAlliance().get() == Alliance.Red){
-                feederPose = FieldConstants.RED_FEEDER_LOCATION;
+            if(DriverStation.getAlliance().isPresent()){
+                if(DriverStation.getAlliance().get() == Alliance.Red){
+                    feederPose = FieldConstants.RED_FEEDER_LOCATION;
+                } else {
+                    feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
+                }
             } else {
                 feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
             }
             double x = feederPose.getX() - currentPose.getX();
-            displacementToSpeakerX = x;
+            dispalcementToFeederx = x;
             double y = feederPose.getY() - currentPose.getY();
-            displacementToSpeakery = y;
+            displacementToFeedery = y;
             // System.out.println(Math.atan2(y, x));
             return Math.atan2(y, x);
         }
@@ -253,7 +276,11 @@ public class PhotonVision extends SubsystemBase{
             return displacementToTargetAngle;
         }
 
+        public static void setVisionMode(VisionMode newVisionMode){
+            m_VisionMode = newVisionMode;
+        }
 
+       
 
         
 }

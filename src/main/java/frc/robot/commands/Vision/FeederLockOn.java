@@ -28,9 +28,13 @@ public class FeederLockOn extends Command {
     this.m_XSpeedSupplier = xSpeedSupplier;
     this.m_YSpeedSupplier = ySpeedSupplier;
     addRequirements(m_DriveSubsystem);
+    if(DriverStation.getAlliance().isPresent()){
     targetPose = DriverStation.getAlliance().get() ==  DriverStation.Alliance.Red ? 
       FieldConstants.RED_FEEDER_LOCATION :
       FieldConstants.BLUE_FEEDER_LOCATION;
+    } else {
+      targetPose = FieldConstants.BLUE_FEEDER_LOCATION; 
+    }
 
 
     m_ThetaController = new PIDController(2, 0, 0.001);

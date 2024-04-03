@@ -2,21 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7067810806033543,
-      "y": 6.665582254583274
+      "x": 0.9274153789810271,
+      "y": 6.652614092348042
     },
-    "rotation": 60.94539590130958
+    "rotation": 46.974934010881945
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "named",
-          "data": {
-            "name": "SetVisionModeAuto"
-          }
-        },
         {
           "type": "deadline",
           "data": {
@@ -69,33 +63,33 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "SetVisionModeStandard"
+            "pathName": "SA_F1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side 3 Note 1"
+            "pathName": "F1_SA"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side 3 Note 2R"
+            "pathName": "SA_C1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side 3 Note 4R"
+            "pathName": "C1_SA"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Side 3 Note 5R"
+            "pathName": "SA_F1"
           }
         }
       ]
