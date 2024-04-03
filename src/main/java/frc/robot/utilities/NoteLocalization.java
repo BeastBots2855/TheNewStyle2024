@@ -110,6 +110,7 @@ public class NoteLocalization {
             double verticalScaler = 1;
             double scaledDistance = Math.pow(Math.pow(verticalDistance * verticalScaler, 2) + Math.pow(horizontalDistance, 2), 0.5);
             if(scaledDistance < smallestDistance){
+                smallestDistance = scaledDistance;
                 bestNote = i;
             }
         }
