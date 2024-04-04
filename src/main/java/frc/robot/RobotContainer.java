@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.LedCommands.RAINBOWS;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -69,6 +70,8 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
+
+    m_Led.setDefaultCommand(new RAINBOWS(m_Led));
 
     // m_Shooter.setDefaultCommand(new RunCommand(()->
     // m_Shooter.setMotorRPM(ShooterConstants.kIdleRPM), m_Shooter));

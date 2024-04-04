@@ -114,7 +114,6 @@ public class DriveSubsystem extends SubsystemBase {
     // System.out.println(m_poseEstimator.getEstimatedPosition());
 
     SmartDashboard.putData("field", m_field);
-    // m_gyro.reset();
 
   }
 
@@ -331,15 +330,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    // m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
-    // new SwerveModulePosition[] {
-    // m_frontLeft.getPosition(),
-    // m_frontRight.getPosition(),
-    // m_rearLeft.getPosition(),
-    // m_rearRight.getPosition()
-    // }, getPose2d());
-    m_gyro.reset();
-    System.out.println("Reset Gyro");
+    Rotation2d newHeading = new Rotation2d();
+    if(DriverStation.getAlliance().isPresent()){
+      if(DriverStation.getAlliance().get() == Alliance.Red){
+        newHeading = Rotation2d.fromDegrees(180);
+      }
+    }
+    m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()}, 
+        new Pose2d(
+            getPose2d().getX(), 
+            getPose2d().getY(), 
+            newHeading));
   }
 
   /**
