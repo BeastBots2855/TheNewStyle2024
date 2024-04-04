@@ -227,7 +227,7 @@ public class PhotonVision extends SubsystemBase{
             return Math.atan2(y, x);
         }
 
-        public static double getTagetAngleRobotToTargetPose(Pose2d targetPose, Pose2d currentPose) {
+        public static double getTargetAngleRobotToTargetPose(Pose2d targetPose, Pose2d currentPose) {
             double x = targetPose.getX() - currentPose.getX();
             double y = targetPose.getY() - currentPose.getY();
             return Math.atan2(y, x);
@@ -242,6 +242,15 @@ public class PhotonVision extends SubsystemBase{
         }
 
         public static double getDistanceToSpeaker(){
+            return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
+        }
+
+        public static double calculateDistanceToSpeaker(Pose2d currentPose, ChassisSpeeds robotVel){
+            double x = getAdjustedSpeakerPosition(currentPose, robotVel).getX() - currentPose.getX();
+            displacementToSpeakerX = x;
+            double y = getAdjustedSpeakerPosition(currentPose, robotVel).getY() - currentPose.getY();
+            displacementToSpeakery = y;
+            // System.out.println(Math.atan2(y, x));
             return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
         }
 
@@ -278,6 +287,10 @@ public class PhotonVision extends SubsystemBase{
 
         public static void setVisionMode(VisionMode newVisionMode){
             m_VisionMode = newVisionMode;
+        }
+
+        public static String getVisionMode(){
+            return m_VisionMode.toString();
         }
 
        

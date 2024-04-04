@@ -153,7 +153,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
       public static final int IntakeMotorCANID = 20;
-      public static final double motorEjectSpeed = -1;
+      public static final double motorEjectSpeed = -0.5;
   }
 
   public static final class ShooterWristConstants {

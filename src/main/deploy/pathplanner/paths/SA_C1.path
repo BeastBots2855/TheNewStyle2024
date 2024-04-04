@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.88,
-        "y": 6.637928410024977
+        "x": 1.8819847299801942,
+        "y": 6.784785233255618
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4084821379817347,
-        "y": 7.225130785560239
+        "x": 2.395983611287436,
+        "y": 7.1372416090091555
       },
       "isLocked": false,
       "linkedName": null
@@ -30,12 +30,24 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.1,
       "rotationDegrees": 0.7821524065067907,
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.1,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "StopFlyWheel",
@@ -97,7 +109,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.2,
+    "maxAcceleration": 0.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -54,6 +54,7 @@ import frc.robot.commands.MechanismSequences.SetIntakeInShooterIn;
 import frc.robot.commands.MechanismSequences.SetIntakeInShooterSpeaker;
 import frc.robot.commands.LedCommands.RAINBOWS;
 import frc.robot.commands.LedCommands.SetLights;
+import frc.robot.Constants.AutoShoot;
 import frc.robot.Constants.Colors;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.NewShooter;
@@ -250,6 +251,7 @@ public class ConfigureButtonBindings {
 
         NamedCommands.registerCommand("ShooterFire", new NewShooterFire(m_Shooter, () -> 0.5));
         NamedCommands.registerCommand("ShooterFireFast", new NewShooterFire(m_Shooter, () -> 1.0));
+        NamedCommands.registerCommand("ShooterFireFastContinuous", new RunCommand(() -> m_Shooter.setRPMForSpeaker(), m_Shooter));
         NamedCommands.registerCommand("ShooterRescind", new NewShooterRescind(m_Shooter, () -> 0.2));
         NamedCommands.registerCommand("IndexIntakeToShooter", new IndexIntakeToShooter(m_Indexer));
         NamedCommands.registerCommand("IndexShooterToIntake", new IndexShooterToIntake(m_Indexer));
@@ -272,6 +274,10 @@ public class ConfigureButtonBindings {
                 new InstantCommand(() -> PhotonVision.setVisionMode(VisionMode.AUTONONMOUS_INIT)));
         NamedCommands.registerCommand("SetVisionModeStandard",
                 new InstantCommand(() -> PhotonVision.setVisionMode(VisionMode.STANDARD)));
+        NamedCommands.registerCommand("DistanceShotPrep",
+                new ShooterWristClosedLoop(m_ShooterWrist, 45.0));
+        NamedCommands.registerCommand("AutoDistanceShot",
+                new ShooterWristClosedLoop(m_ShooterWrist, AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.calculateDistanceToSpeaker(m_robotDrive.getPose2d(), m_robotDrive.getChassisSpeeds()))));
         // NamedCommands.registerCommand("InitialShot", new InitialShot());
         m_robotDrive.configureAutoBuilder();
         m_Autos.mapCommands();

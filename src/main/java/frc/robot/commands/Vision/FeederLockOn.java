@@ -52,7 +52,7 @@ public class FeederLockOn extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ThetaController.setSetpoint(PhotonVision.getTagetAngleRobotToTargetPose(targetPose, m_DriveSubsystem.getPose2d()));
+    m_ThetaController.setSetpoint(PhotonVision.getTargetAngleRobotToTargetPose(targetPose, m_DriveSubsystem.getPose2d()));
     double thetaOutput = m_ThetaController.calculate(m_DriveSubsystem.getPose2d().getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)).getRadians());
     m_DriveSubsystem.drive(
         m_XSpeedSupplier.getAsDouble(),

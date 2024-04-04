@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.9274153789810271,
-      "y": 6.652614092348042
+      "x": 0.8246156027195783,
+      "y": 6.711356821640298
     },
-    "rotation": 46.974934010881945
+    "rotation": 48.8140748342903
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SetVisionModeAuto"
+          }
+        },
         {
           "type": "deadline",
           "data": {
@@ -63,6 +69,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SetVisionModeStandard"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "SA_F1"
@@ -72,6 +84,51 @@
           "type": "path",
           "data": {
             "pathName": "F1_SA"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.6
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoDistanceShot"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IndexIntakeToShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -87,9 +144,54 @@
           }
         },
         {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.6
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoDistanceShot"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IndexIntakeToShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "SA_F1"
+            "pathName": "C1_F1"
           }
         }
       ]
