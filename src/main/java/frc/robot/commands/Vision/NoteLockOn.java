@@ -17,13 +17,13 @@ public class NoteLockOn extends Command {
   private final DoubleSupplier m_XSpeedSupplier;
   private final DoubleSupplier m_YSpeedSupplier;
   private final PIDController m_ThetaController;
+
   public NoteLockOn(DriveSubsystem m_DriveSubsystem, DoubleSupplier xSpeedSupplier, DoubleSupplier ySpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_DriveSubsystem = m_DriveSubsystem;
     this.m_XSpeedSupplier = xSpeedSupplier;
     this.m_YSpeedSupplier = ySpeedSupplier;
     addRequirements(m_DriveSubsystem);
-
 
     m_ThetaController = new PIDController(0.001, 0, 0);
 
@@ -32,8 +32,8 @@ public class NoteLockOn extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      //The set point is 0 since that is where the heading of the note is located at
-      m_ThetaController.setSetpoint(0);
+    // The set point is 0 since that is where the heading of the note is located at
+    m_ThetaController.setSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,11 +42,10 @@ public class NoteLockOn extends Command {
     double thetaOutput = m_ThetaController.calculate(PhotonVision.getNotePidResponseVariable());
     m_DriveSubsystem.drive(
         m_XSpeedSupplier.getAsDouble(),
-        m_YSpeedSupplier.getAsDouble(), 
+        m_YSpeedSupplier.getAsDouble(),
         -thetaOutput,
         false,
         true);
-        
 
   }
 

@@ -19,19 +19,16 @@ public class InitialShot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SequentialCommandGroup(
-        new ParallelDeadlineGroup(
-          new WaitCommand(1), 
-            NamedCommands.getCommand("ShooterFireFast"),
-            NamedCommands.getCommand("SetIntakeGround")),
-        new ParallelDeadlineGroup(
-          new WaitCommand(0.5), 
-            NamedCommands.getCommand("IndexIntakeToShooter")),
-        new ParallelDeadlineGroup(
-          new WaitCommand(0.1), 
-          NamedCommands.getCommand("ShooterStop")
-        )
-      )
-    );
+        new SequentialCommandGroup(
+            new ParallelDeadlineGroup(
+                new WaitCommand(1),
+                NamedCommands.getCommand("ShooterFireFast"),
+                NamedCommands.getCommand("SetIntakeGround")),
+            new ParallelDeadlineGroup(
+                new WaitCommand(0.5),
+                NamedCommands.getCommand("IndexIntakeToShooter")),
+            new ParallelDeadlineGroup(
+                new WaitCommand(0.1),
+                NamedCommands.getCommand("ShooterStop"))));
   }
 }

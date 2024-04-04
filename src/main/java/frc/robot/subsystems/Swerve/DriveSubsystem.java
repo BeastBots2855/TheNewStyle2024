@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems.Swerve;
+
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -63,10 +64,9 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-  //private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
   private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-  //private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-
+  // private final AHRS m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -79,115 +79,102 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Odometry class for tracking robot pose
   // SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-  //     DriveConstants.kDriveKinematics,
-  //     getHeadingAsRotation2D(),
-  //     new SwerveModulePosition[] {
-  //         m_frontLeft.getPosition(),
-  //         m_frontRight.getPosition(),
-  //         m_rearLeft.getPosition(),
-  //         m_rearRight.getPosition()
-  //     });
+  // DriveConstants.kDriveKinematics,
+  // getHeadingAsRotation2D(),
+  // new SwerveModulePosition[] {
+  // m_frontLeft.getPosition(),
+  // m_frontRight.getPosition(),
+  // m_rearLeft.getPosition(),
+  // m_rearRight.getPosition()
+  // });
 
-    private final SwerveDrivePoseEstimator m_poseEstimator =
-    new SwerveDrivePoseEstimator(
-        DriveConstants.kDriveKinematics,
-        getHeadingAsRotation2D(),
-        new SwerveModulePosition[] {
+  private final SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(
+      DriveConstants.kDriveKinematics,
+      getHeadingAsRotation2D(),
+      new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
           m_frontRight.getPosition(),
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
-        },
-        new Pose2d(0, 0, new Rotation2d(0)), 
-        Vision.odometryStd,
-        Vision.visionStd); 
-        // VecBuilder.fill(0.85, 0.85, Units.degreesToRadians(0.5)), // initiial was 0.05 for both on top and 0.5 for bottom, 0.05, 0.05, 0.65
-        // VecBuilder.fill(0.55, 0.55, Units.degreesToRadians(6))); // 0.5, 0.5, 50 
-      
-    Field2d m_field = new Field2d();
-    
+      },
+      new Pose2d(0, 0, new Rotation2d(0)),
+      Vision.odometryStd,
+      Vision.visionStd);
+  // VecBuilder.fill(0.85, 0.85, Units.degreesToRadians(0.5)), // initiial was
+  // 0.05 for both on top and 0.5 for bottom, 0.05, 0.05, 0.65
+  // VecBuilder.fill(0.55, 0.55, Units.degreesToRadians(6))); // 0.5, 0.5, 50
+
+  Field2d m_field = new Field2d();
 
   private boolean isCharacterizing = false;
   private double characterizationVolts = 0;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-      //System.out.println(m_poseEstimator.getEstimatedPosition());
+    // System.out.println(m_poseEstimator.getEstimatedPosition());
 
-      SmartDashboard.putData("field", m_field);
-      //m_gyro.reset();
-    
+    SmartDashboard.putData("field", m_field);
+
   }
-  
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     // if(Vision.isVisionEnabled){
-  //     // PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
-  //     // {
-  //     //   m_poseEstimator.addVisionMeasurement(
-  //     //     estimatedRobotPose.estimatedPose.toPose2d(), 
-  //     //     estimatedRobotPose.timestampSeconds);
-          
-  //     // });
-  //     m_poseEstimator.update(
-  //       getHeadingAsRotation2D(),
-  //       new SwerveModulePosition[] {
-  //         m_frontLeft.getPosition(),
-  //         m_frontRight.getPosition(),
-  //         m_rearLeft.getPosition(),
-  //         m_rearRight.getPosition()
-  //       });
-  // }else {
-  //   m_odometry.update(
-  //       getHeadingAsRotation2D(),
-  //       new SwerveModulePosition[] {
-  //           m_frontLeft.getPosition(),
-  //           m_frontRight.getPosition(),
-  //           m_rearLeft.getPosition(),
-  //           m_rearRight.getPosition()
-  //   });
+    // // PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+    // // {
+    // // m_poseEstimator.addVisionMeasurement(
+    // // estimatedRobotPose.estimatedPose.toPose2d(),
+    // // estimatedRobotPose.timestampSeconds);
 
-  
-   m_poseEstimator.update(
+    // // });
+    // m_poseEstimator.update(
+    // getHeadingAsRotation2D(),
+    // new SwerveModulePosition[] {
+    // m_frontLeft.getPosition(),
+    // m_frontRight.getPosition(),
+    // m_rearLeft.getPosition(),
+    // m_rearRight.getPosition()
+    // });
+    // }else {
+    // m_odometry.update(
+    // getHeadingAsRotation2D(),
+    // new SwerveModulePosition[] {
+    // m_frontLeft.getPosition(),
+    // m_frontRight.getPosition(),
+    // m_rearLeft.getPosition(),
+    // m_rearRight.getPosition()
+    // });
+
+    m_poseEstimator.update(
         Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()
         });
     PhotonVision.addFilteredPoseData(getPose2d(), m_poseEstimator);
     m_field.setRobotPose(getPose2d());
-   
 
+    // PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
+    // {
+    // m_poseEstimator.addVisionMeasurement(
+    // estimatedRobotPose.estimatedPose.toPose2d(),
+    // estimatedRobotPose.timestampSeconds);
 
-      //   PhotonVision.getPoseEstimator().update().ifPresent(estimatedRobotPose ->
-      // {
-      //   m_poseEstimator.addVisionMeasurement(
-      //     estimatedRobotPose.estimatedPose.toPose2d(), 
-      //     estimatedRobotPose.timestampSeconds);
-          
-      // });
-    
-   
-    //System.out.println(getPose2d());
+    // });
 
+    // System.out.println(getPose2d());
 
-    
-  // }
-    
-   
+    // }
 
-
-    if(isCharacterizing){
+    if (isCharacterizing) {
       m_frontLeft.runCharacterization(characterizationVolts, DriveConstants.kFrontLeftChassisAngularOffset);
       m_frontRight.runCharacterization(characterizationVolts, DriveConstants.kFrontRightChassisAngularOffset);
       m_rearLeft.runCharacterization(characterizationVolts, DriveConstants.kBackLeftChassisAngularOffset);
       m_rearRight.runCharacterization(characterizationVolts, DriveConstants.kBackRightChassisAngularOffset);
 
-      
     }
   }
 
@@ -197,20 +184,19 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
 
-
   /**
    * Resets the odometry to the specified pose.
    *
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-      m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
+    m_poseEstimator.resetPosition(getHeadingAsRotation2D(),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
-        }, 
+        },
         pose);
   }
 
@@ -234,42 +220,40 @@ public class DriveSubsystem extends SubsystemBase {
       double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
-      // Calculate the direction slew rate based on an estimate of the lateral acceleration
+      // Calculate the direction slew rate based on an estimate of the lateral
+      // acceleration
       double directionSlewRate;
       if (m_currentTranslationMag != 0.0) {
         directionSlewRate = Math.abs(DriveConstants.kDirectionSlewRate / m_currentTranslationMag);
       } else {
-        directionSlewRate = 500.0; //some high number that means the slew rate is effectively instantaneous
+        directionSlewRate = 500.0; // some high number that means the slew rate is effectively instantaneous
       }
-      
 
       double currentTime = WPIUtilJNI.now() * 1e-6;
       double elapsedTime = currentTime - m_prevTime;
       double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
-      if (angleDif < 0.45*Math.PI) {
-        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
+      if (angleDif < 0.45 * Math.PI) {
+        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir,
+            directionSlewRate * elapsedTime);
         m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
-      }
-      else if (angleDif > 0.85*Math.PI) {
-        if (m_currentTranslationMag > 1e-4) { //some small number to avoid floating-point errors with equality checking
+      } else if (angleDif > 0.85 * Math.PI) {
+        if (m_currentTranslationMag > 1e-4) { // some small number to avoid floating-point errors with equality checking
           // keep currentTranslationDir unchanged
           m_currentTranslationMag = m_magLimiter.calculate(0.0);
-        }
-        else {
+        } else {
           m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
           m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
         }
-      }
-      else {
-        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
+      } else {
+        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir,
+            directionSlewRate * elapsedTime);
         m_currentTranslationMag = m_magLimiter.calculate(0.0);
       }
       m_prevTime = currentTime;
-      
+
       xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
       ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
       m_currentRotation = m_rotLimiter.calculate(rot);
-
 
     } else {
       xSpeedCommanded = xSpeed;
@@ -282,36 +266,35 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed * 0.5;
     double dt = 0.02;
-    Rotation2d currentAngle =  DriverStation.getAlliance().get() ==  DriverStation.Alliance.Red ? 
-      getPose2d().getRotation().rotateBy(Rotation2d.fromDegrees(180)) : 
-      getPose2d().getRotation();
+    Rotation2d currentAngle = DriverStation.getAlliance().get() == DriverStation.Alliance.Red
+        ? getPose2d().getRotation().rotateBy(Rotation2d.fromDegrees(180))
+        : getPose2d().getRotation();
     // Rotation2d currentAngle = getPose2d().getRotation();
-    // var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-    //     fieldRelative
-    //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
-    //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    // var swerveModuleStates =
+    // DriveConstants.kDriveKinematics.toSwerveModuleStates(
+    // fieldRelative
+    // ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered,
+    // rotDelivered, Rotation2d.fromDegrees(-m_gyro.getAngle()))
+    // : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
     // if (DriverStation.getAlliance().get().equals(Alliance.Red)){
-    //   xSpeedDelivered *= -1;
-    //   ySpeedDelivered *= -1;
+    // xSpeedDelivered *= -1;
+    // ySpeedDelivered *= -1;
     // }
-    var swerveModuleStates =
-      DriveConstants.kDriveKinematics.toSwerveModuleStates(
-          ChassisSpeeds.discretize(
-              fieldRelative 
-              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, currentAngle) 
-              : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered),
-              dt));
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+        ChassisSpeeds.discretize(
+            fieldRelative
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, currentAngle)
+                : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered),
+            dt));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-        
+
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
-
-
 
   /**
    * Sets the wheels into an X formation to prevent movement.
@@ -347,15 +330,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    // m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
-    // new SwerveModulePosition[] {
-    //         m_frontLeft.getPosition(),
-    //         m_frontRight.getPosition(),
-    //         m_rearLeft.getPosition(),
-    //         m_rearRight.getPosition()
-    //     }, getPose2d());
-    m_gyro.reset();
-    System.out.println("Reset Gyro");
+    Rotation2d newHeading = new Rotation2d();
+    if(DriverStation.getAlliance().isPresent()){
+      if(DriverStation.getAlliance().get() == Alliance.Red){
+        newHeading = Rotation2d.fromDegrees(180);
+      }
+    }
+    m_poseEstimator.resetPosition(getHeadingAsRotation2D(), 
+        new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()}, 
+        new Pose2d(
+            getPose2d().getX(), 
+            getPose2d().getY(), 
+            newHeading));
   }
 
   /**
@@ -366,50 +356,41 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public double getAngle(){
+  public double getAngle() {
     return -m_gyro.getAngle();
   }
 
-  public Pose2d getPose2d(){
-      return m_poseEstimator.getEstimatedPosition();
+  public Pose2d getPose2d() {
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   public double getPitch() {
     return m_gyro.getPitch();
   }
 
-
-
-  public MAXSwerveModule[] getMaxSwerveModules()
-  {
+  public MAXSwerveModule[] getMaxSwerveModules() {
     MAXSwerveModule[] maxArray = {
-      m_frontLeft, 
-      m_frontRight, 
-      m_rearLeft, 
-      m_rearRight};
+        m_frontLeft,
+        m_frontRight,
+        m_rearLeft,
+        m_rearRight };
     return maxArray;
   }
 
-
-  public SwerveModuleState[] getModuleStates()
-  {
+  public SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] moduleStates = new SwerveModuleState[4];
     MAXSwerveModule[] modules = getMaxSwerveModules();
-    for(int i = 0; i < modules.length; i++)
-    {
-       moduleStates[i] = modules[i].getState();
+    for (int i = 0; i < modules.length; i++) {
+      moduleStates[i] = modules[i].getState();
     }
     return moduleStates;
   }
 
-
-  
-  public ChassisSpeeds getChassisSpeeds()
-  {
+  public ChassisSpeeds getChassisSpeeds() {
     return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
   }
 
-// it
+  // it
 
   /**
    * Returns the turn rate of the robot.
@@ -420,12 +401,10 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  public void runCharacterizationVolts(double volts){
+  public void runCharacterizationVolts(double volts) {
     isCharacterizing = true;
     characterizationVolts = volts;
   }
-
-  
 
   public double getCharacterizationVelocity() {
     double driveVelocityAverage = 0.0;
@@ -434,39 +413,36 @@ public class DriveSubsystem extends SubsystemBase {
     driveVelocityAverage += m_frontLeft.getCharacterizationVelocity();
     driveVelocityAverage += m_rearRight.getCharacterizationVelocity();
     return driveVelocityAverage / 4.0;
-  
+
   }
 
-  public void setRobotRelativeSpeeds(ChassisSpeeds chassisSpeeds)
-  {
+  public void setRobotRelativeSpeeds(ChassisSpeeds chassisSpeeds) {
     // chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(
-      swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-  m_frontLeft.setDesiredState(swerveModuleStates[0]);
-  m_frontRight.setDesiredState(swerveModuleStates[1]);
-  m_rearLeft.setDesiredState(swerveModuleStates[2]);
-  m_rearRight.setDesiredState(swerveModuleStates[3]);
+        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredState(swerveModuleStates[0]);
+    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    m_rearLeft.setDesiredState(swerveModuleStates[2]);
+    m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  public void configureAutoBuilder() {
+    AutoBuilder.configureHolonomic(
+        this::getPose2d,
+        this::resetOdometry,
+        this::getChassisSpeeds,
+        this::setRobotRelativeSpeeds,
+        AutoConstants.autoBuilderPathConfig,
+        () -> {
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this);
 
-
-  public void configureAutoBuilder(){
-      AutoBuilder.configureHolonomic(
-      this::getPose2d,
-      this::resetOdometry,
-      this::getChassisSpeeds,
-      this::setRobotRelativeSpeeds, 
-       AutoConstants.autoBuilderPathConfig,
-       () -> {var alliance = DriverStation.getAlliance();
-        if(alliance.isPresent()){
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;},
-      this);
-
-
-    
   }
 
 }

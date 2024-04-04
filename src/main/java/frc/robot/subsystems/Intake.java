@@ -17,31 +17,30 @@ public class Intake extends SubsystemBase {
   /** Creates a new Shooter. */
   private final CANSparkMax m_IntakeMotor;
   private final DigitalInput m_IntakeButton;
+
   public Intake() {
     m_IntakeMotor = new CANSparkMax(IntakeConstants.IntakeMotorCANID, MotorType.kBrushless);
     m_IntakeButton = new DigitalInput(LimitSwitchConstants.kIntakeButton);
-    
+
   }
 
-  public void setMotorOutput(double output){
+  public void setMotorOutput(double output) {
     if (m_IntakeButton.get() && output > 0) {
-        m_IntakeMotor.set(output);
+      m_IntakeMotor.set(output);
     } else if (!m_IntakeButton.get() && output > 0) {
       m_IntakeMotor.set(0);
-      
-     
+
     } else {
       m_IntakeMotor.set(output);
     }
-      
-   
+
   }
 
-  public void disableMotor(){
+  public void disableMotor() {
     m_IntakeMotor.set(0);
   }
 
-  public boolean isTouchingLimitSwitch(){
+  public boolean isTouchingLimitSwitch() {
     return !m_IntakeButton.get();
   }
 

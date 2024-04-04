@@ -15,17 +15,18 @@ public class ShooterWristOpenLoop extends Command {
   /** Creates a new WristActuate. */
   private final Wrist m_wrist;
   private final Supplier<Double> m_SpeedSupplier;
+
   public ShooterWristOpenLoop(Wrist m_wrist, Supplier<Double> m_SpeedSupplier) {
     this.m_wrist = m_wrist;
     this.m_SpeedSupplier = m_SpeedSupplier;
-    addRequirements((ShooterWrist)m_wrist);
+    addRequirements((ShooterWrist) m_wrist);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      this.m_wrist.disblePid();
+    this.m_wrist.disblePid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

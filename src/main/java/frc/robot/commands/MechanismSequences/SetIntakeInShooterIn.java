@@ -21,8 +21,9 @@ public class SetIntakeInShooterIn extends SequentialCommandGroup {
   public SetIntakeInShooterIn(ShooterWrist m_ShooterWrist, IntakeWrist m_IntakeWrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(        
-      new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterPassOff).alongWith(new PrintCommand("PIDEnabled"))
-      .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakePassOff)));
+    addCommands(
+        new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterPassOff)
+            .alongWith(new PrintCommand("PIDEnabled"))
+            .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakePassOff)));
   }
 }

@@ -15,16 +15,17 @@ public class Climb extends SubsystemBase {
   private TalonSRX m_LeftClimbMotorBottom;
   private TalonSRX m_RightClimbMotorTop;
   private TalonSRX m_RightClimbMotorBottom;
-  //private final  m_climbLeftBottom;
+
+  // private final m_climbLeftBottom;
   public Climb() {
-  m_LeftClimbMotorTop = new TalonSRX(ClimbConstants.kLeftTopCanID);
-  m_LeftClimbMotorBottom = new TalonSRX(ClimbConstants.kLeftBottomCanID);
-  m_RightClimbMotorTop = new TalonSRX(ClimbConstants.kRightTopCanID);
-  m_RightClimbMotorBottom = new TalonSRX(ClimbConstants.kRightBottomCanID);
-  
+    m_LeftClimbMotorTop = new TalonSRX(ClimbConstants.kLeftTopCanID);
+    m_LeftClimbMotorBottom = new TalonSRX(ClimbConstants.kLeftBottomCanID);
+    m_RightClimbMotorTop = new TalonSRX(ClimbConstants.kRightTopCanID);
+    m_RightClimbMotorBottom = new TalonSRX(ClimbConstants.kRightBottomCanID);
+
   }
 
-  public void setMotorOutput(double leftOutput, double rightOutput){
+  public void setMotorOutput(double leftOutput, double rightOutput) {
     m_LeftClimbMotorTop.set(TalonSRXControlMode.PercentOutput, -leftOutput);
     m_LeftClimbMotorBottom.set(TalonSRXControlMode.PercentOutput, -leftOutput);
     m_RightClimbMotorTop.set(TalonSRXControlMode.PercentOutput, rightOutput);

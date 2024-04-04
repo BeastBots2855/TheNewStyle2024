@@ -28,8 +28,6 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
   private boolean m_isPidEnabled = false;
   private final double m_PidTolerance;
   private final DigitalInput m_BackwardLimitSwitch;
-  
-
 
   public IntakeWrist() {
     m_PidController = new PIDController(0.01, 0, 0.0);
@@ -42,80 +40,76 @@ public class IntakeWrist extends SubsystemBase implements Wrist {
     m_wristMotor.setIdleMode(IdleMode.kBrake);
     m_wristMotor.burnFlash();
     this.m_BackwardLimitSwitch = new DigitalInput(LimitSwitchConstants.kIntakeWristBack);
-    
+
   }
 
   public void setMotorOutput(double output) {
-    if (!isTouchingLimitSwitch()){
+    if (!isTouchingLimitSwitch()) {
       m_wristMotor.set(output);
-    } else if (isTouchingLimitSwitch() && output > 0) { 
+    } else if (isTouchingLimitSwitch() && output > 0) {
       m_wristMotor.set(output);
-    }else {
+    } else {
       m_wristMotor.set(0);
     }
   }
 
-  public void setSetpoint(double setPoint){
+  public void setSetpoint(double setPoint) {
     m_PidController.setSetpoint(setPoint);
   }
 
-  public double getSetpoint(){
+  public double getSetpoint() {
     return m_PidController.getSetpoint();
   }
 
-  public void enablePid(){
+  public void enablePid() {
     m_isPidEnabled = true;
   }
 
-  public void disblePid(){
+  public void disblePid() {
     m_isPidEnabled = false;
     m_wristMotor.set(0);
   }
 
-  public boolean isPidEnabled(){
+  public boolean isPidEnabled() {
     return m_isPidEnabled;
   }
 
-  public void runPid(){
-  
-      double angle = m_absoluteEncoder.getPosition();
-      if (angle > 270)
-        angle = angle - 360;
-      double output = m_PidController.calculate(angle);
-      if (!isTouchingLimitSwitch()){
-        output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
-        // output = m_PidController.getPositionError() > 180 && m_absoluteEncoder.getPosition() > 270 ? -output : output;
-        setMotorOutput(output);
-      } else {
-        setMotorOutput(0);
-      }
+  public void runPid() {
+
+    double angle = m_absoluteEncoder.getPosition();
+    if (angle > 270)
+      angle = angle - 360;
+    double output = m_PidController.calculate(angle);
+    if (!isTouchingLimitSwitch()) {
+      output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
+      // output = m_PidController.getPositionError() > 180 &&
+      // m_absoluteEncoder.getPosition() > 270 ? -output : output;
+      setMotorOutput(output);
+    } else {
+      setMotorOutput(0);
+    }
 
   }
 
-  public boolean isWithinPidTolerance(){
+  public boolean isWithinPidTolerance() {
     return Math.abs(m_PidController.getSetpoint() - m_absoluteEncoder.getPosition()) < m_PidTolerance;
   }
 
-
-  public double getAbsoluteEncoderValue(){
+  public double getAbsoluteEncoderValue() {
     return m_absoluteEncoder.getPosition();
   }
-  
-  public boolean isTouchingLimitSwitch(){
+
+  public boolean isTouchingLimitSwitch() {
     return false;
   }
 
-
   @Override
-   public void periodic() {
-      if(m_isPidEnabled) {
-          runPid();
-      }
-      DoubleSupplier visionDoubleSupplier = ()-> PhotonVision.getDistanceToSpeaker();
-      
-   }
+  public void periodic() {
+    if (m_isPidEnabled) {
+      runPid();
+    }
+    DoubleSupplier visionDoubleSupplier = () -> PhotonVision.getDistanceToSpeaker();
 
-
-   
+  }
 
 }

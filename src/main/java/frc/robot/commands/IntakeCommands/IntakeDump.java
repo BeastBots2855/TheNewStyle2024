@@ -11,16 +11,18 @@ import frc.robot.subsystems.Intake;
 public class IntakeDump extends Command {
   /** Creates a new IntakeConsume. */
   private final Intake m_Intake;
+
   public IntakeDump(Intake m_Intake) {
     this.m_Intake = m_Intake;
     addRequirements(m_Intake);
-    
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

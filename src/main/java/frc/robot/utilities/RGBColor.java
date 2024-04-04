@@ -6,24 +6,25 @@ package frc.robot.utilities;
 
 /** Add your docs here. */
 public class RGBColor {
-    int red=0;
-    int blue=0;
-    int green=0;
-    public RGBColor(int red, int green, int blue){
-        this.red=red;
-        this.green=green;
-        this.blue=blue;
+    int red = 0;
+    int blue = 0;
+    int green = 0;
+
+    public RGBColor(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
     }
 
-    public int getRed(){
+    public int getRed() {
         return red;
     }
 
-    public int getGreen(){
+    public int getGreen() {
         return green;
     }
 
-    public int getBlue(){
+    public int getBlue() {
         return blue;
     }
 }
