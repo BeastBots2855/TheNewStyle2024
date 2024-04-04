@@ -45,13 +45,13 @@ import frc.robot.Constants.Vision;
 import frc.robot.Constants.Vision.VisionMode;
 
 /** Add your docs here. */
-public class PhotonVision extends SubsystemBase{
-    //creates camera objects for fetching results from cameras
+public class PhotonVision extends SubsystemBase {
+    // creates camera objects for fetching results from cameras
     private static PhotonCamera m_NoteTracker = new PhotonCamera("NoteDetector");
     private static PhotonCamera m_AprilTagTracker = new PhotonCamera("AprilTagTracker");
     private static PhotonPoseEstimator m_visionPoseEstimator;
     private static AprilTagFieldLayout fieldLayout;
-    private static double[] lastBestNote = new double[]{0, 0};
+    private static double[] lastBestNote = new double[] { 0, 0 };
     private static Timer m_Timer = new Timer();
     private static Field2d m_photonVisionField = new Field2d();
 
@@ -63,52 +63,59 @@ public class PhotonVision extends SubsystemBase{
     private static double displacementToFeedery = 0;
     private static double dispalcementToFeederx = 0;
 
-  public PhotonVision(){
-    try {
-      m_visionPoseEstimator = new PhotonPoseEstimator(
-        AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile), 
-        PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-        m_AprilTagTracker, 
-        new Transform3d(
-            new Translation3d(
-                -Units.inchesToMeters(13), 
-                Units.inchesToMeters(7.5), 
-                Units.inchesToMeters(22.5)), 
-            new Rotation3d(Math.PI / 2, -0.349 , Math.PI)));
-    } catch(IOException e){
-      System.out.println(e.getMessage() + "\n vision estimator initialization failed");
-    }
-    m_Timer.start();
-    
-    fieldLayout = Vision.kTagLayout;
-    SmartDashboard.putData("directVision", m_photonVisionField);
-        
-  } 
-    
-    /**
-     * calculates a response variable that can be used to lock the heading of the robot to a ring
-     * no matter the orientation of the camera. Note that this does require calibration of an 
-     * arbitrarty coordinate system and two points in the field of view of the camera. One point A
-     * that is located at the center of the robot along the front edge of the robot and some point B
-     * that is perpindicular to the front edge of the robot
-     * @return an interable PID loop measurment variable
-     */
-    public static double getNotePidResponseVariable(){
-        calculateBestNote();
-        return NoteLocalization.getSignedDistanceFromNearestPathToNote(lastBestNote); 
+    public PhotonVision() {
+        try {
+            m_visionPoseEstimator = new PhotonPoseEstimator(
+                    AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile),
+                    PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+                    m_AprilTagTracker,
+                    new Transform3d(
+                            new Translation3d(
+                                    -Units.inchesToMeters(13),
+                                    Units.inchesToMeters(7.5),
+                                    Units.inchesToMeters(22.5)),
+                            new Rotation3d(Math.PI / 2, -0.349, Math.PI)));
+        } catch (IOException e) {
+            System.out.println(e.getMessage() + "\n vision estimator initialization failed");
+        }
+        m_Timer.start();
+
+        fieldLayout = Vision.kTagLayout;
+        SmartDashboard.putData("directVision", m_photonVisionField);
+
     }
 
     /**
-     * looks through all viable targets in frame and uses the calculateBestTarget method to find
-     * the best target within the cameras view. 
+     * calculates a response variable that can be used to lock the heading of the
+     * robot to a ring
+     * no matter the orientation of the camera. Note that this does require
+     * calibration of an
+     * arbitrarty coordinate system and two points in the field of view of the
+     * camera. One point A
+     * that is located at the center of the robot along the front edge of the robot
+     * and some point B
+     * that is perpindicular to the front edge of the robot
+     * 
+     * @return an interable PID loop measurment variable
      */
-    public static void calculateBestNote(){
+    public static double getNotePidResponseVariable() {
+        calculateBestNote();
+        return NoteLocalization.getSignedDistanceFromNearestPathToNote(lastBestNote);
+    }
+
+    /**
+     * looks through all viable targets in frame and uses the calculateBestTarget
+     * method to find
+     * the best target within the cameras view.
+     */
+    public static void calculateBestNote() {
         var results = m_NoteTracker.getLatestResult();
-        if(results.hasTargets()){
+        if (results.hasTargets()) {
             var NotesFromPhotonVision = results.getTargets();
             double[][] Notes = new double[NotesFromPhotonVision.size()][2];
-            for(int i = 0; i < NotesFromPhotonVision.size(); i++){
-                Notes[i] = new double[]{NotesFromPhotonVision.get(i).getYaw(), NotesFromPhotonVision.get(i).getPitch()};
+            for (int i = 0; i < NotesFromPhotonVision.size(); i++) {
+                Notes[i] = new double[] { NotesFromPhotonVision.get(i).getYaw(),
+                        NotesFromPhotonVision.get(i).getPitch() };
             }
             lastBestNote = NoteLocalization.calculateBestTarget(Notes);
         }
@@ -118,169 +125,167 @@ public class PhotonVision extends SubsystemBase{
      * gets the position of note within the relative coordinate system
      */
     public static double[] getConvertedLastNotePosition() {
-        return new double[]{lastBestNote[0], lastBestNote[1]};
+        return new double[] { lastBestNote[0], lastBestNote[1] };
     }
 
-    public static boolean canTrustNoteData(){
+    public static boolean canTrustNoteData() {
         return m_Timer.get() < 0.5;
     }
 
-    public static PhotonPoseEstimator getPoseEstimator(){
+    public static PhotonPoseEstimator getPoseEstimator() {
         return m_visionPoseEstimator;
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         var results = m_NoteTracker.getLatestResult();
-        if(results.hasTargets()){
+        if (results.hasTargets()) {
             m_Timer.reset();
         }
 
-        if(DriverStation.isTeleopEnabled()){
+        if (DriverStation.isTeleopEnabled()) {
             m_VisionMode = VisionMode.STANDARD;
-        } else if(DriverStation.isDisabled()){
+        } else if (DriverStation.isDisabled()) {
             m_VisionMode = VisionMode.DISABLED;
         }
     }
 
-     public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
-            PhotonPoseEstimator poseEstimator = PhotonVision.getPoseEstimator();
-                // print out the time for this line to run 
-                Optional<EstimatedRobotPose> pose = poseEstimator.update();
-                if (pose.isPresent()) {
-                    Pose3d pose3d = pose.get().estimatedPose;
-                    Pose2d pose2d = pose3d.toPose2d();
-                    if (
-                        pose3d.getX() >= -FieldConstants.VISION_FIELD_MARGIN &&
-                        pose3d.getX() <= FieldConstants.FIELD_LENGTH + FieldConstants.VISION_FIELD_MARGIN &&
-                        pose3d.getY() >= -FieldConstants.VISION_FIELD_MARGIN &&
-                        pose3d.getY() <= FieldConstants.FIELD_WIDTH + FieldConstants.VISION_FIELD_MARGIN &&
-                        pose3d.getZ() >= -FieldConstants.VISION_Z_MARGIN &&
-                        pose3d.getZ() <= FieldConstants.VISION_Z_MARGIN
-                    ) {
-                        double sum = 0.0;
-                        for (PhotonTrackedTarget target : pose.get().targetsUsed) {
-                            Optional<Pose3d> tagPose =
-                                fieldLayout.getTagPose(target.getFiducialId());
-                            if (tagPose.isEmpty()) continue;
-                            sum += currentPose.getTranslation().getDistance(tagPose.get().getTranslation().toTranslation2d());
-                        }
-
-                        int tagCount = pose.get().targetsUsed.size();
-                        double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
-                        double xyStd;
-                        double rotStd;
-                        if(m_VisionMode == VisionMode.DISABLED) {
-                            xyStd = FieldConstants.DISABLED_VISION_STD_XY_SCALE * stdScale;
-                            rotStd = FieldConstants.DISABLED_VISION_STD_ROT_SCALE * stdScale;
-                        } else if(m_VisionMode == VisionMode.AUTONONMOUS_INIT) {
-                            xyStd = FieldConstants.AUTONOMOUS_VISION_STD_XY_SCALE * stdScale;
-                            rotStd = FieldConstants.AUTONOMOUS_VISION_STD_ROT_SCALE * stdScale;
-                        } else {
-                            xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
-                            rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
-                        }
-                        //time this as well
-                        if(DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue).equals(Alliance.Blue))
-                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
-
-                        else 
-                            pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
-                    
-                        m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds, VecBuilder.fill(xyStd, xyStd, rotStd));
-                    }
-
-                    m_photonVisionField.setRobotPose(pose2d);
+    public static void addFilteredPoseData(Pose2d currentPose, SwerveDrivePoseEstimator m_poseEstimator) {
+        PhotonPoseEstimator poseEstimator = PhotonVision.getPoseEstimator();
+        // print out the time for this line to run
+        Optional<EstimatedRobotPose> pose = poseEstimator.update();
+        if (pose.isPresent()) {
+            Pose3d pose3d = pose.get().estimatedPose;
+            Pose2d pose2d = pose3d.toPose2d();
+            if (pose3d.getX() >= -FieldConstants.VISION_FIELD_MARGIN &&
+                    pose3d.getX() <= FieldConstants.FIELD_LENGTH + FieldConstants.VISION_FIELD_MARGIN &&
+                    pose3d.getY() >= -FieldConstants.VISION_FIELD_MARGIN &&
+                    pose3d.getY() <= FieldConstants.FIELD_WIDTH + FieldConstants.VISION_FIELD_MARGIN &&
+                    pose3d.getZ() >= -FieldConstants.VISION_Z_MARGIN &&
+                    pose3d.getZ() <= FieldConstants.VISION_Z_MARGIN) {
+                double sum = 0.0;
+                for (PhotonTrackedTarget target : pose.get().targetsUsed) {
+                    Optional<Pose3d> tagPose = fieldLayout.getTagPose(target.getFiducialId());
+                    if (tagPose.isEmpty())
+                        continue;
+                    sum += currentPose.getTranslation().getDistance(tagPose.get().getTranslation().toTranslation2d());
                 }
+
+                int tagCount = pose.get().targetsUsed.size();
+                double stdScale = Math.pow(sum / tagCount, 2.0) / tagCount;
+                double xyStd;
+                double rotStd;
+                if (m_VisionMode == VisionMode.DISABLED) {
+                    xyStd = FieldConstants.DISABLED_VISION_STD_XY_SCALE * stdScale;
+                    rotStd = FieldConstants.DISABLED_VISION_STD_ROT_SCALE * stdScale;
+                } else if (m_VisionMode == VisionMode.AUTONONMOUS_INIT) {
+                    xyStd = FieldConstants.AUTONOMOUS_VISION_STD_XY_SCALE * stdScale;
+                    rotStd = FieldConstants.AUTONOMOUS_VISION_STD_ROT_SCALE * stdScale;
+                } else {
+                    xyStd = FieldConstants.VISION_STD_XY_SCALE * stdScale;
+                    rotStd = FieldConstants.VISION_STD_ROT_SCALE * stdScale;
+                }
+                // time this as well
+                if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue).equals(Alliance.Blue))
+                    pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
+
+                else
+                    pose2d = pose2d.plus(new Transform2d(0, 0, Rotation2d.fromDegrees(0)));
+
+                m_poseEstimator.addVisionMeasurement(pose2d, pose.get().timestampSeconds,
+                        VecBuilder.fill(xyStd, xyStd, rotStd));
             }
 
-        public static Translation2d getGoalPose(){
-            boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
-            .equals(DriverStation.Alliance.Blue);
-            Translation2d goalPose = isBlue ? FieldConstants.BLUE_SPEAKER : FieldConstants.RED_SPEAKER;
-            return goalPose;
+            m_photonVisionField.setRobotPose(pose2d);
         }
-        
-        public static Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
-            Translation2d goalPose = getGoalPose();
-            double distanceToSpeaker = currentPose.getTranslation().getDistance(goalPose);
-            double x = goalPose.getX()
-                    - (robotVel.vxMetersPerSecond * (distanceToSpeaker / FieldConstants.NOTE_VELOCITY));
-            double y = goalPose.getY() - (robotVel.vyMetersPerSecond * (distanceToSpeaker / FieldConstants.NOTE_VELOCITY));
-            Translation2d goalPoseAdjusted = new Translation2d(x, y);
-            // Pose2d speaker = new Pose2d(goalPoseAdjusted, new Rotation2d());
-            // m_goalPoseField.setRobotPose(speaker);
-            return goalPoseAdjusted; 
-        }
+    }
 
-        public static double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel){
-            double distance = currentPose.getTranslation().getDistance(getAdjustedSpeakerPosition(currentPose, robotVel));
-            return AutoShoot.DISTANCE_TO_ANGLE_MAP.get(distance);
-        }
+    public static Translation2d getGoalPose() {
+        boolean isBlue = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue)
+                .equals(DriverStation.Alliance.Blue);
+        Translation2d goalPose = isBlue ? FieldConstants.BLUE_SPEAKER : FieldConstants.RED_SPEAKER;
+        return goalPose;
+    }
 
-        public static double getTagetAngleRobotToSpeaker(Pose2d currentPose, ChassisSpeeds robotVel) {
-            double x = getAdjustedSpeakerPosition(currentPose, robotVel).getX() - currentPose.getX();
-            displacementToSpeakerX = x;
-            double y = getAdjustedSpeakerPosition(currentPose, robotVel).getY() - currentPose.getY();
-            displacementToSpeakery = y;
-            // System.out.println(Math.atan2(y, x));
-            return Math.atan2(y, x);
-        }
+    public static Translation2d getAdjustedSpeakerPosition(Pose2d currentPose, ChassisSpeeds robotVel) {
+        Translation2d goalPose = getGoalPose();
+        double distanceToSpeaker = currentPose.getTranslation().getDistance(goalPose);
+        double x = goalPose.getX()
+                - (robotVel.vxMetersPerSecond * (distanceToSpeaker / FieldConstants.NOTE_VELOCITY));
+        double y = goalPose.getY() - (robotVel.vyMetersPerSecond * (distanceToSpeaker / FieldConstants.NOTE_VELOCITY));
+        Translation2d goalPoseAdjusted = new Translation2d(x, y);
+        // Pose2d speaker = new Pose2d(goalPoseAdjusted, new Rotation2d());
+        // m_goalPoseField.setRobotPose(speaker);
+        return goalPoseAdjusted;
+    }
 
-        public static double getTagetAngleRobotToTargetPose(Pose2d targetPose, Pose2d currentPose) {
-            double x = targetPose.getX() - currentPose.getX();
-            double y = targetPose.getY() - currentPose.getY();
-            return Math.atan2(y, x);
-        }
+    public static double getShooterAngle(Pose2d currentPose, ChassisSpeeds robotVel) {
+        double distance = currentPose.getTranslation().getDistance(getAdjustedSpeakerPosition(currentPose, robotVel));
+        return AutoShoot.DISTANCE_TO_ANGLE_MAP.get(distance);
+    }
 
-        public static double getRobotToSpeakerAngleXDisplacement() {
-            return displacementToSpeakerX;
-        }
+    public static double getTagetAngleRobotToSpeaker(Pose2d currentPose, ChassisSpeeds robotVel) {
+        double x = getAdjustedSpeakerPosition(currentPose, robotVel).getX() - currentPose.getX();
+        displacementToSpeakerX = x;
+        double y = getAdjustedSpeakerPosition(currentPose, robotVel).getY() - currentPose.getY();
+        displacementToSpeakery = y;
+        // System.out.println(Math.atan2(y, x));
+        return Math.atan2(y, x);
+    }
 
-        public static double getRobotToSpeakerAngleYDisplacement() {
-            return displacementToSpeakery;
-        }
+    public static double getTagetAngleRobotToTargetPose(Pose2d targetPose, Pose2d currentPose) {
+        double x = targetPose.getX() - currentPose.getX();
+        double y = targetPose.getY() - currentPose.getY();
+        return Math.atan2(y, x);
+    }
 
-        public static double getDistanceToSpeaker(){
-            return Math.pow(displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
-        }
+    public static double getRobotToSpeakerAngleXDisplacement() {
+        return displacementToSpeakerX;
+    }
 
-        // public static double getDistanceToFeeder(){
-        //     return Math.pow(displacementToFeedery * displacementToFeedery + dispalcementToFeederx * dispalcementToFeederx, 0.5);
-        // }
+    public static double getRobotToSpeakerAngleYDisplacement() {
+        return displacementToSpeakery;
+    }
 
-        public static double getDistanceToFeeder(Pose2d currentPose){
-            Pose2d feederPose;
-            if(DriverStation.getAlliance().isPresent()){
-                if(DriverStation.getAlliance().get() == Alliance.Red){
-                    feederPose = FieldConstants.RED_FEEDER_LOCATION;
-                } else {
-                    feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
-                }
+    public static double getDistanceToSpeaker() {
+        return Math.pow(
+                displacementToSpeakery * displacementToSpeakery + displacementToSpeakerX * displacementToSpeakerX, 0.5);
+    }
+
+    // public static double getDistanceToFeeder(){
+    // return Math.pow(displacementToFeedery * displacementToFeedery +
+    // dispalcementToFeederx * dispalcementToFeederx, 0.5);
+    // }
+
+    public static double getDistanceToFeeder(Pose2d currentPose) {
+        Pose2d feederPose;
+        if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().get() == Alliance.Red) {
+                feederPose = FieldConstants.RED_FEEDER_LOCATION;
             } else {
                 feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
             }
-            double x = feederPose.getX() - currentPose.getX();
-            dispalcementToFeederx = x;
-            double y = feederPose.getY() - currentPose.getY();
-            displacementToFeedery = y;
-            // System.out.println(Math.atan2(y, x));
-            return Math.atan2(y, x);
+        } else {
+            feederPose = FieldConstants.BLUE_FEEDER_LOCATION;
         }
+        double x = feederPose.getX() - currentPose.getX();
+        dispalcementToFeederx = x;
+        double y = feederPose.getY() - currentPose.getY();
+        displacementToFeedery = y;
+        // System.out.println(Math.atan2(y, x));
+        return Math.atan2(y, x);
+    }
 
-        public static void setDisplacementToTargetAngle(double displacement){
-            displacementToTargetAngle = displacement;
-        }
+    public static void setDisplacementToTargetAngle(double displacement) {
+        displacementToTargetAngle = displacement;
+    }
 
-        public static double getDisplacementToTargetAngle(){
-            return displacementToTargetAngle;
-        }
+    public static double getDisplacementToTargetAngle() {
+        return displacementToTargetAngle;
+    }
 
-        public static void setVisionMode(VisionMode newVisionMode){
-            m_VisionMode = newVisionMode;
-        }
+    public static void setVisionMode(VisionMode newVisionMode) {
+        m_VisionMode = newVisionMode;
+    }
 
-       
-
-        
 }

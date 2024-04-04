@@ -18,13 +18,13 @@ public class SpeakerLockOn extends Command {
   private final DoubleSupplier m_XSpeedSupplier;
   private final DoubleSupplier m_YSpeedSupplier;
   private final PIDController m_ThetaController;
+
   public SpeakerLockOn(DriveSubsystem m_DriveSubsystem, DoubleSupplier xSpeedSupplier, DoubleSupplier ySpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_DriveSubsystem = m_DriveSubsystem;
     this.m_XSpeedSupplier = xSpeedSupplier;
     this.m_YSpeedSupplier = ySpeedSupplier;
     addRequirements(m_DriveSubsystem);
-
 
     m_ThetaController = new PIDController(3, 0, 0.001);
     m_ThetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -34,24 +34,25 @@ public class SpeakerLockOn extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      //The set point is 0 since that is where the heading of the note is located at
-      
+    // The set point is 0 since that is where the heading of the note is located at
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ThetaController.setSetpoint(PhotonVision.getTagetAngleRobotToSpeaker(m_DriveSubsystem.getPose2d(), m_DriveSubsystem.getChassisSpeeds()));
-    double thetaOutput = m_ThetaController.calculate(m_DriveSubsystem.getPose2d().getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)).getRadians());
+    m_ThetaController.setSetpoint(
+        PhotonVision.getTagetAngleRobotToSpeaker(m_DriveSubsystem.getPose2d(), m_DriveSubsystem.getChassisSpeeds()));
+    double thetaOutput = m_ThetaController
+        .calculate(m_DriveSubsystem.getPose2d().getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)).getRadians());
     m_DriveSubsystem.drive(
         m_XSpeedSupplier.getAsDouble(),
-        m_YSpeedSupplier.getAsDouble(), 
+        m_YSpeedSupplier.getAsDouble(),
         thetaOutput,
         true,
         false);
     PhotonVision.setDisplacementToTargetAngle(m_ThetaController.getPositionError());
     // System.out.println(thetaOutput);
-        
 
   }
 

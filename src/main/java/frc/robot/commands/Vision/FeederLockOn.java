@@ -22,20 +22,19 @@ public class FeederLockOn extends Command {
   private final DoubleSupplier m_YSpeedSupplier;
   private final PIDController m_ThetaController;
   private final Pose2d targetPose;
+
   public FeederLockOn(DriveSubsystem m_DriveSubsystem, DoubleSupplier xSpeedSupplier, DoubleSupplier ySpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_DriveSubsystem = m_DriveSubsystem;
     this.m_XSpeedSupplier = xSpeedSupplier;
     this.m_YSpeedSupplier = ySpeedSupplier;
     addRequirements(m_DriveSubsystem);
-    if(DriverStation.getAlliance().isPresent()){
-    targetPose = DriverStation.getAlliance().get() ==  DriverStation.Alliance.Red ? 
-      FieldConstants.RED_FEEDER_LOCATION :
-      FieldConstants.BLUE_FEEDER_LOCATION;
+    if (DriverStation.getAlliance().isPresent()) {
+      targetPose = DriverStation.getAlliance().get() == DriverStation.Alliance.Red ? FieldConstants.RED_FEEDER_LOCATION
+          : FieldConstants.BLUE_FEEDER_LOCATION;
     } else {
-      targetPose = FieldConstants.BLUE_FEEDER_LOCATION; 
+      targetPose = FieldConstants.BLUE_FEEDER_LOCATION;
     }
-
 
     m_ThetaController = new PIDController(2, 0, 0.001);
     m_ThetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -45,23 +44,23 @@ public class FeederLockOn extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      //The set point is 0 since that is where the heading of the note is located at
-      
+    // The set point is 0 since that is where the heading of the note is located at
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ThetaController.setSetpoint(PhotonVision.getTagetAngleRobotToTargetPose(targetPose, m_DriveSubsystem.getPose2d()));
-    double thetaOutput = m_ThetaController.calculate(m_DriveSubsystem.getPose2d().getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)).getRadians());
+    m_ThetaController
+        .setSetpoint(PhotonVision.getTagetAngleRobotToTargetPose(targetPose, m_DriveSubsystem.getPose2d()));
+    double thetaOutput = m_ThetaController
+        .calculate(m_DriveSubsystem.getPose2d().getRotation().rotateBy(Rotation2d.fromRadians(Math.PI)).getRadians());
     m_DriveSubsystem.drive(
         m_XSpeedSupplier.getAsDouble(),
-        m_YSpeedSupplier.getAsDouble(), 
+        m_YSpeedSupplier.getAsDouble(),
         thetaOutput,
         true,
         false);
-
-        
 
   }
 

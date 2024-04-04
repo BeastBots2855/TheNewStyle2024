@@ -24,8 +24,8 @@ public class SetIntakeGround extends SequentialCommandGroup {
   public SetIntakeGround(IntakeWrist m_IntakeWrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-        addCommands(
-      new ParallelCommandGroup(
+    addCommands(
+        new ParallelCommandGroup(
             new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakeGroundPickup)));
   }
 }

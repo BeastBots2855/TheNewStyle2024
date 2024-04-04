@@ -11,6 +11,7 @@ import frc.robot.subsystems.Indexer;
 public class IndexShooterToIntake extends Command {
   /** Creates a new IndexConsume. */
   private final Indexer m_Indexer;
+
   public IndexShooterToIntake(Indexer m_Indexer) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Indexer = m_Indexer;
@@ -20,7 +21,8 @@ public class IndexShooterToIntake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

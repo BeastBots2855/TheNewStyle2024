@@ -25,6 +25,7 @@ import frc.robot.utilities.PhotonVision;
 import frc.robot.utilities.ShuffleBoardInit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -45,7 +46,6 @@ public class RobotContainer {
 
   private Autos m_Autos = new Autos(m_robotDrive);
 
-
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
@@ -55,13 +55,14 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    
-    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb, m_Led, m_Autos, m_Shooter);
-    new ShuffleBoardInit(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist, m_ShooterWrist, m_Indexer, m_climb);
-    
+
+    new ConfigureButtonBindings(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_IntakeWrist,
+        m_ShooterWrist, m_Indexer, m_climb, m_Led, m_Autos, m_Shooter);
+    new ShuffleBoardInit(m_driverController, m_operatorController, m_robotDrive, m_Intake, m_Shooter, m_IntakeWrist,
+        m_ShooterWrist, m_Indexer, m_climb);
 
     m_robotDrive.setDefaultCommand(
-       new RunCommand(
+        new RunCommand(
             () -> m_robotDrive.drive(
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
@@ -69,14 +70,10 @@ public class RobotContainer {
                 true, true),
             m_robotDrive));
 
-    // m_Shooter.setDefaultCommand(new RunCommand(()-> m_Shooter.setMotorRPM(ShooterConstants.kIdleRPM), m_Shooter));
+    // m_Shooter.setDefaultCommand(new RunCommand(()->
+    // m_Shooter.setMotorRPM(ShooterConstants.kIdleRPM), m_Shooter));
   }
-//
- 
-      
-  
-
-
+  //
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -87,10 +84,9 @@ public class RobotContainer {
     return m_Autos.getAutoCommand();
   }
 
-  public void disablePidDisabled(){
+  public void disablePidDisabled() {
     m_IntakeWrist.disblePid();
     m_ShooterWrist.disblePid();
   }
-
 
 }
