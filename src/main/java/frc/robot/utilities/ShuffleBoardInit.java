@@ -24,47 +24,44 @@ public class ShuffleBoardInit {
     private ShuffleboardTab m_visionTab = Shuffleboard.getTab("Vision");
 
     public ShuffleBoardInit(
-        XboxController m_driverController, XboxController m_operatorController, 
-        DriveSubsystem m_robotDrive, Intake m_Intake, NewShooter m_Shooter, 
-        IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer, 
-        Climb m_Climb) {
+            XboxController m_driverController, XboxController m_operatorController,
+            DriveSubsystem m_robotDrive, Intake m_Intake, NewShooter m_Shooter,
+            IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Indexer m_Indexer,
+            Climb m_Climb) {
 
-            m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
-            m_telopOutput.addDouble("Box setPoint: ", () -> m_ShooterWrist.getSetpoint());
-            m_telopOutput.addBoolean("Box isWithinTolerance: ", () -> m_ShooterWrist.isWithinPidTolerance());
-            m_telopOutput.addDouble("Intake anggle: ", () -> m_IntakeWrist.getAbsoluteEncoderValue());
-            m_telopOutput.addBoolean("IntakeButtonIsPressed", ()-> m_Intake.isTouchingLimitSwitch());
-            m_telopOutput.addBoolean("IndexerSwitchPressed", ()-> m_Indexer.isTouchingLimitSwitch());
-            m_telopOutput.addBoolean("IndexerIsPrimed", ()-> m_Indexer.getIsPrimed());
-            m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
-            m_telopOutput.addBoolean("isIntakeWristPidOn", m_IntakeWrist::isPidEnabled);
-            m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
-            m_telopOutput.addDouble("TopShooterMotorRPM", m_Shooter::getTopMotorRPM);
-            m_telopOutput.addDouble("BottomShooterMotorRPM", m_Shooter::getBottomMotorRPM);
-            
+        m_telopOutput.addDouble("Box anggle: ", () -> m_ShooterWrist.getAbsoluteEncoderValue());
+        m_telopOutput.addDouble("Box setPoint: ", () -> m_ShooterWrist.getSetpoint());
+        m_telopOutput.addBoolean("Box isWithinTolerance: ", () -> m_ShooterWrist.isWithinPidTolerance());
+        m_telopOutput.addDouble("Intake anggle: ", () -> m_IntakeWrist.getAbsoluteEncoderValue());
+        m_telopOutput.addBoolean("IntakeButtonIsPressed", () -> m_Intake.isTouchingLimitSwitch());
+        m_telopOutput.addBoolean("IndexerSwitchPressed", () -> m_Indexer.isTouchingLimitSwitch());
+        m_telopOutput.addBoolean("IndexerIsPrimed", () -> m_Indexer.getIsPrimed());
+        m_telopOutput.addDouble("ClimbAngle", m_robotDrive::getPitch);
+        m_telopOutput.addBoolean("isIntakeWristPidOn", m_IntakeWrist::isPidEnabled);
+        m_telopOutput.addBoolean("isShooterWristPidOn", m_ShooterWrist::isPidEnabled);
+        m_telopOutput.addDouble("TopShooterMotorRPM", m_Shooter::getTopMotorRPM);
+        m_telopOutput.addDouble("BottomShooterMotorRPM", m_Shooter::getBottomMotorRPM);
 
-            m_visionTab.addDouble("DistanceFromRing", ()-> PhotonVision.getNotePidResponseVariable());
-            m_visionTab.addDouble("RingX", ()-> PhotonVision.getConvertedLastNotePosition()[0]);
-            m_visionTab.addDouble("RingY", ()-> PhotonVision.getConvertedLastNotePosition()[1]);
+        m_visionTab.addDouble("DistanceFromRing", () -> PhotonVision.getNotePidResponseVariable());
+        m_visionTab.addDouble("RingX", () -> PhotonVision.getConvertedLastNotePosition()[0]);
+        m_visionTab.addDouble("RingY", () -> PhotonVision.getConvertedLastNotePosition()[1]);
 
-            m_visionTab.addDouble("targetAngle", ()-> PhotonVision.getTagetAngleRobotToSpeaker(m_robotDrive.getPose2d(), m_robotDrive.getChassisSpeeds()));
-            m_visionTab.addDouble("GetDisplacemetnToTargetAngle", ()-> PhotonVision.getDisplacementToTargetAngle());
-            m_visionTab.addDouble("GetAngleToSpeakerX", ()-> PhotonVision.getRobotToSpeakerAngleXDisplacement());
-            m_visionTab.addDouble("GetAngleToSpeakerY", ()-> PhotonVision.getRobotToSpeakerAngleYDisplacement());
-            m_visionTab.addDouble("getCurrentAngle", ()-> m_robotDrive.getPose2d().getRotation().getRadians());
-            m_visionTab.addDouble("distanceToSpeakersss", ()->PhotonVision.getDistanceToSpeaker());
-            m_visionTab.addDouble("distanceToFeeder", ()->PhotonVision.getDistanceToFeeder(m_robotDrive.getPose2d()));
-            
+        m_visionTab.addDouble("targetAngle", () -> PhotonVision.getTagetAngleRobotToSpeaker(m_robotDrive.getPose2d(),
+                m_robotDrive.getChassisSpeeds()));
+        m_visionTab.addDouble("GetDisplacemetnToTargetAngle", () -> PhotonVision.getDisplacementToTargetAngle());
+        m_visionTab.addDouble("GetAngleToSpeakerX", () -> PhotonVision.getRobotToSpeakerAngleXDisplacement());
+        m_visionTab.addDouble("GetAngleToSpeakerY", () -> PhotonVision.getRobotToSpeakerAngleYDisplacement());
+        m_visionTab.addDouble("getCurrentAngle", () -> m_robotDrive.getPose2d().getRotation().getRadians());
+        m_visionTab.addDouble("distanceToSpeakersss", () -> PhotonVision.getDistanceToSpeaker());
+        m_visionTab.addDouble("distanceToFeeder", () -> PhotonVision.getDistanceToFeeder(m_robotDrive.getPose2d()));
 
-            m_visionTab.addDouble("XPos", ()->m_robotDrive.getPose2d().getX());
-            m_visionTab.addDouble("YPos", ()->m_robotDrive.getPose2d().getY());
+        m_visionTab.addDouble("XPos", () -> m_robotDrive.getPose2d().getX());
+        m_visionTab.addDouble("YPos", () -> m_robotDrive.getPose2d().getY());
 
-
-
-            SmartDashboard.putData(m_robotDrive);
-            SmartDashboard.putData(m_IntakeWrist);
-            SmartDashboard.putData(m_ShooterWrist);
-            SmartDashboard.putData(m_Intake);
-            SmartDashboard.putData(m_Shooter);
-        }
+        SmartDashboard.putData(m_robotDrive);
+        SmartDashboard.putData(m_IntakeWrist);
+        SmartDashboard.putData(m_ShooterWrist);
+        SmartDashboard.putData(m_Intake);
+        SmartDashboard.putData(m_Shooter);
+    }
 }

@@ -25,20 +25,21 @@ import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class GroundNoteToIndexer extends SequentialCommandGroup {
   /** Creates a new GroundNoteToIndexer. */
-  public GroundNoteToIndexer(IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Intake m_Intake, Indexer m_Indexer ) {
+  public GroundNoteToIndexer(IntakeWrist m_IntakeWrist, ShooterWrist m_ShooterWrist, Intake m_Intake,
+      Indexer m_Indexer) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelCommandGroup(
+        new ParallelCommandGroup(
             new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakePassOff),
             new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterPassOff))
-      .until(()-> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
-      .andThen(
-            new ParallelDeadlineGroup(
-                new WaitCommand(0.3),
-                new IntakeDump(m_Intake),
-                new IndexIntakeToShooter(m_Indexer))
-            ).andThen(new PrintCommand("GroundNoteFinished")));
-            
+            .until(() -> m_IntakeWrist.isWithinPidTolerance() && m_ShooterWrist.isWithinPidTolerance())
+            .andThen(
+                new ParallelDeadlineGroup(
+                    new WaitCommand(0.3),
+                    new IntakeDump(m_Intake),
+                    new IndexIntakeToShooter(m_Indexer)))
+            .andThen(new PrintCommand("GroundNoteFinished")));
+
   }
 }

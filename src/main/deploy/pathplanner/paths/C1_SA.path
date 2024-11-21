@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2344411057337323,
-        "y": 6.961013421132389
+        "x": 2.307869517349053,
+        "y": 6.887585009517068
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.9127296966579629,
-        "y": 6.637928410024977
+        "x": 1.86729904765713,
+        "y": 6.696671139317234
       },
       "prevControl": {
-        "x": 1.221129025442309,
-        "y": 7.313469796885926
+        "x": 2.0288415532108353,
+        "y": 6.9022706918401315
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +50,7 @@
     },
     {
       "name": "PrepShooter",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -58,30 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShooterFireFast"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Fire",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "deadline",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 1.0
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "IndexIntakeToShooter"
+                "name": "ShooterFireFastContinuous"
               }
             }
           ]
@@ -90,7 +67,7 @@
     },
     {
       "name": "Pass",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "deadline",
         "data": {
@@ -98,7 +75,7 @@
             {
               "type": "wait",
               "data": {
-                "waitTime": 0.38
+                "waitTime": 0.34
               }
             },
             {
@@ -116,17 +93,34 @@
           ]
         }
       }
+    },
+    {
+      "name": "PrepShooterAngle",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DistanceShotPrep"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 1.3,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 48.503531644784424,
+    "rotation": 34.07719528013077,
     "rotateFast": false
   },
   "reversed": false,

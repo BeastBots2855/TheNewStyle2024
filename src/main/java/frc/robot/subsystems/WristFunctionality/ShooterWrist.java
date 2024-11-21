@@ -26,12 +26,10 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
   private boolean m_isPidEnabled = false;
   private final DigitalInput m_ForwardLimitSwitch;
 
-
-
   public ShooterWrist() {
-    m_PidController = new PIDController(0.035,0,0); // 0.015
+    m_PidController = new PIDController(0.035, 0, 0); // 0.015
     m_PidTolerance = 3;
-    //m_PidController.enableContinuousInput(0, 360);
+    // m_PidController.enableContinuousInput(0, 360);
     m_holdConstant = 0;
     m_wristMotor = new CANSparkMax(ShooterWristConstants.ShooterWristCANID, MotorType.kBrushless);
     m_absoluteEncoder = m_wristMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
@@ -44,76 +42,66 @@ public class ShooterWrist extends SubsystemBase implements Wrist {
 
   public void setMotorOutput(double output) {
     output *= -1;
-    if (!isTouchingLimitSwitch()){
+    if (!isTouchingLimitSwitch()) {
       m_wristMotor.set(output);
-    } else if (isTouchingLimitSwitch() && output < 0) { 
+    } else if (isTouchingLimitSwitch() && output < 0) {
       m_wristMotor.set(output);
-    }else {
+    } else {
       m_wristMotor.set(0);
     }
   }
 
-  public void setSetpoint(double setPoint){
+  public void setSetpoint(double setPoint) {
     m_PidController.setSetpoint(setPoint);
   }
 
-  public void enablePid(){
+  public void enablePid() {
     m_isPidEnabled = true;
   }
 
-  public void disblePid(){
+  public void disblePid() {
     m_isPidEnabled = false;
     m_wristMotor.set(0);
   }
 
-  public boolean isPidEnabled(){
+  public boolean isPidEnabled() {
     return m_isPidEnabled;
   }
 
-  public void runPid(){
-    
-      double angle = m_absoluteEncoder.getPosition();
-      // angle = angle > 190 ? angle - 360 : angle;
-      double output = m_PidController.calculate(angle);
-      if (!isTouchingLimitSwitch()){
-        output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
-        setMotorOutput(output);
-      } else {
-        setMotorOutput(0);
-      }
-      // System.out.println("angle: " + angle);
-      // System.out.println("Position: " + m_absoluteEncoder.getPosition());
-      // System.out.println("Target: " + m_PidController.getSetpoint());
-      // System.out.println("Error: "  );
-      // System.out.println("Output: " + output);
+  public void runPid() {
+
+    double angle = m_absoluteEncoder.getPosition();
+    // angle = angle > 190 ? angle - 360 : angle;
+    double output = m_PidController.calculate(angle);
+    if (!isTouchingLimitSwitch()) {
+      output += m_holdConstant * Math.cos(m_absoluteEncoder.getPosition());
+      setMotorOutput(output);
+    } else {
+      setMotorOutput(0);
+    }
   }
 
-  public boolean isWithinPidTolerance(){
+  public boolean isWithinPidTolerance() {
     return Math.abs(m_PidController.getSetpoint() - m_absoluteEncoder.getPosition()) < m_PidTolerance;
   }
 
-  public double getSetpoint(){
+  public double getSetpoint() {
     return m_PidController.getSetpoint();
   }
 
-
-  public double getAbsoluteEncoderValue(){
+  public double getAbsoluteEncoderValue() {
     return m_absoluteEncoder.getPosition();
   }
-  
-  public boolean isTouchingLimitSwitch(){
+
+  public boolean isTouchingLimitSwitch() {
     return false;
   }
 
-
   @Override
-   public void periodic() {
-      if(m_isPidEnabled) {
-          runPid();
-      }
-   }
-
-
-   
+  public void periodic() {
+    if (m_isPidEnabled) {
+      runPid();
+    }
+  }
 
 }

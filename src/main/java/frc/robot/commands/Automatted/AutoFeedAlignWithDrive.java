@@ -21,11 +21,13 @@ import frc.robot.utilities.PhotonVision;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoFeedAlignWithDrive extends ParallelCommandGroup {
   /** Creates a new AutoAimWithShooterAngle. */
-  public AutoFeedAlignWithDrive(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist, DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
+  public AutoFeedAlignWithDrive(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist,
+      DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new FeederLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
-    // new ShooterWristClosedLoopTracking(m_ShooterWrist, ()->AutoShoot.FEEDER_DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToFeeder(m_DriveSubsystem.getPose2d()))));
-    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()-> 48.0));
+        // new ShooterWristClosedLoopTracking(m_ShooterWrist,
+        // ()->AutoShoot.FEEDER_DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToFeeder(m_DriveSubsystem.getPose2d()))));
+        new ShooterWristClosedLoopTracking(m_ShooterWrist, () -> 48.0));
   }
 }

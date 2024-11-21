@@ -13,8 +13,9 @@ import frc.robot.subsystems.OldShooter;
 public class NewShooterFire extends Command {
   /** Creates a new ShooterEject. */
 
-private final NewShooter m_shooter; 
+  private final NewShooter m_shooter;
   private final Supplier<Double> m_SpeedSupplier;
+
   public NewShooterFire(NewShooter m_shooter, Supplier<Double> m_SpeedSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_SpeedSupplier = m_SpeedSupplier;
@@ -22,14 +23,12 @@ private final NewShooter m_shooter;
     addRequirements(m_shooter);
   }
 
-
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     // m_shooter.setMotorRPM(5000); //* m_SpeedSupplier.get());
   }
-  
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {

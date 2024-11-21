@@ -22,35 +22,41 @@
 // import frc.robot.subsystems.WristFunctionality.IntakeWrist;
 // import frc.robot.subsystems.WristFunctionality.ShooterWrist;
 
-// // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// // NOTE: Consider using this command inline, rather than writing a subclass.
+// For more
 // // information, see:
-// // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+// //
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 // public class AutoAmpScore extends SequentialCommandGroup {
-//   /** Creates a new AutoAmpScore. */
-//   public AutoAmpScore(DriveSubsystem m_robotDrive, ShooterWrist m_ShooterWrist, IntakeWrist m_IntakeWrist, NewShooter Shooter) {
-//     // Add your commands in the addCommands() call, e.g.
-//     // addCommands(new FooCommand(), new BarCommand());
-//     // Since we are using a holonomic drivetrain, the rotation component of this pose
-//   Pose2d targetPose = DriverStation.getAlliance().get() ==  DriverStation.Alliance.Red ? 
-//     FieldConstants.RED_AMP_Robot :
-//     FieldConstants.BLUE_AMP_Robot;
+// /** Creates a new AutoAmpScore. */
+// public AutoAmpScore(DriveSubsystem m_robotDrive, ShooterWrist m_ShooterWrist,
+// IntakeWrist m_IntakeWrist, NewShooter Shooter) {
+// // Add your commands in the addCommands() call, e.g.
+// // addCommands(new FooCommand(), new BarCommand());
+// // Since we are using a holonomic drivetrain, the rotation component of this
+// pose
+// Pose2d targetPose = DriverStation.getAlliance().get() ==
+// DriverStation.Alliance.Red ?
+// FieldConstants.RED_AMP_Robot :
+// FieldConstants.BLUE_AMP_Robot;
 
 // // Create the constraints to use while pathfinding
 // PathConstraints constraints = new PathConstraints(
-//         3.0, 4.0,
-//         Units.degreesToRadians(540), Units.degreesToRadians(720));
+// 3.0, 4.0,
+// Units.degreesToRadians(540), Units.degreesToRadians(720));
 
 // Command pathfindingCommand = AutoBuilder.pathfindToPose(
-//         targetPose,
-//         constraints,
-//         0.0, // Goal end velocity in meters/sec
-//         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+// targetPose,
+// constraints,
+// 0.0, // Goal end velocity in meters/sec
+// 0.0 // Rotation delay distance in meters. This is how far the robot should
+// travel before attempting to rotate.
 // );
-//     addCommands(
-//       pathfindingCommand.alongWith(
-//         new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist))
-//       .andThen(
-//         new NewShooterRescind(Shooter, ()-> 0.2))
-//       );
-//   }
+// addCommands(
+// pathfindingCommand.alongWith(
+// new SetIntakeInShooterAmp(m_ShooterWrist, m_IntakeWrist))
+// .andThen(
+// new NewShooterRescind(Shooter, ()-> 0.2))
+// );
+// }
 // }

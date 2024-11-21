@@ -15,22 +15,23 @@ public class ShooterWristClosedLoop extends Command {
 
   public ShooterWristClosedLoop(Wrist m_wrist, double m_setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
-      this.m_wrist = m_wrist;
-      this.m_setpoint = m_setpoint;
-      addRequirements((ShooterWrist)m_wrist);
-      
+    this.m_wrist = m_wrist;
+    this.m_setpoint = m_setpoint;
+    addRequirements((ShooterWrist) m_wrist);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      m_wrist.setSetpoint(m_setpoint);
-      this.m_wrist.enablePid();
+    m_wrist.setSetpoint(m_setpoint);
+    this.m_wrist.enablePid();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -21,11 +21,13 @@ import frc.robot.utilities.PhotonVision;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoSpeakerAlignWithDrive extends ParallelCommandGroup {
   /** Creates a new AutoAimWithShooterAngle. */
-  public AutoSpeakerAlignWithDrive(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist, DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
+  public AutoSpeakerAlignWithDrive(DriveSubsystem m_DriveSubsystem, ShooterWrist m_ShooterWrist,
+      DoubleSupplier xDriveSupplier, DoubleSupplier yDriveSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new SpeakerLockOn(m_DriveSubsystem, xDriveSupplier, yDriveSupplier),
-    
-    new ShooterWristClosedLoopTracking(m_ShooterWrist, ()-> AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())));
+
+        new ShooterWristClosedLoopTracking(m_ShooterWrist,
+            () -> AutoShoot.DISTANCE_TO_ANGLE_MAP.get(PhotonVision.getDistanceToSpeaker())));
   }
 }

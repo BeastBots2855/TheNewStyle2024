@@ -26,112 +26,113 @@ public class NewShooter extends SubsystemBase {
   private final SimpleMotorFeedforward m_bottomMotorFeedforward;
   private final SparkPIDController m_topPidController;
   private final SparkPIDController m_bottomPidController;
+
   public NewShooter() {
 
-        m_topSparkMax = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
-        m_bottomSparkMax = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless);
+    m_topSparkMax = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
+    m_bottomSparkMax = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless);
 
-        m_topMotorFeedforward = new SimpleMotorFeedforward(0.1799, 0.00033);
-        m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.2188, 0.00036);
+    m_topMotorFeedforward = new SimpleMotorFeedforward(0.1799, 0.00033);
+    m_bottomMotorFeedforward = new SimpleMotorFeedforward(0.2188, 0.00036);
 
-        m_topSparkMax.restoreFactoryDefaults();
-        m_bottomSparkMax.restoreFactoryDefaults();
+    m_topSparkMax.restoreFactoryDefaults();
+    m_bottomSparkMax.restoreFactoryDefaults();
 
-        m_topMotorEncoder = m_topSparkMax.getEncoder();
-        m_bottomMotorEncoder = m_bottomSparkMax.getEncoder();
+    m_topMotorEncoder = m_topSparkMax.getEncoder();
+    m_bottomMotorEncoder = m_bottomSparkMax.getEncoder();
 
-        m_topPidController = m_topSparkMax.getPIDController();
-        m_bottomPidController = m_bottomSparkMax.getPIDController();
+    m_topPidController = m_topSparkMax.getPIDController();
+    m_bottomPidController = m_bottomSparkMax.getPIDController();
 
-        m_bottomPidController.setFeedbackDevice(m_bottomMotorEncoder);
-        m_topPidController.setFeedbackDevice(m_topMotorEncoder);
+    m_bottomPidController.setFeedbackDevice(m_bottomMotorEncoder);
+    m_topPidController.setFeedbackDevice(m_topMotorEncoder);
 
-        
-
-        //PID contants for speaker
-        m_topPidController.setP(0.00000681, 0);
-        m_topPidController.setI(0.0000000015, 0);
-        m_topPidController.setD(0, 0);
-        m_topPidController.setFF(0.00016, 0);
-        m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+    // PID contants for speaker
+    m_topPidController.setP(0.00000681, 0);
+    m_topPidController.setI(0.0000000015, 0);
+    m_topPidController.setD(0, 0);
+    m_topPidController.setFF(0.00016, 0);
+    m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-        m_bottomPidController.setP(0.00000681, 0);
-        m_bottomPidController.setI(0.0000000015, 0);
-        m_bottomPidController.setD(0, 0);
-        m_bottomPidController.setFF(0.00016, 0);
-        m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+    m_bottomPidController.setP(0.00000681, 0);
+    m_bottomPidController.setI(0.0000000015, 0);
+    m_bottomPidController.setD(0, 0);
+    m_bottomPidController.setFF(0.00016, 0);
+    m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-
-        //PID contants for amp
-        m_topPidController.setP(0.00000681, 1);
-        m_topPidController.setI(0.0000000015, 1);
-        m_topPidController.setD(0, 1);
-        m_topPidController.setFF(0.00016, 1);
-        m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+    // PID contants for amp
+    m_topPidController.setP(0.00000681, 1);
+    m_topPidController.setI(0.0000000015, 1);
+    m_topPidController.setD(0, 1);
+    m_topPidController.setFF(0.00016, 1);
+    m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-        m_bottomPidController.setP(0.00000681, 1);
-        m_bottomPidController.setI(0.0000000015, 1);
-        m_bottomPidController.setD(0, 1);
-        m_bottomPidController.setFF(0.00016, 1);
-        m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+    m_bottomPidController.setP(0.00000681, 1);
+    m_bottomPidController.setI(0.0000000015, 1);
+    m_bottomPidController.setD(0, 1);
+    m_bottomPidController.setFF(0.00016, 1);
+    m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-
-        //Idle constants if I want them
-        m_topPidController.setP(0.00000681, 2);
-        m_topPidController.setI(0.0000000015, 2);
-        m_topPidController.setD(0, 2);
-        m_topPidController.setFF(0.00016, 2);
-        m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+    // Idle constants if I want them
+    m_topPidController.setP(0.00000681, 2);
+    m_topPidController.setI(0.0000000015, 2);
+    m_topPidController.setD(0, 2);
+    m_topPidController.setFF(0.00016, 2);
+    m_topPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-        m_bottomPidController.setP(0.00000681, 2);
-        m_bottomPidController.setI(0.0000000015, 2);
-        m_bottomPidController.setD(0, 2);
-        m_bottomPidController.setFF(0.00016, 2);
-        m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+    m_bottomPidController.setP(0.00000681, 2);
+    m_bottomPidController.setI(0.0000000015, 2);
+    m_bottomPidController.setD(0, 2);
+    m_bottomPidController.setFF(0.00016, 2);
+    m_bottomPidController.setOutputRange(ModuleConstants.kDrivingMinOutput,
         ModuleConstants.kDrivingMaxOutput);
 
-      
+    m_topSparkMax.burnFlash();
+    m_bottomSparkMax.burnFlash();
+  }
 
-        m_topSparkMax.burnFlash();
-        m_bottomSparkMax.burnFlash();
-      }
+  public void setMotorRPM(double targetSpeed) {
+    m_topPidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity, 0,
+        m_topMotorFeedforward.calculate(targetSpeed));
+    m_bottomPidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity, 0,
+        m_bottomMotorFeedforward.calculate(targetSpeed));
+  }
 
-      public void setMotorRPM(double targetSpeed){
-        m_topPidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(targetSpeed));
-        m_bottomPidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(targetSpeed));
-      }
+  public void setRPMForSpeaker() {
+    m_topPidController.setReference(ShooterConstants.kSpeakerRPM, CANSparkMax.ControlType.kVelocity, 0,
+        m_topMotorFeedforward.calculate(ShooterConstants.kSpeakerRPM));
+    m_bottomPidController.setReference(ShooterConstants.kSpeakerRPM, CANSparkMax.ControlType.kVelocity, 0,
+        m_bottomMotorFeedforward.calculate(ShooterConstants.kSpeakerRPM));
+  }
 
-      public void setRPMForSpeaker(){
-        m_topPidController.setReference(ShooterConstants.kSpeakerRPM, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(ShooterConstants.kSpeakerRPM));
-        m_bottomPidController.setReference(ShooterConstants.kSpeakerRPM, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(ShooterConstants.kSpeakerRPM));
-      }
+  public void setRPMForAmp() {
+    m_topPidController.setReference(ShooterConstants.kAmpRPM, CANSparkMax.ControlType.kVelocity, 1,
+        m_topMotorFeedforward.calculate(ShooterConstants.kAmpRPM));
+    m_bottomPidController.setReference(ShooterConstants.kAmpRPM, CANSparkMax.ControlType.kVelocity, 1,
+        m_bottomMotorFeedforward.calculate(ShooterConstants.kAmpRPM));
+  }
 
-      public void setRPMForAmp(){
-        m_topPidController.setReference(ShooterConstants.kAmpRPM, CANSparkMax.ControlType.kVelocity, 1, m_topMotorFeedforward.calculate(ShooterConstants.kAmpRPM));
-        m_bottomPidController.setReference(ShooterConstants.kAmpRPM, CANSparkMax.ControlType.kVelocity, 1, m_bottomMotorFeedforward.calculate(ShooterConstants.kAmpRPM));
-      }
+  public double getTopMotorRPM() {
+    return m_topMotorEncoder.getVelocity();
+  }
 
-      public double getTopMotorRPM() {
-        return m_topMotorEncoder.getVelocity();
-      }
+  public double getBottomMotorRPM() {
+    return m_topMotorEncoder.getVelocity();
+  }
 
-      public double getBottomMotorRPM() {
-        return m_topMotorEncoder.getVelocity();
-      }
+  public void disableShooter() {
+    m_topPidController.setReference(0, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(0));
+    m_bottomPidController.setReference(0, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(0));
+  }
 
-      public void disableShooter(){
-        m_topPidController.setReference(0, CANSparkMax.ControlType.kVelocity, 0, m_topMotorFeedforward.calculate(0));
-        m_bottomPidController.setReference(0, CANSparkMax.ControlType.kVelocity, 0, m_bottomMotorFeedforward.calculate(0));
-      }
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
 
-      @Override
-      public void periodic() {
-        // This method will be called once per scheduler run
-        
-      }
+  }
 }

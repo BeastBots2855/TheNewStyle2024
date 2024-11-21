@@ -12,22 +12,23 @@ import frc.robot.subsystems.OldShooter;
 import frc.robot.subsystems.Swerve.DriveSubsystem;
 import frc.robot.utilities.FeedForwardCharacterization.FeedForwardCharacterizationData;
 
-
 public class Autos {
 
-    //FIXME: just rewrite all of this terribleness
+    // FIXME: just rewrite all of this terribleness
     private final DriveSubsystem m_drivetrainSubsystem;
     private SendableChooser<String> autoChooser;
     private HashMap<String, Command> m_commandMap;
-   
+
     ShuffleboardTab autoTab = Shuffleboard.getTab("Autonomous");
-    public Autos(DriveSubsystem drivetrainSubsystem){
+
+    public Autos(DriveSubsystem drivetrainSubsystem) {
         m_drivetrainSubsystem = drivetrainSubsystem;
         autoChooser = new SendableChooser<>();
         m_commandMap = new HashMap<>();
-        
+
         // autoChooser.addOption(null, null);
-        //autoChooser.addOption("Drivetrain Characterization", "DrivetrainCharacterization");
+        // autoChooser.addOption("Drivetrain Characterization",
+        // "DrivetrainCharacterization");
         autoChooser.addOption("BlueFour", "BlueFour");
         autoChooser.addOption("RedFour", "RedFour");
         autoChooser.addOption("AmpSideAuto", "AmpSideAuto");
@@ -35,17 +36,16 @@ public class Autos {
         autoChooser.addOption("OnePieceMobility", "OnePieceMobility");
         autoChooser.addOption("AmpSide3", "AmpSide3");
         autoTab.add(autoChooser);
-        
+
     }
- 
 
     public Command getAutoCommand() {
         String auto = autoChooser.getSelected();
         return m_commandMap.get(auto);
     }
 
-    public void mapCommands(){
-        
+    public void mapCommands() {
+
         m_commandMap.put("FourNoteAuto", AutoBuilder.buildAuto("FourNoteAuto"));
         m_commandMap.put("ThreeNoteAuto", AutoBuilder.buildAuto("ThreeNoteAuto"));
         m_commandMap.put("FourFast", AutoBuilder.buildAuto("FourFast"));
@@ -55,11 +55,11 @@ public class Autos {
         m_commandMap.put("OnePieceMobility", AutoBuilder.buildAuto("OnePieceMobility"));
         m_commandMap.put("BlueFour", AutoBuilder.buildAuto("BlueFour"));
         m_commandMap.put("AmpSide3", AutoBuilder.buildAuto("AmpSide3"));
-    //     m_commandMap.put("DrivetrainCharacterization", 
-    //         new FeedForwardCharacterization(m_drivetrainSubsystem, true, new FeedForwardCharacterizationData("DriveSubsystem"), 
-    //         m_drivetrainSubsystem::runCharacterizationVolts, m_drivetrainSubsystem::getCharacterizationVelocity));
+        // m_commandMap.put("DrivetrainCharacterization",
+        // new FeedForwardCharacterization(m_drivetrainSubsystem, true, new
+        // FeedForwardCharacterizationData("DriveSubsystem"),
+        // m_drivetrainSubsystem::runCharacterizationVolts,
+        // m_drivetrainSubsystem::getCharacterizationVelocity));
     }
-
-
 
 }

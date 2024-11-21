@@ -14,6 +14,7 @@ public class ClimberClimb extends Command {
   private final Climb m_Climb;
   private final DoubleSupplier m_speedSupplier;
   private final DoubleSupplier m_GryoAngleSupplier;
+
   public ClimberClimb(Climb m_climb, DoubleSupplier m_speedSupplier, DoubleSupplier m_GryoAngleSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Climb = m_climb;
@@ -23,7 +24,8 @@ public class ClimberClimb extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -32,8 +34,8 @@ public class ClimberClimb extends Command {
     double rightOutput = m_speedSupplier.getAsDouble();
     double angle = m_GryoAngleSupplier.getAsDouble();
     double maxDifferentialAngle = 15;
-    double outputDifferential = (1 - (Math.abs(angle /maxDifferentialAngle))); 
-    if(angle < 0){
+    double outputDifferential = (1 - (Math.abs(angle / maxDifferentialAngle)));
+    if (angle < 0) {
       rightOutput *= outputDifferential;
     } else {
       leftOutput *= outputDifferential;

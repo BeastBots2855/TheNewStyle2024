@@ -16,18 +16,19 @@ public class OldShooter extends SubsystemBase {
   private final CANSparkMax m_ShooterMotor1;
   private final CANSparkMax m_ShooterMotor2;
   private final RelativeEncoder mEncoder;
+
   public OldShooter() {
     m_ShooterMotor1 = new CANSparkMax(ShooterConstants.ShooterMotorCANID, MotorType.kBrushless);
-    m_ShooterMotor2 = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless); 
+    m_ShooterMotor2 = new CANSparkMax(ShooterConstants.ShooterMotor2CANID, MotorType.kBrushless);
     mEncoder = m_ShooterMotor1.getEncoder();
   }
 
-  public void setMotorOutput(double output){
+  public void setMotorOutput(double output) {
     m_ShooterMotor1.set(output);
     m_ShooterMotor2.set(output);
   }
 
-  public double getVelocity(){
+  public double getVelocity() {
     return mEncoder.getVelocity();
   }
 

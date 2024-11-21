@@ -20,7 +20,9 @@ public class SetClimbPosition extends SequentialCommandGroup {
   public SetClimbPosition(ShooterWrist m_ShooterWrist, IntakeWrist m_IntakeWrist) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(  new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterClimb).alongWith(new PrintCommand("PIDEnabled"))
-        .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakeGroundPickup)));
+    addCommands(
+        new ShooterWristClosedLoop(m_ShooterWrist, PIDSetPoint.kShooterClimb)
+            .alongWith(new PrintCommand("PIDEnabled"))
+            .alongWith(new IntakeWristClosedLoop(m_IntakeWrist, PIDSetPoint.kIntakeGroundPickup)));
   }
 }
